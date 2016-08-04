@@ -1,1 +1,9 @@
 c:\users\blueelvis_roxxx\documents\visual studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\bin\Debug\ExercismWinSetup.exe.config
+c:\users\blueelvis_roxxx\documents\visual studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\bin\Debug\ExercismWinSetup.exe
+c:\users\blueelvis_roxxx\documents\visual studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\bin\Debug\ExercismWinSetup.pdb
+c:\users\blueelvis_roxxx\documents\visual studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\obj\Debug\ExercismWinSetup.csprojResolveAssemblyReference.cache
+c:\users\blueelvis_roxxx\documents\visual studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\obj\Debug\ExercismWinSetup.Properties.Resources.resources
+c:\users\blueelvis_roxxx\documents\visual studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\obj\Debug\ExercismWinSetup.csproj.GenerateResource.Cache
+c:\users\blueelvis_roxxx\documents\visual studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\obj\Debug\ExercismWinSetup.exe
+c:\users\blueelvis_roxxx\documents\visual studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\obj\Debug\ExercismWinSetup.pdb
+c:\users\blueelvis_roxxx\documents\visual studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\obj\Debug\ExercismWinSetup.Form1.resources
