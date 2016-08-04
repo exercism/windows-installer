@@ -22,7 +22,9 @@ namespace ExercismWinSetup
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
                 installPath.Text = folderBrowserDialog.SelectedPath;
+                downloadNotice.Visible = true;
             }
+
             
         }
     }

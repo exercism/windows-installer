@@ -45,6 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clientDownload.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="clientDownload.Designer.cs">
+      <DependentUpon>clientDownload.cs</DependentUpon>
+    </Compile>
     <Compile Include="InstallLocation.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,6 +65,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="clientDownload.resx">
+      <DependentUpon>clientDownload.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InstallLocation.resx">
       <DependentUpon>InstallLocation.cs</DependentUpon>
     </EmbeddedResource>

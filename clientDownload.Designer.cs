@@ -1,6 +1,6 @@
 ﻿namespace ExercismWinSetup
 {
-    partial class InstallLocation
+    partial class clientDownload
     {
         /// <summary>
         /// Required designer variable.
@@ -30,13 +30,10 @@
         {
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.installPath = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.browseButton = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.nextButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.downloadNotice = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label2
@@ -48,9 +45,9 @@
             this.label2.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label2.Location = new System.Drawing.Point(81, 21);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(171, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Where to install Exercism.io Client?";
+            this.label2.Size = new System.Drawing.Size(229, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Installing Latest Version of Exercism Client Now";
             // 
             // label1
             // 
@@ -62,39 +59,23 @@
             this.label1.Location = new System.Drawing.Point(1, 2);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(670, 57);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "                Install Location";
+            this.label1.TabIndex = 4;
+            this.label1.Text = "                Installation";
             // 
-            // installPath
+            // textBox1
             // 
-            this.installPath.Location = new System.Drawing.Point(72, 134);
-            this.installPath.Name = "installPath";
-            this.installPath.Size = new System.Drawing.Size(439, 20);
-            this.installPath.TabIndex = 4;
+            this.textBox1.Location = new System.Drawing.Point(69, 85);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(524, 201);
+            this.textBox1.TabIndex = 6;
             // 
-            // label3
+            // progressBar1
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.SystemColors.Control;
-            this.label3.Location = new System.Drawing.Point(70, 109);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(374, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Please select the location where you would like to install the Exercism.io Client" +
-    "";
-            // 
-            // browseButton
-            // 
-            this.browseButton.Location = new System.Drawing.Point(537, 131);
-            this.browseButton.Name = "browseButton";
-            this.browseButton.Size = new System.Drawing.Size(75, 23);
-            this.browseButton.TabIndex = 6;
-            this.browseButton.Text = "Browse";
-            this.browseButton.UseVisualStyleBackColor = true;
-            this.browseButton.Click += new System.EventHandler(this.browseButton_Click);
+            this.progressBar1.Location = new System.Drawing.Point(69, 306);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(524, 23);
+            this.progressBar1.TabIndex = 7;
             // 
             // nextButton
             // 
@@ -105,7 +86,7 @@
             this.nextButton.Location = new System.Drawing.Point(450, 348);
             this.nextButton.Name = "nextButton";
             this.nextButton.Size = new System.Drawing.Size(75, 23);
-            this.nextButton.TabIndex = 8;
+            this.nextButton.TabIndex = 10;
             this.nextButton.Text = "Next >";
             this.nextButton.UseVisualStyleBackColor = true;
             // 
@@ -118,36 +99,23 @@
             this.cancelButton.Location = new System.Drawing.Point(531, 348);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
-            this.cancelButton.TabIndex = 7;
+            this.cancelButton.TabIndex = 9;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             // 
-            // downloadNotice
-            // 
-            this.downloadNotice.AutoSize = true;
-            this.downloadNotice.Location = new System.Drawing.Point(84, 253);
-            this.downloadNotice.Name = "downloadNotice";
-            this.downloadNotice.Size = new System.Drawing.Size(470, 13);
-            this.downloadNotice.TabIndex = 9;
-            this.downloadNotice.Text = "We will now download the latest version of Exercism Client & Install it. Please p" +
-    "ress Next to continue";
-            this.downloadNotice.Visible = false;
-            // 
-            // InstallLocation
+            // clientDownload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(673, 387);
-            this.Controls.Add(this.downloadNotice);
             this.Controls.Add(this.nextButton);
             this.Controls.Add(this.cancelButton);
-            this.Controls.Add(this.browseButton);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.installPath);
+            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "InstallLocation";
-            this.Text = "InstallLocation";
+            this.Name = "clientDownload";
+            this.Text = "clientDownload";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -157,12 +125,9 @@
 
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox installPath;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button browseButton;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Button nextButton;
         private System.Windows.Forms.Button cancelButton;
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
-        private System.Windows.Forms.Label downloadNotice;
     }
 }
