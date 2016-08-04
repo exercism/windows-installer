@@ -1,0 +1,48 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace ExercismWinSetup
+{
+    public partial class MainForm : Form
+    {
+        public MainForm()
+        {
+            InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+         
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            nextButton.Enabled = true;
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            nextButton.Enabled = false;
+        }
+
+        private void nextButton_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            InstallLocation installLocationForm = new InstallLocation();
+            installLocationForm.StartPosition = FormStartPosition.CenterScreen;
+            installLocationForm.ShowDialog();
+        }
+    }
+}

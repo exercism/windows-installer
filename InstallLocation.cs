@@ -10,21 +10,20 @@ using System.Windows.Forms;
 
 namespace ExercismWinSetup
 {
-    public partial class Form1 : Form
+    public partial class InstallLocation : Form
     {
-        public Form1()
+        public InstallLocation()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void browseButton_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                installPath.Text = folderBrowserDialog.SelectedPath;
+            }
+            
         }
     }
 }

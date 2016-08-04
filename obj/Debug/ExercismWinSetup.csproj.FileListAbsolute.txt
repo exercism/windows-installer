@@ -6,4 +6,5 @@ c:\users\blueelvis_roxxx\documents\visual studio 2015\Projects\ExercismWinSetup\
 c:\users\blueelvis_roxxx\documents\visual studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\obj\Debug\ExercismWinSetup.csproj.GenerateResource.Cache
 c:\users\blueelvis_roxxx\documents\visual studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\obj\Debug\ExercismWinSetup.exe
 c:\users\blueelvis_roxxx\documents\visual studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\obj\Debug\ExercismWinSetup.pdb
-c:\users\blueelvis_roxxx\documents\visual studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\obj\Debug\ExercismWinSetup.Form1.resources
+c:\users\blueelvis_roxxx\documents\visual studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\obj\Debug\ExercismWinSetup.InstallLocation.resources
+c:\users\blueelvis_roxxx\documents\visual studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\obj\Debug\ExercismWinSetup.MainForm.resources
