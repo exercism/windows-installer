@@ -1,4 +1,6 @@
-﻿namespace ExercismWinSetup
+﻿using System.IO;
+
+namespace ExercismWinSetup
 {
     partial class InstallLocation
     {
@@ -71,6 +73,7 @@
             this.installPath.Name = "installPath";
             this.installPath.Size = new System.Drawing.Size(439, 20);
             this.installPath.TabIndex = 4;
+            this.installPath.Text = @"C:\Program Files\Exercism";
             // 
             // label3
             // 

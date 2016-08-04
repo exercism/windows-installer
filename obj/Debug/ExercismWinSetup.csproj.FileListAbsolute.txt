@@ -9,3 +9,5 @@ c:\users\blueelvis_roxxx\documents\visual studio 2015\Projects\ExercismWinSetup\
 c:\users\blueelvis_roxxx\documents\visual studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\obj\Debug\ExercismWinSetup.InstallLocation.resources
 c:\users\blueelvis_roxxx\documents\visual studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\obj\Debug\ExercismWinSetup.MainForm.resources
 c:\Users\Blueelvis_RoXXX\Documents\Visual Studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\obj\Debug\ExercismWinSetup.clientDownload.resources
+c:\Users\Blueelvis_RoXXX\Documents\Visual Studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\bin\Debug\Newtonsoft.Json.dll
+c:\Users\Blueelvis_RoXXX\Documents\Visual Studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\bin\Debug\Newtonsoft.Json.xml

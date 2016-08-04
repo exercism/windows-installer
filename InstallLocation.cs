@@ -1,10 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace ExercismWinSetup
 {
     public partial class InstallLocation : Form
     {
+        private string installFolder = "";
         public InstallLocation()
         {
             InitializeComponent();
@@ -14,17 +16,27 @@ namespace ExercismWinSetup
         {
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
-                installPath.Text = folderBrowserDialog.SelectedPath;
+                installFolder = folderBrowserDialog.SelectedPath;
+                installPath.Text = installFolder;
                 downloadNotice.Visible = true;
             }
-
+            if (Directory.Exists(installPath.Text))
+            {
+                nextButton.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show(@"The Installation Path is Not Valid. Please Check Again.");
+            }
             
         }
 
         private void nextButton_Click(object sender, EventArgs e)
         {
             this.Hide();
-            ClientDownload clientDownloadForm = new ClientDownload();
+            ClientDownload clientDownloadForm = new ClientDownload(installFolder);
+            clientDownloadForm.StartPosition = FormStartPosition.CenterScreen;
+            clientDownloadForm.ShowDialog();
         }
     }
 }
