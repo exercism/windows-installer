@@ -4,10 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
-using System.Text;
-using System.Threading;
 using System.Windows.Forms;
-using ExercismWinSetup.Properties;
 using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 
