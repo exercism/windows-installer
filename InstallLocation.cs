@@ -38,5 +38,10 @@ namespace ExercismWinSetup
             clientDownloadForm.StartPosition = FormStartPosition.CenterScreen;
             clientDownloadForm.ShowDialog();
         }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

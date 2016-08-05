@@ -1,4 +1,6 @@
-﻿namespace ExercismWinSetup
+﻿using System;
+
+namespace ExercismWinSetup
 {
     partial class MainForm
     {
@@ -28,13 +30,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.cancelButton = new System.Windows.Forms.Button();
             this.nextButton = new System.Windows.Forms.Button();
+            this.license = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -61,17 +64,6 @@
             this.label2.Size = new System.Drawing.Size(278, 23);
             this.label2.TabIndex = 1;
             this.label2.Text = "Please read the following information before continuing.";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(82, 76);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(524, 206);
-            this.textBox1.TabIndex = 2;
             // 
             // radioButton1
             // 
@@ -131,6 +123,16 @@
             this.nextButton.UseVisualStyleBackColor = true;
             this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
             // 
+            // license
+            // 
+            this.license.Location = new System.Drawing.Point(82, 83);
+            this.license.Name = "license";
+            this.license.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.license.Size = new System.Drawing.Size(524, 202);
+            this.license.TabIndex = 7;
+            this.license.Text = "GNU Affero General Public License\nCopyright(C) 2015 Katrina Owen, mailto:_@kytrin" +
+    "yx.com\nSetup Design : Pranav https://twitter.com/blueelvis_roxxx \nHappy Coding!";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -138,14 +140,15 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(669, 383);
             this.ControlBox = false;
+            this.Controls.Add(this.license);
             this.Controls.Add(this.nextButton);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.radioButton2);
             this.Controls.Add(this.radioButton1);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Exercism Setup";
@@ -159,11 +162,11 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button nextButton;
+        private System.Windows.Forms.RichTextBox license;
     }
 }
 

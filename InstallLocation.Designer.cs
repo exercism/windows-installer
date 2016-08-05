@@ -30,6 +30,7 @@ namespace ExercismWinSetup
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InstallLocation));
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.installPath = new System.Windows.Forms.TextBox();
@@ -73,7 +74,7 @@ namespace ExercismWinSetup
             this.installPath.Name = "installPath";
             this.installPath.Size = new System.Drawing.Size(439, 20);
             this.installPath.TabIndex = 4;
-            this.installPath.Text = @"C:\Program Files\Exercism";
+            this.installPath.Text = "C:\\Program Files\\Exercism";
             // 
             // label3
             // 
@@ -104,7 +105,6 @@ namespace ExercismWinSetup
             this.nextButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.nextButton.Enabled = false;
             this.nextButton.Location = new System.Drawing.Point(450, 348);
             this.nextButton.Name = "nextButton";
             this.nextButton.Size = new System.Drawing.Size(75, 23);
@@ -125,6 +125,7 @@ namespace ExercismWinSetup
             this.cancelButton.TabIndex = 7;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // downloadNotice
             // 
@@ -142,6 +143,7 @@ namespace ExercismWinSetup
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(673, 387);
+            this.ControlBox = false;
             this.Controls.Add(this.downloadNotice);
             this.Controls.Add(this.nextButton);
             this.Controls.Add(this.cancelButton);
@@ -150,8 +152,10 @@ namespace ExercismWinSetup
             this.Controls.Add(this.installPath);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "InstallLocation";
-            this.Text = "InstallLocation";
+            this.Text = "Install Location";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -30,6 +30,7 @@ namespace ExercismWinSetup
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClientDownload));
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.statusTextBox = new System.Windows.Forms.TextBox();
@@ -71,7 +72,7 @@ namespace ExercismWinSetup
             this.statusTextBox.Name = "statusTextBox";
             this.statusTextBox.Size = new System.Drawing.Size(524, 201);
             this.statusTextBox.TabIndex = 6;
-            this.statusTextBox.Text = Environment.NewLine + "Initialized...";
+            this.statusTextBox.Text = "\r\nInitialized...";
             // 
             // installProgressBar
             // 
@@ -92,6 +93,7 @@ namespace ExercismWinSetup
             this.nextButton.TabIndex = 10;
             this.nextButton.Text = "Next >";
             this.nextButton.UseVisualStyleBackColor = true;
+            this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
             // 
             // cancelButton
             // 
@@ -105,20 +107,24 @@ namespace ExercismWinSetup
             this.cancelButton.TabIndex = 9;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // ClientDownload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(673, 387);
+            this.ControlBox = false;
             this.Controls.Add(this.nextButton);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.installProgressBar);
             this.Controls.Add(this.statusTextBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ClientDownload";
-            this.Text = "clientDownload";
+            this.Text = "Client Download";
             this.ResumeLayout(false);
             this.PerformLayout();
 

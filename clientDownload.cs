@@ -20,6 +20,8 @@ namespace ExercismWinSetup
         {
             _installationPath = installFolder;
             InitializeComponent();
+            statusTextBox.Text += Environment.NewLine;
+            statusTextBox.Text += "Starting Download...";
             this.Shown += ClientDownload_Shown;
         }
 
@@ -32,61 +34,65 @@ namespace ExercismWinSetup
             }
             if (isGitHubUp)
             {
-                HttpWebRequest githubApiRequest = (HttpWebRequest)WebRequest.Create(@"https://api.github.com/repos/exercism/cli/releases/latest");
+                HttpWebRequest githubApiRequest =
+                    (HttpWebRequest) WebRequest.Create(@"https://api.github.com/repos/exercism/cli/releases/latest");
 
                 githubApiRequest.UserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2;)";
 
-                HttpWebResponse githubApiResponse = (HttpWebResponse)githubApiRequest.GetResponse();
+                HttpWebResponse githubApiResponse = (HttpWebResponse) githubApiRequest.GetResponse();
                 string response = new StreamReader(githubApiResponse.GetResponseStream()).ReadToEnd();
 
                 JObject exercismRelease = JObject.Parse(response);
                 JToken downloadUrl;
                 if (CheckWindowsArchitecture())
                 {
-                    downloadUrl = exercismRelease.SelectToken(@"$.assets[?(@.name == 'exercism-windows-64bit.zip')].browser_download_url");
+                    downloadUrl =
+                        exercismRelease.SelectToken(
+                            @"$.assets[?(@.name == 'exercism-windows-64bit.zip')].browser_download_url");
                 }
                 else
                 {
-                    downloadUrl = exercismRelease.SelectToken(@"$.assets[?(@.name == 'exercism-windows-32bit.zip')].browser_download_url");
+                    downloadUrl =
+                        exercismRelease.SelectToken(
+                            @"$.assets[?(@.name == 'exercism-windows-32bit.zip')].browser_download_url");
                 }
 
                 using (WebClient exercismClientDownload = new WebClient())
                 {
                     exercismClientDownload.DownloadProgressChanged += ExercismClientDownload_DownloadProgressChanged;
-                    exercismClientDownload.DownloadFileAsync(new Uri(downloadUrl.ToString()), Path.GetTempPath() + @"\exercism.zip");
+                    exercismClientDownload.DownloadFileAsync(new Uri(downloadUrl.ToString()),
+                        Path.GetTempPath() + @"\exercism.zip");
                     exercismClientDownload.DownloadFileCompleted += ExercismClientDownload_DownloadFileCompleted;
-
                 }
-
             }
         }
 
         private void ExercismClientDownload_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            installProgressBar.Maximum = (int)e.TotalBytesToReceive / 100;
-            installProgressBar.Value = (int)e.BytesReceived / 100;
+            installProgressBar.Maximum = (int) e.TotalBytesToReceive/100;
+            installProgressBar.Value = (int) e.BytesReceived/100;
         }
 
-        private void ExercismClientDownload_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        private void ExercismClientDownload_DownloadFileCompleted(object sender,
+            System.ComponentModel.AsyncCompletedEventArgs e)
         {
-            Install_Delegate installDelegate = null;
-            installDelegate = new Install_Delegate(Install);
-            IAsyncResult R = null;
-            R = installDelegate.BeginInvoke(_installationPath, null, null);
-            installDelegate.EndInvoke(R);
-            MessageBox.Show("Everything Complete");
+            statusTextBox.Text = statusTextBox.Text + Environment.NewLine + "Download Finished";
+            Install_Delegate installDelegate = new Install_Delegate(Install);
+            IAsyncResult r = installDelegate.BeginInvoke(_installationPath, null, null);
+            installDelegate.EndInvoke(r);
+            nextButton.Enabled = true;
+            statusTextBox.Text = statusTextBox.Text + Environment.NewLine + "Installation Finished. Click Next.";
         }
 
         private bool Install(string s)
         {
             try
             {
-                s += @"\Exercism";
                 if (!Directory.Exists(s))
                 {
                     Directory.CreateDirectory(s);
                 }
-                using (ZipStorer zip = ZipStorer.Open(Path.GetTempPath() + @"\exercism.zip", System.IO.FileAccess.Read))
+                using (ZipStorer zip = ZipStorer.Open(Path.GetTempPath() + @"\exercism.zip", FileAccess.Read))
                 {
                     List<ZipStorer.ZipFileEntry> dir = zip.ReadCentralDir();
                     foreach (ZipStorer.ZipFileEntry entry in dir)
@@ -100,13 +106,16 @@ namespace ExercismWinSetup
                 var subKey = Registry.LocalMachine.CreateSubKey(keyName);
                 if (subKey != null)
                 {
-                    string oldPath = (string)subKey.GetValue("Path", "", RegistryValueOptions.DoNotExpandEnvironmentNames);
-
-                    //set the path as an an expandable string
-                    var registryKey = subKey;
-                    registryKey.SetValue("Path", oldPath + ";"+_installationPath, RegistryValueKind.ExpandString);
+                    string oldPath =
+                        (string) subKey.GetValue("Path", "", RegistryValueOptions.DoNotExpandEnvironmentNames);
+                    if (!oldPath.Contains(_installationPath))
+                    {
+                        //set the path as an an expandable string
+                        var registryKey = subKey;
+                        registryKey.SetValue("Path", oldPath + ";" + _installationPath, RegistryValueKind.ExpandString);
+                    }
                 }
-
+                File.Delete(Path.GetTempPath() + @"\exercism.zip");
                 return true;
             }
             catch (Exception)
@@ -122,7 +131,7 @@ namespace ExercismWinSetup
                 using (var client = new WebClient())
                 {
                     client.Headers.Add("user-agent", @"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2;)");
-                    using (var stream = client.OpenRead(@"https://api.github.com"))
+                    using (client.OpenRead(@"https://api.github.com"))
                     {
                         return true;
                     }
@@ -132,7 +141,6 @@ namespace ExercismWinSetup
             {
                 return false;
             }
-            
         }
 
         private bool CheckWindowsArchitecture()
@@ -155,8 +163,17 @@ namespace ExercismWinSetup
             return false;
         }
 
-        
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
 
-
+        private void nextButton_Click(object sender, EventArgs e)
+        {
+            Hide();
+            ConfigureApi configureApiForm = new ConfigureApi(_installationPath);
+            configureApiForm.StartPosition = FormStartPosition.CenterScreen;
+            configureApiForm.ShowDialog();
+        }
     }
 }

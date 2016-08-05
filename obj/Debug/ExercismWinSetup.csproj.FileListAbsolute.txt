@@ -12,3 +12,4 @@ c:\Users\Blueelvis_RoXXX\Documents\Visual Studio 2015\Projects\ExercismWinSetup\
 c:\Users\Blueelvis_RoXXX\Documents\Visual Studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\bin\Debug\Newtonsoft.Json.dll
 c:\Users\Blueelvis_RoXXX\Documents\Visual Studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\bin\Debug\Newtonsoft.Json.xml
 c:\Users\Blueelvis_RoXXX\Documents\Visual Studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\bin\Debug\ZipStorer.dll
+c:\Users\Blueelvis_RoXXX\Documents\Visual Studio 2015\Projects\ExercismWinSetup\ExercismWinSetup\obj\Debug\ExercismWinSetup.ConfigureApi.resources
