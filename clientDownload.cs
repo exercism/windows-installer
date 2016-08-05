@@ -4,8 +4,11 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using ExercismWinSetup.Properties;
+using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 
 namespace ExercismWinSetup
@@ -14,7 +17,7 @@ namespace ExercismWinSetup
     {
         private static string _installationPath;
 
-        public delegate int Install_Delegate(string installPath);
+        private delegate bool Install_Delegate(string installPath);
 
         public ClientDownload(string installFolder)
         {
@@ -25,8 +28,11 @@ namespace ExercismWinSetup
 
         private void ClientDownload_Shown(object sender, EventArgs e)
         {
-            Thread.Sleep(1000);
             bool isGitHubUp = queryGithub();
+            if (File.Exists(Path.GetTempPath() + @"\exercism.zip"))
+            {
+                File.Delete(Path.GetTempPath() + @"\exercism.zip");
+            }
             if (isGitHubUp)
             {
                 HttpWebRequest githubApiRequest = (HttpWebRequest)WebRequest.Create(@"https://api.github.com/repos/exercism/cli/releases/latest");
@@ -49,65 +55,67 @@ namespace ExercismWinSetup
 
                 using (WebClient exercismClientDownload = new WebClient())
                 {
+                    exercismClientDownload.DownloadProgressChanged += ExercismClientDownload_DownloadProgressChanged;
                     exercismClientDownload.DownloadFileAsync(new Uri(downloadUrl.ToString()), Path.GetTempPath() + @"\exercism.zip");
                     exercismClientDownload.DownloadFileCompleted += ExercismClientDownload_DownloadFileCompleted;
+
                 }
 
             }
+        }
+
+        private void ExercismClientDownload_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            installProgressBar.Maximum = (int)e.TotalBytesToReceive / 100;
+            installProgressBar.Value = (int)e.BytesReceived / 100;
         }
 
         private void ExercismClientDownload_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
             Install_Delegate installDelegate = null;
             installDelegate = new Install_Delegate(Install);
+            IAsyncResult R = null;
+            R = installDelegate.BeginInvoke(_installationPath, null, null);
+            installDelegate.EndInvoke(R);
+            MessageBox.Show("Everything Complete");
         }
 
-        private int Install(string s)
+        private bool Install(string s)
         {
-            int status = 1;
-            if (!Directory.Exists(s))
+            try
             {
-                Directory.CreateDirectory(s);
-            }
-            using (ZipStorer zip = ZipStorer.Open(Path.GetTempPath() + @"\exercism.zip", System.IO.FileAccess.Read))
-            {
-                List<ZipStorer.ZipFileEntry> dir = zip.ReadCentralDir();
-                foreach (ZipStorer.ZipFileEntry entry in dir)
+                s += @"\Exercism";
+                if (!Directory.Exists(s))
                 {
-                    zip.ExtractFile(entry, s+@"\exercism.exe");
+                    Directory.CreateDirectory(s);
                 }
-            }
-            Process regProcess = new Process
-            {
-                StartInfo =
+                using (ZipStorer zip = ZipStorer.Open(Path.GetTempPath() + @"\exercism.zip", System.IO.FileAccess.Read))
                 {
-                    FileName = "reg.exe"
+                    List<ZipStorer.ZipFileEntry> dir = zip.ReadCentralDir();
+                    foreach (ZipStorer.ZipFileEntry entry in dir)
+                    {
+                        zip.ExtractFile(entry, s + @"\exercism.exe");
+                    }
                 }
-            };
-            regProcess.StartInfo.Arguments =
-                @" add HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Exercism /v DisplayName /f /d " + "\"Exercism Client\"";
-            regProcess.Start();
-            regProcess.WaitForExit();
 
-            regProcess.StartInfo.Arguments =
-                @" add HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Exercism /v UninstallString /f /d " +
-                "\"" + _installationPath + @"\uninstall.bat" + "\"";
-            regProcess.Start();
-            regProcess.WaitForExit();
+                string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
+                //get non-expanded PATH environment variable            
+                var subKey = Registry.LocalMachine.CreateSubKey(keyName);
+                if (subKey != null)
+                {
+                    string oldPath = (string)subKey.GetValue("Path", "", RegistryValueOptions.DoNotExpandEnvironmentNames);
 
-            regProcess.StartInfo.Arguments = @" add HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Exercism /v InstallLocation /f /d " +
-                "\"" + _installationPath + "\"";
-            regProcess.Start();
-            regProcess.WaitForExit();
+                    //set the path as an an expandable string
+                    var registryKey = subKey;
+                    registryKey.SetValue("Path", oldPath + ";"+_installationPath, RegistryValueKind.ExpandString);
+                }
 
-            regProcess.StartInfo.Arguments = @" add HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Exercism /v DisplayIcon /f /d " +
-                "\"" + _installationPath + @"\exercism.png" + "\"";
-            regProcess.Start();
-            regProcess.WaitForExit();
-            File.Copy();
-
-
-            return status;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         private bool queryGithub()
