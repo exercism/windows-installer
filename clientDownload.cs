@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Net;
 using System.Threading;
 using System.Windows.Forms;
@@ -11,6 +13,8 @@ namespace ExercismWinSetup
     public partial class ClientDownload : Form
     {
         private static string _installationPath;
+
+        public delegate int Install_Delegate(string installPath);
 
         public ClientDownload(string installFolder)
         {
@@ -54,7 +58,56 @@ namespace ExercismWinSetup
 
         private void ExercismClientDownload_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
-            MessageBox.Show(@"Download Complete");
+            Install_Delegate installDelegate = null;
+            installDelegate = new Install_Delegate(Install);
+        }
+
+        private int Install(string s)
+        {
+            int status = 1;
+            if (!Directory.Exists(s))
+            {
+                Directory.CreateDirectory(s);
+            }
+            using (ZipStorer zip = ZipStorer.Open(Path.GetTempPath() + @"\exercism.zip", System.IO.FileAccess.Read))
+            {
+                List<ZipStorer.ZipFileEntry> dir = zip.ReadCentralDir();
+                foreach (ZipStorer.ZipFileEntry entry in dir)
+                {
+                    zip.ExtractFile(entry, s+@"\exercism.exe");
+                }
+            }
+            Process regProcess = new Process
+            {
+                StartInfo =
+                {
+                    FileName = "reg.exe"
+                }
+            };
+            regProcess.StartInfo.Arguments =
+                @" add HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Exercism /v DisplayName /f /d " + "\"Exercism Client\"";
+            regProcess.Start();
+            regProcess.WaitForExit();
+
+            regProcess.StartInfo.Arguments =
+                @" add HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Exercism /v UninstallString /f /d " +
+                "\"" + _installationPath + @"\uninstall.bat" + "\"";
+            regProcess.Start();
+            regProcess.WaitForExit();
+
+            regProcess.StartInfo.Arguments = @" add HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Exercism /v InstallLocation /f /d " +
+                "\"" + _installationPath + "\"";
+            regProcess.Start();
+            regProcess.WaitForExit();
+
+            regProcess.StartInfo.Arguments = @" add HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Exercism /v DisplayIcon /f /d " +
+                "\"" + _installationPath + @"\exercism.png" + "\"";
+            regProcess.Start();
+            regProcess.WaitForExit();
+            File.Copy();
+
+
+            return status;
         }
 
         private bool queryGithub()
@@ -98,5 +151,7 @@ namespace ExercismWinSetup
         }
 
         
+
+
     }
 }
