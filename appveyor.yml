@@ -1,0 +1,10 @@
+﻿platform: 
+  - x64
+  - x86
+
+configuration: Release
+
+matrix:
+  fast_finish: true
+
+before_build: nuget restore ExercismWinSetup.sln

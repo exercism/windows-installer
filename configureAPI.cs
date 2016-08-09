@@ -44,6 +44,10 @@ namespace ExercismWinSetup
             exercismProcess.Start();
             exercismProcess.WaitForExit();
 
+            exercismProcess.StartInfo.Arguments = "configure --dir=" + installPath;
+            exercismProcess.Start();
+            exercismProcess.WaitForExit();
+
         }
     }
 }
