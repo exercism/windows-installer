@@ -33,6 +33,11 @@ namespace ExercismWinSetup
 
         private void nextButton_Click(object sender, EventArgs e)
         {
+            if (installPath.Text == @"C:\Program Files\Exercism")
+            {
+                Directory.CreateDirectory(@"C:\Program Files\Exercism");
+            }
+            installFolder = installPath.Text;
             this.Hide();
             ClientDownload clientDownloadForm = new ClientDownload(installFolder);
             clientDownloadForm.StartPosition = FormStartPosition.CenterScreen;
