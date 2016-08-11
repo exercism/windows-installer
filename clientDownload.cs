@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -13,8 +14,11 @@ namespace ExercismWinSetup
     public partial class ClientDownload : Form
     {
         private static string _installationPath;
+        private static bool _is64bit;
 
         private delegate bool Install_Delegate(string installPath);
+
+        private delegate bool Check_Windows_Architecture();
 
         public ClientDownload(string installFolder)
         {
@@ -22,7 +26,7 @@ namespace ExercismWinSetup
             InitializeComponent();
             statusTextBox.Text += Environment.NewLine;
             statusTextBox.Text += "Starting Download...";
-            this.Shown += ClientDownload_Shown;
+            Shown += ClientDownload_Shown;
         }
 
         private void ClientDownload_Shown(object sender, EventArgs e)
@@ -44,7 +48,10 @@ namespace ExercismWinSetup
 
                 JObject exercismRelease = JObject.Parse(response);
                 JToken downloadUrl;
-                if (CheckWindowsArchitecture())
+                Check_Windows_Architecture checkArchitecture = CheckWindowsArchitecture;
+                IAsyncResult r = checkArchitecture.BeginInvoke(null, null);
+                checkArchitecture.EndInvoke(r);
+                if (_is64bit)
                 {
                     downloadUrl =
                         exercismRelease.SelectToken(
@@ -74,10 +81,10 @@ namespace ExercismWinSetup
         }
 
         private void ExercismClientDownload_DownloadFileCompleted(object sender,
-            System.ComponentModel.AsyncCompletedEventArgs e)
+            AsyncCompletedEventArgs e)
         {
             statusTextBox.Text = statusTextBox.Text + Environment.NewLine + "Download Finished";
-            Install_Delegate installDelegate = new Install_Delegate(Install);
+            Install_Delegate installDelegate = Install;
             IAsyncResult r = installDelegate.BeginInvoke(_installationPath, null, null);
             installDelegate.EndInvoke(r);
             nextButton.Enabled = true;
@@ -158,8 +165,10 @@ namespace ExercismWinSetup
             var sysInfoOutput = systemInfo.StandardOutput.ReadToEnd();
             if (sysInfoOutput.Contains("x64-"))
             {
+                _is64bit = true;
                 return true;
             }
+            _is64bit = false;
             return false;
         }
 

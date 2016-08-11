@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace ExercismWinSetup
 {
@@ -7,7 +8,7 @@ namespace ExercismWinSetup
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -160,13 +161,13 @@ namespace ExercismWinSetup
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.Button cancelButton;
-        private System.Windows.Forms.Button nextButton;
-        private System.Windows.Forms.RichTextBox license;
+        private Label label1;
+        private Label label2;
+        private RadioButton radioButton1;
+        private RadioButton radioButton2;
+        private Button cancelButton;
+        private Button nextButton;
+        private RichTextBox license;
     }
 }
 

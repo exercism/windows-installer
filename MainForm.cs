@@ -32,7 +32,7 @@ namespace ExercismWinSetup
 
         private void nextButton_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            Hide();
             InstallLocation installLocationForm = new InstallLocation();
             installLocationForm.StartPosition = FormStartPosition.CenterScreen;
             installLocationForm.ShowDialog();

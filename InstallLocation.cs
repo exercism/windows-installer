@@ -10,10 +10,12 @@ namespace ExercismWinSetup
         public InstallLocation()
         {
             InitializeComponent();
+            installFolder = installPath.Text;
         }
 
         private void browseButton_Click(object sender, EventArgs e)
         {
+            installFolder = installPath.Text;
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
                 installFolder = folderBrowserDialog.SelectedPath;
@@ -33,13 +35,7 @@ namespace ExercismWinSetup
 
         private void nextButton_Click(object sender, EventArgs e)
         {
-            installFolder = installPath.Text;
-            if (!Directory.Exists(installFolder))
-            {
-                Directory.CreateDirectory(installFolder);
-            }
-            
-            this.Hide();
+            Hide();
             ClientDownload clientDownloadForm = new ClientDownload(installFolder);
             clientDownloadForm.StartPosition = FormStartPosition.CenterScreen;
             clientDownloadForm.ShowDialog();

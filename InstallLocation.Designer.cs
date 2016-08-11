@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace ExercismWinSetup
 {
@@ -7,7 +8,7 @@ namespace ExercismWinSetup
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -163,14 +164,14 @@ namespace ExercismWinSetup
 
         #endregion
 
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox installPath;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button browseButton;
-        private System.Windows.Forms.Button nextButton;
-        private System.Windows.Forms.Button cancelButton;
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
-        private System.Windows.Forms.Label downloadNotice;
+        private Label label2;
+        private Label label1;
+        private TextBox installPath;
+        private Label label3;
+        private Button browseButton;
+        private Button nextButton;
+        private Button cancelButton;
+        private FolderBrowserDialog folderBrowserDialog;
+        private Label downloadNotice;
     }
 }

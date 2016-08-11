@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace ExercismWinSetup
 {
@@ -7,7 +8,7 @@ namespace ExercismWinSetup
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -132,11 +133,11 @@ namespace ExercismWinSetup
 
         #endregion
 
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox statusTextBox;
-        private System.Windows.Forms.ProgressBar installProgressBar;
-        private System.Windows.Forms.Button nextButton;
-        private System.Windows.Forms.Button cancelButton;
+        private Label label2;
+        private Label label1;
+        private TextBox statusTextBox;
+        private ProgressBar installProgressBar;
+        private Button nextButton;
+        private Button cancelButton;
     }
 }
