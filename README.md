@@ -1,6 +1,9 @@
 # ExercismWinSetup
 A project to download and install the latest version of Exercism Client for Windows depending on the architecture.
 
+Exercism is licensed under MIT License. Copyright (c) 2013 Mike Gehard, Katrina Owen
+
+Exercism Repository -> https://github.com/exercism/exercism.io
 
 #System Requirements  
   *Operating System* = Windows Vista, Windows 7, Windows 8/8.1 , Windows 10  
