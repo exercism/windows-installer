@@ -71,6 +71,7 @@ namespace ExercismWinSetup
             this.statusTextBox.Location = new System.Drawing.Point(69, 85);
             this.statusTextBox.Multiline = true;
             this.statusTextBox.Name = "statusTextBox";
+            this.statusTextBox.ReadOnly = true;
             this.statusTextBox.Size = new System.Drawing.Size(524, 201);
             this.statusTextBox.TabIndex = 6;
             this.statusTextBox.Text = "\r\nInitialized...";

@@ -128,6 +128,7 @@ namespace ExercismWinSetup
             // 
             this.license.Location = new System.Drawing.Point(82, 83);
             this.license.Name = "license";
+            this.license.ReadOnly = true;
             this.license.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.license.Size = new System.Drawing.Size(524, 202);
             this.license.TabIndex = 7;
