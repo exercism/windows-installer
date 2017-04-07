@@ -75,7 +75,7 @@ namespace ExercismWinSetup
             this.installPath.Name = "installPath";
             this.installPath.Size = new System.Drawing.Size(439, 20);
             this.installPath.TabIndex = 4;
-            this.installPath.Text = "C:\\Program Files\\Exercism";
+            this.installPath.Text = "C:\\Exercism";
             // 
             // label3
             // 
@@ -86,10 +86,10 @@ namespace ExercismWinSetup
             this.label3.BackColor = System.Drawing.SystemColors.Control;
             this.label3.Location = new System.Drawing.Point(70, 109);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(374, 13);
+            this.label3.Size = new System.Drawing.Size(409, 13);
             this.label3.TabIndex = 5;
-            this.label3.Text = "Please select the location where you would like to install the Exercism.io Client" +
-    "";
+            this.label3.Text = "It is recommended to install the client at the below location to avoid permission" +
+    " issues.";
             // 
             // browseButton
             // 

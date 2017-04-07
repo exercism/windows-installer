@@ -28,6 +28,7 @@ namespace ExercismWinSetup
             }
             else
             {
+                nextButton.Enabled = false;
                 MessageBox.Show(@"The Installation Path is Not Valid. Please Check Again.");
             }
             
@@ -35,8 +36,12 @@ namespace ExercismWinSetup
 
         private void nextButton_Click(object sender, EventArgs e)
         {
+            if (!Directory.Exists(installPath.Text))
+            {
+                Directory.CreateDirectory(@installPath.Text);
+            }
             Hide();
-            ClientDownload clientDownloadForm = new ClientDownload(installFolder);
+            ClientDownload clientDownloadForm = new ClientDownload(installPath.Text);
             clientDownloadForm.StartPosition = FormStartPosition.CenterScreen;
             clientDownloadForm.ShowDialog();
         }

@@ -8,3 +8,6 @@ matrix:
   fast_finish: true
 
 before_build: nuget restore
+
+build:
+	project: "Exercism Windows Installer.sln"

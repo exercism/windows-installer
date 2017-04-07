@@ -22,29 +22,22 @@ namespace ExercismWinSetup
                 MessageBox.Show(
                     @"You have not entered an API key. Please note that Exercism will not work without the API Key");
             }
-            ConfigureApiDelegate config = Configure;
-            IAsyncResult r = config.BeginInvoke(apiKey.Text, null, null);
-            config.EndInvoke(r);
-            
+            else
+            {
+                Process exercismProcess = new Process();
+                exercismProcess.StartInfo.FileName = installPath + @"\exercism.exe";
+
+                exercismProcess.StartInfo.Arguments = " configure --key=" + apiKey.Text;
+                exercismProcess.Start();
+                exercismProcess.WaitForExit();
+                exercismProcess.StartInfo.Arguments = " configure --dir=" + "\"" + installPath + "\"";
+                exercismProcess.Start();
+                exercismProcess.WaitForExit();
+                MessageBox.Show("Installation Successful!");
+            }
             Application.Exit();
         }
 
-        private void Configure(string key)
-        {
-            Process exercismProcess = new Process();
-            exercismProcess.StartInfo.FileName = installPath + @"\exercism.exe";
-            
-            if (String.IsNullOrEmpty(key))
-            {
-                exercismProcess.StartInfo.Arguments = " configure --key=" + key;
-                exercismProcess.Start();
-                exercismProcess.WaitForExit();
-            }
 
-            exercismProcess.StartInfo.Arguments = " configure --dir=" + "\"" + installPath + "\"";
-            exercismProcess.Start();
-            exercismProcess.WaitForExit();
-
-        }
     }
 }
