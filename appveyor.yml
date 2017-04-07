@@ -10,4 +10,4 @@ matrix:
 before_build: nuget restore
 
 build:
-	project: Exercism Windows Installer.sln
+  project: "Exercism Windows Installer.sln"
