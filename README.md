@@ -5,6 +5,8 @@ Exercism is licensed under MIT License. Copyright (c) 2013 Mike Gehard, Katrina 
 
 Exercism Repository -> https://github.com/exercism/exercism.io
 
+[![Build status](https://ci.appveyor.com/api/projects/status/6b5cka3nm3r4vh8d?svg=true)](https://ci.appveyor.com/project/blueelvis/windows-installer)
+
 #System Requirements  
   *Operating System* = Windows Vista, Windows 7, Windows 8/8.1 , Windows 10  
   *Architecture* = 32bit / 64bit both are supported  
