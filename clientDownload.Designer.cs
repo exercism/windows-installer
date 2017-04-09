@@ -75,6 +75,7 @@ namespace ExercismWinSetup
             this.statusTextBox.Size = new System.Drawing.Size(524, 201);
             this.statusTextBox.TabIndex = 6;
             this.statusTextBox.Text = "\r\nInitialized...";
+            this.statusTextBox.TextChanged += new System.EventHandler(this.statusTextBox_TextChanged);
             // 
             // installProgressBar
             // 

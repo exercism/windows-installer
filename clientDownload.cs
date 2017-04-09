@@ -111,20 +111,6 @@ namespace ExercismWinSetup
                 string pathContent = Environment.GetEnvironmentVariable("PATH") + ";" +_installationPath;
                 Environment.SetEnvironmentVariable("PATH", pathContent, EnvironmentVariableTarget.User);
 
-                //string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
-                ////get non-expanded PATH environment variable            
-                //var subKey = Registry.LocalMachine.CreateSubKey(keyName);
-                //if (subKey != null)
-                //{
-                //    string oldPath =
-                //        (string) subKey.GetValue("Path", "", RegistryValueOptions.DoNotExpandEnvironmentNames);
-                //    if (!oldPath.Contains(_installationPath))
-                //    {
-                //        //set the path as an an expandable string
-                //        var registryKey = subKey;
-                //        registryKey.SetValue("Path", oldPath + ";" + _installationPath, RegistryValueKind.ExpandString);
-                //    }
-                //}
                 File.Delete(Path.GetTempPath() + @"\exercism.zip");
                 return true;
             }
@@ -186,6 +172,11 @@ namespace ExercismWinSetup
             ConfigureApi configureApiForm = new ConfigureApi(_installationPath);
             configureApiForm.StartPosition = FormStartPosition.CenterScreen;
             configureApiForm.ShowDialog();
+        }
+
+        private void statusTextBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
