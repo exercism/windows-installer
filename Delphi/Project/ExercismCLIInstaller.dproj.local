@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2017/07/26 14:36:03.511,=C:\Users\Ryan Potts\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2017/07/26 14:38:07.927,C:\projects.git\Exercism\windows-installer\Delphi\Project\Source\uMainFrm.pas=C:\Users\Ryan Potts\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2017/07/26 14:38:07.927,C:\projects.git\Exercism\windows-installer\Delphi\Project\Source\uMainFrm.dfm=C:\Users\Ryan Potts\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2017/07/26 14:40:26.995,C:\projects.git\Exercism\windows-installer\Delphi\Project\ExercismCLIInstaller.dproj=C:\Users\Ryan Potts\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2017/07/26 14:42:13.752,=C:\projects.git\Exercism\windows-installer\Delphi\Project\Unit2.pas</Transaction>
+    <Transaction>2017/07/26 14:42:49.858,C:\projects.git\Exercism\windows-installer\Delphi\Project\Source\uInstallLocationFrm.pas=C:\projects.git\Exercism\windows-installer\Delphi\Project\Unit2.pas</Transaction>
+    <Transaction>2017/07/26 14:42:49.858,C:\projects.git\Exercism\windows-installer\Delphi\Project\Source\uInstallLocationFrm.dfm=C:\projects.git\Exercism\windows-installer\Delphi\Project\Unit2.dfm</Transaction>
+    <Transaction>2017/07/26 14:47:00.713,=C:\projects.git\Exercism\windows-installer\Delphi\Project\Unit3.pas</Transaction>
+    <Transaction>2017/07/26 14:47:26.669,C:\projects.git\Exercism\windows-installer\Delphi\Project\Source\uClientDownloadFrm.dfm=C:\projects.git\Exercism\windows-installer\Delphi\Project\Unit3.dfm</Transaction>
+    <Transaction>2017/07/26 14:47:26.669,C:\projects.git\Exercism\windows-installer\Delphi\Project\Source\uClientDownloadFrm.pas=C:\projects.git\Exercism\windows-installer\Delphi\Project\Unit3.pas</Transaction>
+    <Transaction>2017/07/26 14:47:50.228,=C:\projects.git\Exercism\windows-installer\Delphi\Project\Unit4.pas</Transaction>
+    <Transaction>2017/07/26 14:48:42.534,C:\projects.git\Exercism\windows-installer\Delphi\Project\Source\uConfigApiFrm.dfm=C:\projects.git\Exercism\windows-installer\Delphi\Project\Unit4.dfm</Transaction>
+    <Transaction>2017/07/26 14:48:42.534,C:\projects.git\Exercism\windows-installer\Delphi\Project\Source\uConfigApiFrm.pas=C:\projects.git\Exercism\windows-installer\Delphi\Project\Unit4.pas</Transaction>
+  </Transactions>
+</BorlandProject>

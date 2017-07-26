@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{106EF5D2-4009-48C2-974A-7741909A3692}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="ExercismCLIInstaller.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="TestCLIInstaller.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ExercismCLIInstaller">
+        <MSBuild Projects="ExercismCLIInstaller.dproj"/>
+    </Target>
+    <Target Name="ExercismCLIInstaller:Clean">
+        <MSBuild Projects="ExercismCLIInstaller.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ExercismCLIInstaller:Make">
+        <MSBuild Projects="ExercismCLIInstaller.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="TestCLIInstaller">
+        <MSBuild Projects="TestCLIInstaller.dproj"/>
+    </Target>
+    <Target Name="TestCLIInstaller:Clean">
+        <MSBuild Projects="TestCLIInstaller.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TestCLIInstaller:Make">
+        <MSBuild Projects="TestCLIInstaller.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ExercismCLIInstaller;TestCLIInstaller"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ExercismCLIInstaller:Clean;TestCLIInstaller:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ExercismCLIInstaller:Make;TestCLIInstaller:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
