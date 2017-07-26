@@ -258,3 +258,5 @@ paket-files/
 *.stat
 
 *.res
+
+*.tvsconfig
