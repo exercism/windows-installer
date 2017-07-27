@@ -260,3 +260,5 @@ paket-files/
 *.res
 
 *.tvsconfig
+
+*.vlb
