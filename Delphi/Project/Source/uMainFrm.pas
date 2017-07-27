@@ -4,7 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, ovcurl;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, ovcurl, uTypes,
+  RzLabel;
 
 type
   TfrmMain = class(TForm)
@@ -27,22 +28,54 @@ type
     procedure rbAcceptClick(Sender: TObject);
     procedure rbDontAcceptClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
+    procedure btnNextClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
+    NextClicked: boolean;
   end;
 
-var
-  frmMain: TfrmMain;
+
+  function ShowMainForm: TResultStatus;
 
 implementation
 
 {$R *.dfm}
 
+var
+  thisForm: TfrmMain;
+
+function ShowMainForm: TResultStatus;
+begin
+  thisForm := TfrmMain.Create(nil);
+  try
+    thisForm.ShowModal;
+    if thisForm.NextClicked then
+      result := rsNext
+    else
+      result := rsCancel;
+  finally
+    thisForm.DisposeOf;
+  end;
+end;
+
 procedure TfrmMain.btnCancelClick(Sender: TObject);
 begin
   close;
+end;
+
+procedure TfrmMain.btnNextClick(Sender: TObject);
+begin
+  NextClicked := true;
+  close;
+end;
+
+procedure TfrmMain.FormCreate(Sender: TObject);
+begin
+  NextClicked := false;
+  SetWindowLong(Handle, GWL_EXSTYLE, WS_EX_APPWINDOW);
 end;
 
 procedure TfrmMain.rbAcceptClick(Sender: TObject);

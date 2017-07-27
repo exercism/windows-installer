@@ -2,7 +2,7 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   BorderIcons = []
-  BorderStyle = bsDialog
+  BorderStyle = bsSingle
   Caption = 'Exercism CLI Install'
   ClientHeight = 352
   ClientWidth = 640
@@ -14,6 +14,7 @@ object frmMain: TfrmMain
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -26,7 +27,6 @@ object frmMain: TfrmMain
     Color = 5975778
     ParentBackground = False
     TabOrder = 0
-    ExplicitWidth = 638
     object Label1: TLabel
       Left = 80
       Top = 8
@@ -163,7 +163,9 @@ object frmMain: TfrmMain
     Height = 25
     Caption = '&Next >'
     Enabled = False
+    ModalResult = 1
     TabOrder = 4
+    OnClick = btnNextClick
   end
   object btnCancel: TButton
     Left = 421
@@ -171,6 +173,7 @@ object frmMain: TfrmMain
     Width = 75
     Height = 25
     Caption = '&Cancel'
+    ModalResult = 2
     TabOrder = 5
     OnClick = btnCancelClick
   end
