@@ -250,3 +250,13 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+*.tvsconfig
+
+*.local
+
+*.identcache
+
+*.stat
+
+*.res
