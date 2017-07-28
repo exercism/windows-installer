@@ -91,19 +91,9 @@ object frmDownload: TfrmDownload
     Height = 21
     TabOrder = 4
   end
-  object btnRetry: TButton
-    Left = 156
-    Top = 300
-    Width = 75
-    Height = 25
-    Caption = 'Retry'
-    TabOrder = 5
-    Visible = False
-    OnClick = btnRetryClick
-  end
-  object Timer1: TTimer
+  object tmrDownload: TTimer
     Interval = 500
-    OnTimer = Timer1Timer
+    OnTimer = tmrDownloadTimer
     Left = 44
     Top = 304
   end
@@ -148,5 +138,12 @@ object frmDownload: TfrmDownload
     UpdateOptions.CheckRequired = False
     Left = 348
     Top = 120
+  end
+  object tmrInstall: TTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = tmrInstallTimer
+    Left = 96
+    Top = 308
   end
 end

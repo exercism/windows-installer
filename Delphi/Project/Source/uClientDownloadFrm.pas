@@ -9,7 +9,7 @@ uses
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   REST.Response.Adapter, REST.Client, Data.Bind.Components,
-  Data.Bind.ObjectScope, System.Types, System.Net.HttpClient;
+  Data.Bind.ObjectScope, System.Types, System.Net.HttpClient, System.UITypes;
 
 type
   Tos = class
@@ -32,20 +32,20 @@ type
     btnNext: TButton;
     mStatus: TMemo;
     ProgressBarDownload: TProgressBar;
-    Timer1: TTimer;
+    tmrDownload: TTimer;
     RESTClient1: TRESTClient;
     RESTRequest1: TRESTRequest;
     RESTResponse1: TRESTResponse;
     RESTResponseDataSetAdapter1: TRESTResponseDataSetAdapter;
     FDMemTable1: TFDMemTable;
-    btnRetry: TButton;
+    tmrInstall: TTimer;
     procedure btnCancelClick(Sender: TObject);
     procedure btnNextClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure Timer1Timer(Sender: TObject);
-    procedure btnRetryClick(Sender: TObject);
+    procedure tmrDownloadTimer(Sender: TObject);
     procedure ReceiveDataEvent(const Sender: TObject; AContentLength: Int64; AReadCount: Int64; var Abort: Boolean);
     procedure FormDestroy(Sender: TObject);
+    procedure tmrInstallTimer(Sender: TObject);
   private
     { Private declarations }
     InstallInfo : TInstallInfo;
@@ -58,6 +58,8 @@ type
     function DetermineArchitecture(var aStatus: TResultStatus): Boolean;
     function FetchDownloadURL(const aIs32BitWindows: Boolean; var aStatus: TResultStatus): IDownloadURL;
     procedure Download_CLI_ZIP(aDownloadURL: IDownloadURL; var aStatus: TResultStatus);
+    procedure Unzip_CLI(var aStatus: TResultStatus);
+    procedure Update_PATH(var aStatus: TResultStatus);
   public
     { Public declarations }
     NextClicked: Boolean;
@@ -67,7 +69,7 @@ type
   function NewDownloadURL(a32Bit: boolean; aRESTRequest: TRESTRequest; aFDMemTable: TFDMemTable): IDownloadURL;
 
 implementation
-uses System.IOUtils;
+uses System.IOUtils, System.Zip, uUpdatePath;
 {$R *.dfm}
 type
   TDownloadURL = class(TInterfacedObject, IDownloadURL)
@@ -92,21 +94,18 @@ begin
   result := TOSVersion.Architecture = arIntelX86;
 end;
 
-var
-  thisForm: TfrmDownload;
-
 function ShowClientDownloadForm(const aInstallInfo: TInstallInfo): TResultStatus;
 begin
   result := rsCancel;
-  thisForm := TfrmDownload.Create(nil);
-  try
-    thisForm.InstallInfo := aInstallInfo;
-    thisForm.ShowModal;
-    if thisForm.NextClicked then
-      result := rsNext;
-  finally
-    thisForm.DisposeOf;
-  end;
+  with TfrmDownload.Create(nil) do
+    try
+      InstallInfo := aInstallInfo;
+      ShowModal;
+      if NextClicked then
+        result := rsNext;
+    finally
+      DisposeOf;
+    end;
 end;
 
 procedure TfrmDownload.btnCancelClick(Sender: TObject);
@@ -118,13 +117,6 @@ procedure TfrmDownload.btnNextClick(Sender: TObject);
 begin
   NextClicked := true;
   Close;
-end;
-
-procedure TfrmDownload.btnRetryClick(Sender: TObject);
-begin
-  btnRetry.Enabled := false;
-  mStatus.Lines.Clear;
-  Timer1.Enabled := true;
 end;
 
 procedure TfrmDownload.FormCreate(Sender: TObject);
@@ -210,7 +202,40 @@ begin
   end;
 end;
 
-procedure TfrmDownload.Timer1Timer(Sender: TObject);
+procedure TfrmDownload.Unzip_CLI(var aStatus: TResultStatus);
+var
+  UnZipper: TZipFile;
+  lFilename: string;
+begin
+  aStatus := rsCancel;
+  mStatus.Lines.Add(format('Unzipping CLI to %s',[InstallInfo.Path]));
+  UnZipper := TZipFile.Create;
+  try
+    lFilename := TPath.Combine(InstallInfo.Path,'exercism.zip');
+    UnZipper.Open(lFilename, zmRead);
+    Unzipper.ExtractAll(TPath.Combine(InstallInfo.Path,''));
+    aStatus := rsNext;
+    mStatus.Lines.Add('CLI Extraction Successful');
+  finally
+    Unzipper.DisposeOf;
+    if FileExists(lFilename) then
+      DeleteFile(lFilename);
+  end;
+end;
+
+procedure TfrmDownload.Update_PATH(var aStatus: TResultStatus);
+begin
+  aStatus := rsCancel;
+  if TUpdatePath.AddToPath(InstallInfo.Path) then
+  begin
+    mStatus.Lines.Add(format('Folder "%s" added to Path.',[InstallInfo.Path]));
+    aStatus := rsFinished;
+  end
+  else
+    mStatus.Lines.Add(format('Folder "%s" NOT added to Path.',[InstallInfo.Path]));
+end;
+
+procedure TfrmDownload.tmrDownloadTimer(Sender: TObject);
 var
   lIs32BitWindows: boolean;
   i: integer;
@@ -218,9 +243,10 @@ var
   lStatus: TResultStatus;
   lDownloadURL: IDownloadURL;
 begin
-  Timer1.Enabled := false;
+  tmrDownload.Enabled := false;
   i := 0;
   lLoopStatus := rsContinue;
+  lIs32BitWindows := false;
   repeat
     case i of
       0: lIs32BitWindows := DetermineArchitecture(lStatus);
@@ -234,8 +260,31 @@ begin
       rsFinished: lLoopStatus := rsDone;
     end;//cased
   until lLoopStatus = rsDone;
-  if lStatus = rsFinished then
-    btnNext.Enabled := true;
+end;
+
+procedure TfrmDownload.tmrInstallTimer(Sender: TObject);
+var
+  i: integer;
+  lLoopStatus,
+  lStatus: TResultStatus;
+begin
+  tmrInstall.Enabled := false;
+  i := 0;
+  lLoopStatus := rsContinue;
+  lStatus := rsCancel;
+  repeat
+    case i of
+      0: Unzip_CLI(lStatus);
+      1: Update_PATH(lStatus);
+    end;//case
+
+    case lStatus of
+      rsNext: inc(i);
+      rsCancel,
+      rsFinished: lLoopStatus := rsDone;
+    end;//cased
+  until lLoopStatus = rsDone;
+  btnNext.Enabled := lStatus = rsFinished;
 end;
 
 procedure TfrmDownload.ReceiveDataEvent(const Sender: TObject; AContentLength, AReadCount: Int64;
@@ -257,6 +306,7 @@ begin
       begin
         mStatus.Lines.Add('Download Finished!');
         mStatus.Lines.Add(Format('Status: %d - %s', [FHTTPResponse.StatusCode, FHTTPResponse.StatusText]));
+        tmrInstall.Enabled := true;
       end);
   finally
     FDownloadStream.Free;

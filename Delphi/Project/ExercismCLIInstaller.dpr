@@ -6,7 +6,8 @@ uses
   uInstallLocationFrm in 'Source\uInstallLocationFrm.pas' {frmInstallLocation},
   uClientDownloadFrm in 'Source\uClientDownloadFrm.pas' {frmDownload},
   uConfigApiFrm in 'Source\uConfigApiFrm.pas' {frmConfigAPI},
-  uTypes in 'Source\uTypes.pas';
+  uTypes in 'Source\uTypes.pas',
+  uUpdatePath in 'Source\uUpdatePath.pas';
 
 {$R *.res}
 

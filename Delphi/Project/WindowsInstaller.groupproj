@@ -6,9 +6,6 @@
         <Projects Include="ExercismCLIInstaller.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="TestCLIInstaller.dproj">
-            <Dependencies/>
-        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -26,23 +23,14 @@
     <Target Name="ExercismCLIInstaller:Make">
         <MSBuild Projects="ExercismCLIInstaller.dproj" Targets="Make"/>
     </Target>
-    <Target Name="TestCLIInstaller">
-        <MSBuild Projects="TestCLIInstaller.dproj"/>
-    </Target>
-    <Target Name="TestCLIInstaller:Clean">
-        <MSBuild Projects="TestCLIInstaller.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="TestCLIInstaller:Make">
-        <MSBuild Projects="TestCLIInstaller.dproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="ExercismCLIInstaller;TestCLIInstaller"/>
+        <CallTarget Targets="ExercismCLIInstaller"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="ExercismCLIInstaller:Clean;TestCLIInstaller:Clean"/>
+        <CallTarget Targets="ExercismCLIInstaller:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="ExercismCLIInstaller:Make;TestCLIInstaller:Make"/>
+        <CallTarget Targets="ExercismCLIInstaller:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
