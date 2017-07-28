@@ -29,8 +29,7 @@ type
     NextClicked: boolean;
   end;
 
-
-  function ShowInstallLocationForm: TResultStatus;
+  function ShowInstallLocationForm(var aInstallInfo: TInstallInfo): TResultStatus;
 
 implementation
 uses System.IOUtils;
@@ -40,14 +39,17 @@ var
   thisForm: TfrmInstallLocation;
 
 
-function ShowInstallLocationForm: TResultStatus;
+function ShowInstallLocationForm(var aInstallInfo: TInstallInfo): TResultStatus;
 begin
   result := rsCancel;
   thisForm := TfrmInstallLocation.Create(nil);
   try
     thisForm.ShowModal;
     if thisForm.NextClicked then
+    begin
+      aInstallInfo.Path := thisForm.fldLocation.Text;
       result := rsNext;
+    end;
   finally
     thisForm.DisposeOf;
   end;

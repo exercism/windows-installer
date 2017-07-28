@@ -14,30 +14,28 @@ uses
 var LoopStatus,
     ResultStatus: TResultStatus;
     i: integer;
+    InstallInfo: TInstallInfo;
 
 begin
+  fillchar(InstallInfo, sizeof(TInstallInfo), #0);
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   i := 0;
-  LoopStatus := rsOK;
+  LoopStatus := rsContinue;
   ResultStatus := rsCancel;
   repeat
     case i of
-      0:
-        ResultStatus := ShowMainForm;
-      1:
-        ResultStatus := ShowInstallLocationForm;
-      2:
-        ResultStatus := ShowConfigAPIForm;
+      0: ResultStatus := ShowMainForm;
+      1: ResultStatus := ShowInstallLocationForm(InstallInfo);
+      2: ResultStatus := ShowClientDownloadForm(InstallInfo);
+      3: ResultStatus := ShowConfigAPIForm(InstallInfo);
     end; //case
 
     case ResultStatus of
-      rsNext:
-        inc(i);
+      rsNext: inc(i);
 
       rsCancel,
-      rsFinished:
-        LoopStatus := rsDone;
+      rsFinished: LoopStatus := rsDone;
     end; // case
 
   until LoopStatus = rsDone;

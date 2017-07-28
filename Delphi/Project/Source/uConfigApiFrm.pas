@@ -29,15 +29,14 @@ type
 var
   thisForm: TfrmConfigAPI;
 
-  function ShowConfigAPIForm: TResultStatus;
+  function ShowConfigAPIForm(const aInstallInfo: TInstallInfo): TResultStatus;
 
 
 implementation
 
 {$R *.dfm}
 
-
-function ShowConfigAPIForm: TResultStatus;
+function ShowConfigAPIForm(const aInstallInfo: TInstallInfo): TResultStatus;
 begin
   result := rsFinished;
   thisForm := TfrmConfigAPI.Create(nil);

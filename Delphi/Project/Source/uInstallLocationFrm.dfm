@@ -20,11 +20,17 @@ object frmInstallLocation: TfrmInstallLocation
   object Label3: TLabel
     Left = 68
     Top = 108
-    Width = 423
-    Height = 13
+    Width = 507
+    Height = 16
     Caption = 
       'It is recommended to install the CLI in the suggested location t' +
       'o avoid permission issues.'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
   end
   object Panel1: TPanel
     Left = 0
@@ -52,9 +58,9 @@ object frmInstallLocation: TfrmInstallLocation
     object Label2: TLabel
       Left = 100
       Top = 33
-      Width = 216
+      Width = 201
       Height = 17
-      Caption = 'Where to install Exercism.io CLI?'
+      Caption = 'Where to install Exercism CLI?'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWhite
       Font.Height = -15
