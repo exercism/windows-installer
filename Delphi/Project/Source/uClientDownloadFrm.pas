@@ -287,6 +287,11 @@ begin
     end;//cased
   until lLoopStatus = rsDone;
   btnNext.Enabled := lStatus = rsFinished;
+  if btnNext.Enabled then
+  begin
+    mStatus.Lines.Add('');
+    mStatus.Lines.Add('Click [Next] to configure the CLI');
+  end
 end;
 
 procedure TfrmDownload.ReceiveDataEvent(const Sender: TObject; AContentLength, AReadCount: Int64;

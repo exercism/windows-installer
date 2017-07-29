@@ -17,7 +17,6 @@ type
     rbDontAccept: TRadioButton;
     btnNext: TButton;
     btnCancel: TButton;
-    Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
@@ -26,7 +25,9 @@ type
     OvcURL1: TOvcURL;
     OvcURL2: TOvcURL;
     Image1: TImage;
-    Memo1: TMemo;
+    OvcURL3: TOvcURL;
+    OvcURL4: TOvcURL;
+    Label3: TLabel;
     procedure rbAcceptClick(Sender: TObject);
     procedure rbDontAcceptClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);

@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <MainSource>ExercismCLIInstaller.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -105,14 +105,15 @@
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
-        <VerInfo_Build>7</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=Exercism;FileDescription=$(MSBuildProjectName);FileVersion=2.0.0.7;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>13</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=Exercism;FileDescription=$(MSBuildProjectName);FileVersion=2.0.1.13;InternalName=;LegalCopyright=2017;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=2.0.1;Comments=</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_MajorVer>2</VerInfo_MajorVer>
-        <VerInfo_Debug>true</VerInfo_Debug>
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <Icon_MainIcon>ExercismCLIInstaller_Icon1.ico</Icon_MainIcon>
+        <VerInfo_Release>1</VerInfo_Release>
+        <VerInfo_Debug>true</VerInfo_Debug>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -162,7 +163,7 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
-                <DeployFile LocalName="Win32\Release\ExercismCLIInstaller.EXE" Configuration="Release" Class="ProjectOutput">
+                <DeployFile LocalName="Win32\Debug\ExercismCLIInstaller.EXE" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>ExercismCLIInstaller.exe</RemoteName>
                         <Overwrite>true</Overwrite>
@@ -175,8 +176,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win32\Debug\ExercismCLIInstaller.EXE" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="Win32\Release\ExercismCLIInstaller.EXE" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
+                        <RemoteDir>K:\private\rpottsoh,kotp\INBOX_for_KOTP\</RemoteDir>
                         <RemoteName>ExercismCLIInstaller.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>

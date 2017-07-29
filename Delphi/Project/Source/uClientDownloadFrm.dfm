@@ -4,7 +4,7 @@ object frmDownload: TfrmDownload
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = 'Exercism CLI Install'
-  ClientHeight = 352
+  ClientHeight = 332
   ClientWidth = 640
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -863,16 +863,17 @@ object frmDownload: TfrmDownload
     Width = 75
     Height = 25
     Caption = '&Next >'
+    Default = True
     Enabled = False
     TabOrder = 2
     OnClick = btnNextClick
   end
   object mStatus: TMemo
-    Left = 12
+    Left = 8
     Top = 84
     Width = 617
     Height = 169
-    Color = clInactiveCaptionText
+    Color = clBtnFace
     ReadOnly = True
     ScrollBars = ssVertical
     TabOrder = 3
@@ -887,8 +888,8 @@ object frmDownload: TfrmDownload
   object tmrDownload: TTimer
     Interval = 500
     OnTimer = tmrDownloadTimer
-    Left = 44
-    Top = 304
+    Left = 40
+    Top = 264
   end
   object RESTClient1: TRESTClient
     Accept = 'application/json, text/plain; q=0.9, text/html;q=0.8,'
@@ -936,7 +937,7 @@ object frmDownload: TfrmDownload
     Enabled = False
     Interval = 500
     OnTimer = tmrInstallTimer
-    Left = 96
-    Top = 308
+    Left = 120
+    Top = 268
   end
 end

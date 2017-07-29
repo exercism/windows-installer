@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTypes, Vcl.StdCtrls, Vcl.ExtCtrls,
-  RzShellDialogs, Vcl.Imaging.pngimage;
+  RzShellDialogs, Vcl.Imaging.pngimage, System.UITypes;
 
 type
   TfrmInstallLocation = class(TForm)

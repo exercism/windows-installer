@@ -4,7 +4,7 @@ object frmConfigAPI: TfrmConfigAPI
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = 'Exercism CLI Install'
-  ClientHeight = 352
+  ClientHeight = 332
   ClientWidth = 640
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET

@@ -4,7 +4,7 @@ object frmMain: TfrmMain
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Exercism CLI Install'
-  ClientHeight = 352
+  ClientHeight = 332
   ClientWidth = 640
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -849,24 +849,17 @@ object frmMain: TfrmMain
   end
   object Panel2: TPanel
     Left = 38
-    Top = 85
+    Top = 113
     Width = 564
-    Height = 189
+    Height = 148
     BevelOuter = bvLowered
     TabOrder = 1
-    object Label3: TLabel
-      Left = 9
-      Top = 12
-      Width = 163
-      Height = 13
-      Caption = 'GNU Affero General Public License'
-    end
     object Label4: TLabel
       Left = 9
       Top = 31
-      Width = 155
+      Width = 87
       Height = 13
-      Caption = #169' Copyright 2017 Katrina Owen'
+      Caption = #169' Copyright 2017'
     end
     object Label5: TLabel
       Left = 9
@@ -890,8 +883,8 @@ object frmMain: TfrmMain
       Caption = 'Setup Design:'
     end
     object Label8: TLabel
-      Left = 138
-      Top = 166
+      Left = 246
+      Top = 46
       Width = 287
       Height = 19
       Caption = 'Welcome to Exercism.io!  Happy Coding!'
@@ -936,61 +929,70 @@ object frmMain: TfrmMain
       ParentShowHint = False
       ShowHint = True
     end
-    object Memo1: TMemo
-      Left = 212
-      Top = 8
-      Width = 344
-      Height = 153
-      Lines.Strings = (
-        'MIT License'
-        ''
-        'Copyright (c) 2017 Ryan Potts'
-        ''
-        'Permission is hereby granted, free of charge, to any person '
-        'obtaining a copy of this software and associated documentation '
-        
-          'files (the "Software"), to deal in the Software without restrict' +
-          'ion, '
-        'including without limitation the rights to use, copy, modify, '
-        
-          'merge, publish, distribute, sublicense, and / or sell copies of ' +
-          'the '
-        'Software, and to permit persons to whom the Software is '
-        'furnished to do so, subject to the following conditions:'
-        ''
-        'The above copyright notice and this permission notice shall be '
-        'included in all copies or substantial portions of the Software.'
-        ''
-        'THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF '
-        'ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED '
-        'TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A '
-        'PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT '
-        'SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR '
-        'ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN '
-        'ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, '
-        'OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE '
-        'OR OTHER DEALINGS IN THE SOFTWARE.')
-      ReadOnly = True
-      ScrollBars = ssVertical
-      TabOrder = 0
+    object OvcURL3: TOvcURL
+      Left = 102
+      Top = 31
+      Width = 65
+      Height = 13
+      Hint = 'https://github.com/kytrinyx'
+      Caption = 'Katrina Owen'
+      URL = 'https://github.com/kytrinyx'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsUnderline]
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+    end
+    object OvcURL4: TOvcURL
+      Left = 9
+      Top = 12
+      Width = 56
+      Height = 13
+      Hint = 
+        'https://github.com/exercism/windows-installer/blob/master/LICENS' +
+        'E'
+      Caption = 'MIT License'
+      URL = 
+        'https://github.com/exercism/windows-installer/blob/master/LICENS' +
+        'E'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsUnderline]
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+    end
+    object Label3: TLabel
+      Left = 163
+      Top = 112
+      Width = 239
+      Height = 13
+      Caption = 'By clicking &Next you accept the license agreement'
     end
   end
   object rbAccept: TRadioButton
     Left = 56
-    Top = 292
-    Width = 161
+    Top = 269
+    Width = 201
     Height = 17
-    Caption = 'I accept the agreement'
+    Caption = 'I accept the License Agreement'
     TabOrder = 2
+    Visible = False
     OnClick = rbAcceptClick
   end
   object rbDontAccept: TRadioButton
     Left = 56
-    Top = 320
-    Width = 161
+    Top = 297
+    Width = 201
     Height = 17
-    Caption = 'I don'#39't accept the agreement'
+    Caption = 'I don'#39't accept the License Agreement'
     TabOrder = 3
+    Visible = False
     OnClick = rbDontAcceptClick
   end
   object btnNext: TButton
@@ -999,7 +1001,6 @@ object frmMain: TfrmMain
     Width = 75
     Height = 25
     Caption = '&Next >'
-    Enabled = False
     ModalResult = 1
     TabOrder = 4
     OnClick = btnNextClick
