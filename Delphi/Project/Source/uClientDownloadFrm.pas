@@ -9,7 +9,8 @@ uses
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   REST.Response.Adapter, REST.Client, Data.Bind.Components,
-  Data.Bind.ObjectScope, System.Types, System.Net.HttpClient, System.UITypes;
+  Data.Bind.ObjectScope, System.Types, System.Net.HttpClient, System.UITypes,
+  Vcl.Imaging.pngimage;
 
 type
   Tos = class
@@ -39,6 +40,7 @@ type
     RESTResponseDataSetAdapter1: TRESTResponseDataSetAdapter;
     FDMemTable1: TFDMemTable;
     tmrInstall: TTimer;
+    Image1: TImage;
     procedure btnCancelClick(Sender: TObject);
     procedure btnNextClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);

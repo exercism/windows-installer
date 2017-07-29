@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTypes, Vcl.StdCtrls, Vcl.ExtCtrls,
-  RzShellDialogs;
+  RzShellDialogs, Vcl.Imaging.pngimage;
 
 type
   TfrmInstallLocation = class(TForm)
@@ -18,6 +18,7 @@ type
     Label3: TLabel;
     btnBrowse: TButton;
     RzSelectFolderDialog1: TRzSelectFolderDialog;
+    Image1: TImage;
     procedure btnCancelClick(Sender: TObject);
     procedure btnNextClick(Sender: TObject);
     procedure btnBrowseClick(Sender: TObject);

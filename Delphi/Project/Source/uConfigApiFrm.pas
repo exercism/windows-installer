@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, ovcurl,
-  uTypes;
+  uTypes, Vcl.Imaging.pngimage;
 
 type
   TfrmConfigAPI = class(TForm)
@@ -17,6 +17,7 @@ type
     fldAPI: TEdit;
     OvcURL1: TOvcURL;
     Label4: TLabel;
+    Image1: TImage;
     procedure btnFinishClick(Sender: TObject);
     procedure fldAPIChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
