@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, ovcurl, uTypes,
-  RzLabel;
+  Vcl.Imaging.pngimage;
 
 type
   TfrmMain = class(TForm)
@@ -25,6 +25,8 @@ type
     Label8: TLabel;
     OvcURL1: TOvcURL;
     OvcURL2: TOvcURL;
+    Image1: TImage;
+    Memo1: TMemo;
     procedure rbAcceptClick(Sender: TObject);
     procedure rbDontAcceptClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
