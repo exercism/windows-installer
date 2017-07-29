@@ -848,9 +848,9 @@ object frmMain: TfrmMain
     end
   end
   object Panel2: TPanel
-    Left = 55
+    Left = 38
     Top = 85
-    Width = 529
+    Width = 564
     Height = 189
     BevelOuter = bvLowered
     TabOrder = 1
@@ -890,7 +890,7 @@ object frmMain: TfrmMain
       Caption = 'Setup Design:'
     end
     object Label8: TLabel
-      Left = 121
+      Left = 138
       Top = 166
       Width = 287
       Height = 19
@@ -905,11 +905,11 @@ object frmMain: TfrmMain
     object OvcURL1: TOvcURL
       Left = 119
       Top = 69
-      Width = 41
+      Width = 88
       Height = 13
-      Hint = 'https://twitter.com/blueelvis'
-      Caption = 'blueelvis'
-      URL = 'https://twitter.com/blueelvis'
+      Hint = 'https://twitter.com/Blueelvis_RoXXX'
+      Caption = '@Blueelvis_RoXXX'
+      URL = 'https://twitter.com/blueelvis_roxxx'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -937,14 +937,14 @@ object frmMain: TfrmMain
       ShowHint = True
     end
     object Memo1: TMemo
-      Left = 178
+      Left = 212
       Top = 8
       Width = 344
       Height = 153
       Lines.Strings = (
         'MIT License'
         ''
-        'Copyright (c) 2017 Pranav V Jituri'
+        'Copyright (c) 2017 Ryan Potts'
         ''
         'Permission is hereby granted, free of charge, to any person '
         'obtaining a copy of this software and associated documentation '
