@@ -213,20 +213,21 @@ end;
 
 procedure TfrmDownload.Unzip_CLI(var aStatus: TResultStatus);
 var
-  UnZipper: TZipFile;
+//  UnZipper: TZipFile;
   lFilename: string;
 begin
   aStatus := rsCancel;
   mStatus.Lines.Add(format('Unzipping CLI to %s',[InstallInfo.Path]));
-  UnZipper := TZipFile.Create;
+//  UnZipper := TZipFile.Create;
   try
     lFilename := TPath.Combine(InstallInfo.Path,'exercism.zip');
-    UnZipper.Open(lFilename, zmRead);
-    Unzipper.ExtractAll(TPath.Combine(InstallInfo.Path,''));
+//    UnZipper.Open(lFilename, zmRead);
+//    Unzipper.ExtractAll(TPath.Combine(InstallInfo.Path,''));
+    TZipFile.ExtractZipFile(lFilename, TPath.Combine(InstallInfo.Path,''));
     aStatus := rsNext;
     mStatus.Lines.Add('CLI Extraction Successful');
   finally
-    Unzipper.DisposeOf;
+//    Unzipper.DisposeOf;
     if FileExists(lFilename) then
       DeleteFile(lFilename);
   end;
