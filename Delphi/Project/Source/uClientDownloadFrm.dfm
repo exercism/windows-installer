@@ -854,6 +854,7 @@ object frmDownload: TfrmDownload
     Width = 75
     Height = 25
     Caption = '&Cancel'
+    Enabled = False
     TabOrder = 1
     OnClick = btnCancelClick
   end
@@ -884,6 +885,16 @@ object frmDownload: TfrmDownload
     Width = 597
     Height = 21
     TabOrder = 4
+  end
+  object btnStopDownload: TButton
+    Left = 271
+    Top = 300
+    Width = 97
+    Height = 25
+    Cancel = True
+    Caption = '&Stop Download'
+    TabOrder = 5
+    OnClick = btnStopDownloadClick
   end
   object tmrDownload: TTimer
     Interval = 500

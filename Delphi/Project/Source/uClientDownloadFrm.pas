@@ -41,6 +41,7 @@ type
     FDMemTable1: TFDMemTable;
     tmrInstall: TTimer;
     Image1: TImage;
+    btnStopDownload: TButton;
     procedure btnCancelClick(Sender: TObject);
     procedure btnNextClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -48,6 +49,7 @@ type
     procedure ReceiveDataEvent(const Sender: TObject; AContentLength: Int64; AReadCount: Int64; var Abort: Boolean);
     procedure FormDestroy(Sender: TObject);
     procedure tmrInstallTimer(Sender: TObject);
+    procedure btnStopDownloadClick(Sender: TObject);
   private
     { Private declarations }
     InstallInfo : TInstallInfo;
@@ -121,6 +123,11 @@ begin
   Close;
 end;
 
+procedure TfrmDownload.btnStopDownloadClick(Sender: TObject);
+begin
+  btnStopDownload.Enabled := false
+end;
+
 procedure TfrmDownload.FormCreate(Sender: TObject);
 begin
   FClient := THTTPClient.Create;
@@ -131,9 +138,9 @@ end;
 
 procedure TfrmDownload.FormDestroy(Sender: TObject);
 begin
-  FAsyncResponse := nil;
-  FDownloadStream.Free;
   FClient.Free;
+  FDownloadStream.Free;
+  FAsyncResponse := nil;
 end;
 
 function TfrmDownload.DetermineArchitecture(var aStatus: TResultStatus): Boolean;
@@ -291,17 +298,23 @@ begin
   begin
     mStatus.Lines.Add('');
     mStatus.Lines.Add('Click [Next] to configure the CLI');
+    ActiveControl := btnNext;
   end
 end;
 
 procedure TfrmDownload.ReceiveDataEvent(const Sender: TObject; AContentLength, AReadCount: Int64;
   var Abort: Boolean);
+var
+  lCancel: Boolean;
 begin
+  lCancel := Abort;
   TThread.Queue(nil,
     procedure
     begin
+      lCancel := not btnStopDownload.Enabled;
       ProgressBarDownload.Position := AReadCount;
     end);
+  Abort := lCancel;
 end;
 
 procedure TfrmDownload.DoEndDownload(const AsyncResult: IAsyncResult);
@@ -313,11 +326,13 @@ begin
       begin
         mStatus.Lines.Add('Download Finished!');
         mStatus.Lines.Add(Format('Status: %d - %s', [FHTTPResponse.StatusCode, FHTTPResponse.StatusText]));
-        tmrInstall.Enabled := true;
+        btnCancel.Enabled := true;
+        tmrInstall.Enabled := btnStopDownload.Enabled;
       end);
   finally
     FDownloadStream.Free;
     FDownloadStream := nil;
+    btnStopDownload.Enabled := false;
   end;
 end;
 
