@@ -251,8 +251,6 @@ paket-files/
 .idea/
 *.sln.iml
 
-*.tvsconfig
-
 *.local
 
 *.identcache
@@ -260,3 +258,7 @@ paket-files/
 *.stat
 
 *.res
+
+*.tvsconfig
+
+*.vlb
