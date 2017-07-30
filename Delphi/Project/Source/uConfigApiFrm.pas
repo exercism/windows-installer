@@ -90,13 +90,32 @@ begin
 end;
 
 procedure TfrmConfigAPI.btnConfigureClick(Sender: TObject);
+
+  procedure MakeBat;
+  var
+    lBatFile: TStringlist;
+    lCommandLine: string;
+  begin
+    lBatFile := TStringlist.Create;
+    lBatFile.Add('@echo off');
+    lBatFile.Add(format('cd %s',[InstallInfo.Path]));
+    lCommandLine := format('%s %s --key=%s --dir="%s"',
+      ['exercism.exe', 'configure', fldAPI.Text, fldSolutionLocation.Text]);
+    lBatFile.Add(lCommandLine);
+    lBatFile.Add('exit');
+    lBatFile.SaveToFile(TPath.Combine(InstallInfo.Path,'config.bat'));
+    lBatFile.DisposeOf;
+  end;
+
 var
   lCommandLine: string;
 begin
+  MakeBat;
   btnConfigure.Enabled := false;
   DosCommand1.CurrentDir := InstallInfo.Path;
-  lCommandLine := format('%s %s --key=%s --dir="%s"',
-    ['exercism.exe', 'configure', fldAPI.Text, fldSolutionLocation.Text]);
+//  lCommandLine := format('%s %s --key=%s --dir="%s"',
+//    ['exercism.exe', 'configure', fldAPI.Text, fldSolutionLocation.Text]);
+  lCommandLine := TPath.Combine(InstallInfo.Path,'config.bat');
   DosCommand1.CommandLine := lCommandLine;
   DosCommand1.Execute;
 end;
@@ -105,6 +124,7 @@ procedure TfrmConfigAPI.DosCommand1Terminated(Sender: TObject);
 begin
   mConfigure.Lines := DosCommand1.Lines;
   btnFinish.Enabled := true;
+  Deletefile(TPath.Combine(InstallInfo.Path,'config.bat'));
 end;
 
 procedure TfrmConfigAPI.fldChanging(Sender: TObject);
