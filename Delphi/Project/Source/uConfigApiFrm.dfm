@@ -18,14 +18,13 @@ object frmConfigAPI: TfrmConfigAPI
   PixelsPerInch = 96
   TextHeight = 13
   object Label3: TLabel
-    Left = 64
-    Top = 116
-    Width = 433
-    Height = 32
+    Left = 8
+    Top = 73
+    Width = 295
+    Height = 48
     Caption = 
-      'The CLI requires the API Key that Exercism assigned you when you' +
-      ' created your account.  Please enter your key into the field bel' +
-      'ow.'
+      'The CLI requires the API Key that was assigned when you created ' +
+      'your account.  Please enter your key into the field below.'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -35,8 +34,8 @@ object frmConfigAPI: TfrmConfigAPI
     WordWrap = True
   end
   object OvcURL1: TOvcURL
-    Left = 64
-    Top = 224
+    Left = 200
+    Top = 182
     Width = 216
     Height = 16
     Hint = 'http://exercism.io/account/key'
@@ -52,11 +51,48 @@ object frmConfigAPI: TfrmConfigAPI
     ShowHint = True
   end
   object Label4: TLabel
-    Left = 64
-    Top = 160
+    Left = 11
+    Top = 127
     Width = 42
     Height = 13
     Caption = 'API Key:'
+  end
+  object Label5: TLabel
+    Left = 323
+    Top = 127
+    Width = 85
+    Height = 13
+    Caption = 'Solution Location:'
+  end
+  object Label6: TLabel
+    Left = 323
+    Top = 73
+    Width = 269
+    Height = 48
+    Caption = 
+      'The CLI also needs to know where you plan to store your solution' +
+      's.  Please enter the location into the field below.'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    WordWrap = True
+  end
+  object fldSolutionLocation: TEdit
+    Left = 323
+    Top = 146
+    Width = 251
+    Height = 27
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 5
+    OnChange = fldChanging
   end
   object Panel1: TPanel
     Left = 0
@@ -84,9 +120,9 @@ object frmConfigAPI: TfrmConfigAPI
     object Label2: TLabel
       Left = 100
       Top = 33
-      Width = 150
+      Width = 293
       Height = 17
-      Caption = 'Provide API Key for CLI'
+      Caption = 'Provide API Key and Solution Location for CLI'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWhite
       Font.Height = -15
@@ -889,8 +925,8 @@ object frmConfigAPI: TfrmConfigAPI
     end
   end
   object btnFinish: TButton
-    Left = 509
-    Top = 300
+    Left = 552
+    Top = 291
     Width = 75
     Height = 25
     Caption = '&Finish'
@@ -899,9 +935,9 @@ object frmConfigAPI: TfrmConfigAPI
     OnClick = btnFinishClick
   end
   object fldAPI: TEdit
-    Left = 65
-    Top = 179
-    Width = 509
+    Left = 12
+    Top = 146
+    Width = 305
     Height = 27
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -910,6 +946,46 @@ object frmConfigAPI: TfrmConfigAPI
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    OnChange = fldAPIChange
+    OnChange = fldChanging
+  end
+  object btnConfigure: TButton
+    Left = 11
+    Top = 179
+    Width = 75
+    Height = 25
+    Caption = 'Configure'
+    Enabled = False
+    TabOrder = 3
+    OnClick = btnConfigureClick
+  end
+  object mConfigure: TMemo
+    Left = 8
+    Top = 210
+    Width = 529
+    Height = 118
+    ScrollBars = ssBoth
+    TabOrder = 4
+  end
+  object btnBrowse: TButton
+    Left = 577
+    Top = 147
+    Width = 51
+    Height = 25
+    Caption = '&Browse'
+    TabOrder = 6
+    OnClick = btnBrowseClick
+  end
+  object DosCommand1: TDosCommand
+    InputToOutput = True
+    MaxTimeAfterBeginning = 0
+    MaxTimeAfterLastOutput = 0
+    OnTerminated = DosCommand1Terminated
+    Left = 296
+    Top = 96
+  end
+  object RzSelectFolderDialog1: TRzSelectFolderDialog
+    Options = [sfdoContextMenus, sfdoCreateFolderIcon, sfdoDeleteFolderIcon]
+    Left = 452
+    Top = 112
   end
 end
