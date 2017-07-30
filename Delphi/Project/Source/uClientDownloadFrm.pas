@@ -327,12 +327,12 @@ begin
       begin
         mStatus.Lines.Add('Download Finished!');
         mStatus.Lines.Add(Format('Status: %d - %s', [FHTTPResponse.StatusCode, FHTTPResponse.StatusText]));
-        btnCancel.Enabled := true;
-        tmrInstall.Enabled := btnStopDownload.Enabled;
       end);
   finally
     FDownloadStream.Free;
     FDownloadStream := nil;
+    btnCancel.Enabled := true;
+    tmrInstall.Enabled := btnStopDownload.Enabled;
     btnStopDownload.Enabled := false;
   end;
 end;
