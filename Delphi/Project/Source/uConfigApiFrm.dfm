@@ -963,6 +963,7 @@ object frmConfigAPI: TfrmConfigAPI
     Top = 210
     Width = 529
     Height = 118
+    ReadOnly = True
     ScrollBars = ssBoth
     TabOrder = 4
   end
