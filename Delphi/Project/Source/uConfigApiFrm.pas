@@ -98,7 +98,7 @@ procedure TfrmConfigAPI.btnConfigureClick(Sender: TObject);
   begin
     lBatFile := TStringlist.Create;
     lBatFile.Add('@echo off');
-    lBatFile.Add(format('cd %s',[InstallInfo.Path]));
+    lBatFile.Add(format('cd "%s"',[InstallInfo.Path]));
     lCommandLine := format('%s %s --key=%s --dir="%s"',
       ['exercism.exe', 'configure', fldAPI.Text, fldSolutionLocation.Text]);
     lBatFile.Add(lCommandLine);
