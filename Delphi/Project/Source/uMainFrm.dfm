@@ -883,8 +883,8 @@ object frmMain: TfrmMain
       Caption = 'Setup Design:'
     end
     object Label8: TLabel
-      Left = 246
-      Top = 46
+      Left = 266
+      Top = 7
       Width = 287
       Height = 19
       Caption = 'Welcome to Exercism.io!  Happy Coding!'
@@ -973,6 +973,15 @@ object frmMain: TfrmMain
       Width = 239
       Height = 13
       Caption = 'By clicking &Next you accept the license agreement'
+    end
+    object btnAbout: TButton
+      Left = 499
+      Top = 120
+      Width = 61
+      Height = 25
+      Caption = '&About'
+      TabOrder = 0
+      OnClick = btnAboutClick
     end
   end
   object rbAccept: TRadioButton
