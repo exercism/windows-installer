@@ -7,7 +7,8 @@ uses
   uClientDownloadFrm in 'Source\uClientDownloadFrm.pas' {frmDownload},
   uConfigApiFrm in 'Source\uConfigApiFrm.pas' {frmConfigAPI},
   uTypes in 'Source\uTypes.pas',
-  uUpdatePath in 'Source\uUpdatePath.pas';
+  uUpdatePath in 'Source\uUpdatePath.pas',
+  uBuiltWithFrm in 'Source\uBuiltWithFrm.pas' {frmBuiltWith};
 
 {$R *.res}
 

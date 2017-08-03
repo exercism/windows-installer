@@ -28,11 +28,13 @@ type
     OvcURL3: TOvcURL;
     OvcURL4: TOvcURL;
     Label3: TLabel;
+    btnAbout: TButton;
     procedure rbAcceptClick(Sender: TObject);
     procedure rbDontAcceptClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure btnNextClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnAboutClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -44,7 +46,7 @@ type
   function ShowMainForm: TResultStatus;
 
 implementation
-
+uses uBuiltWithFrm;
 {$R *.dfm}
 
 var
@@ -62,6 +64,11 @@ begin
   finally
     thisForm.DisposeOf;
   end;
+end;
+
+procedure TfrmMain.btnAboutClick(Sender: TObject);
+begin
+  ShowAbout;
 end;
 
 procedure TfrmMain.btnCancelClick(Sender: TObject);
