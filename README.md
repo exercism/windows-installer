@@ -6,8 +6,6 @@ All Rights Reserved
 
 Exercism Repository -> https://github.com/exercism/exercism.io
 
-[![Build status](https://ci.appveyor.com/api/projects/status/6b5cka3nm3r4vh8d?svg=true)](https://ci.appveyor.com/project/exercism/windows-installer)
-
 # System Requirements  
   *Supported Operating Systems* = Windows Vista, Windows 7, Windows 8/8.1 , Windows 10  
   *Architecture* = 32bit / 64bit  
