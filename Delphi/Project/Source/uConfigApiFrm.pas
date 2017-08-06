@@ -5,8 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, ovcurl,
-  uTypes, Vcl.Imaging.pngimage, uSynEditHighlighter, uSynHighlighterRuby,
-  DosCommand, RzShellDialogs;
+  uTypes, Vcl.Imaging.pngimage, DosCommand, RzShellDialogs;
 
 type
   TfrmConfigAPI = class(TForm)
