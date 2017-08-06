@@ -10,7 +10,7 @@ uses
   FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   REST.Response.Adapter, REST.Client, Data.Bind.Components,
   Data.Bind.ObjectScope, System.Types, System.Net.HttpClient, System.UITypes,
-  Vcl.Imaging.pngimage;
+  Vcl.Imaging.pngimage, ovcurl;
 
 type
   Tos = class
@@ -30,7 +30,6 @@ type
     Label1: TLabel;
     Label2: TLabel;
     btnCancel: TButton;
-    btnNext: TButton;
     mStatus: TMemo;
     ProgressBarDownload: TProgressBar;
     tmrDownload: TTimer;
@@ -42,14 +41,17 @@ type
     tmrInstall: TTimer;
     Image1: TImage;
     btnStopDownload: TButton;
+    Label4: TLabel;
+    btnFinish: TButton;
+    urlDocs: TOvcURL;
     procedure btnCancelClick(Sender: TObject);
-    procedure btnNextClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure tmrDownloadTimer(Sender: TObject);
     procedure ReceiveDataEvent(const Sender: TObject; AContentLength: Int64; AReadCount: Int64; var Abort: Boolean);
     procedure FormDestroy(Sender: TObject);
     procedure tmrInstallTimer(Sender: TObject);
     procedure btnStopDownloadClick(Sender: TObject);
+    procedure btnFinishClick(Sender: TObject);
   private
     { Private declarations }
     InstallInfo : TInstallInfo;
@@ -67,6 +69,7 @@ type
   public
     { Public declarations }
     NextClicked: Boolean;
+    FinishClicked: Boolean;
   end;
 
   function ShowClientDownloadForm(const aInstallInfo: TInstallInfo): TResultStatus;
@@ -105,6 +108,9 @@ begin
     try
       InstallInfo := aInstallInfo;
       ShowModal;
+      if FinishClicked then
+        result := rsFinished
+      else
       if NextClicked then
         result := rsNext;
     finally
@@ -117,10 +123,10 @@ begin
   Close;
 end;
 
-procedure TfrmDownload.btnNextClick(Sender: TObject);
+procedure TfrmDownload.btnFinishClick(Sender: TObject);
 begin
-  NextClicked := true;
-  Close;
+  FinishClicked := true;
+  close;
 end;
 
 procedure TfrmDownload.btnStopDownloadClick(Sender: TObject);
@@ -133,6 +139,7 @@ begin
   FClient := THTTPClient.Create;
   FClient.OnReceiveData := ReceiveDataEvent;
   NextClicked := false;
+  FinishClicked := false;
   SetWindowLong(Handle, GWL_EXSTYLE, WS_EX_APPWINDOW);
 end;
 
@@ -294,12 +301,15 @@ begin
       rsFinished: lLoopStatus := rsDone;
     end;//cased
   until lLoopStatus = rsDone;
-  btnNext.Enabled := lStatus = rsFinished;
-  if btnNext.Enabled then
+  btnFinish.Enabled := lStatus = rsFinished;
+  if btnFinish.Enabled then
   begin
     mStatus.Lines.Add('');
-    mStatus.Lines.Add('Click [Next] to configure the CLI');
-    ActiveControl := btnNext;
+    mStatus.Lines.Add('Installation Complete!');
+    mStatus.Lines.Add('Invoke the CLI from the command-line by calling exercism.exe');
+    mStatus.Lines.Add('Click [Finish] to exit the installer.');
+    ActiveControl := btnFinish;
+    urlDocs.Visible := true;
   end
 end;
 

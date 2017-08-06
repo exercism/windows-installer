@@ -18,6 +18,13 @@ object frmDownload: TfrmDownload
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
+  object Label4: TLabel
+    Left = 16
+    Top = 311
+    Width = 149
+    Height = 13
+    Caption = '-------   Built with Delphi   -------'
+  end
   object Panel1: TPanel
     Left = 0
     Top = 0
@@ -847,27 +854,34 @@ object frmDownload: TfrmDownload
       Stretch = True
       Transparent = True
     end
+    object urlDocs: TOvcURL
+      Left = 404
+      Top = 32
+      Width = 125
+      Height = 18
+      Hint = 'https://github.com/exercism/docs'
+      Caption = 'CLI Documentation'
+      URL = 'https://github.com/exercism/docs'
+      UseVisitedColor = True
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -15
+      Font.Name = 'Tahoma'
+      Font.Style = [fsUnderline]
+      ParentFont = False
+      Transparent = True
+      Visible = False
+    end
   end
   object btnCancel: TButton
     Left = 421
-    Top = 300
+    Top = 299
     Width = 75
     Height = 25
     Caption = '&Cancel'
     Enabled = False
     TabOrder = 1
     OnClick = btnCancelClick
-  end
-  object btnNext: TButton
-    Left = 509
-    Top = 300
-    Width = 75
-    Height = 25
-    Caption = '&Next >'
-    Default = True
-    Enabled = False
-    TabOrder = 2
-    OnClick = btnNextClick
   end
   object mStatus: TMemo
     Left = 8
@@ -877,14 +891,14 @@ object frmDownload: TfrmDownload
     Color = clBtnFace
     ReadOnly = True
     ScrollBars = ssVertical
-    TabOrder = 3
+    TabOrder = 2
   end
   object ProgressBarDownload: TProgressBar
     Left = 21
     Top = 268
     Width = 597
     Height = 21
-    TabOrder = 4
+    TabOrder = 3
   end
   object btnStopDownload: TButton
     Left = 271
@@ -893,8 +907,18 @@ object frmDownload: TfrmDownload
     Height = 25
     Cancel = True
     Caption = '&Stop Download'
-    TabOrder = 5
+    TabOrder = 4
     OnClick = btnStopDownloadClick
+  end
+  object btnFinish: TButton
+    Left = 512
+    Top = 299
+    Width = 75
+    Height = 25
+    Caption = '&Finish'
+    Enabled = False
+    TabOrder = 5
+    OnClick = btnFinishClick
   end
   object tmrDownload: TTimer
     Interval = 500
@@ -949,6 +973,6 @@ object frmDownload: TfrmDownload
     Interval = 500
     OnTimer = tmrInstallTimer
     Left = 120
-    Top = 268
+    Top = 272
   end
 end
