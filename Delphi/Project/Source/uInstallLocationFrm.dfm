@@ -33,6 +33,43 @@ object frmInstallLocation: TfrmInstallLocation
     Font.Style = []
     ParentFont = False
   end
+  object Label4: TLabel
+    Left = 16
+    Top = 311
+    Width = 149
+    Height = 13
+    Caption = '-------   Built with Delphi   -------'
+  end
+  object Label5: TLabel
+    Left = 160
+    Top = 193
+    Width = 149
+    Height = 13
+    Caption = 'By clicking &Next you accept the'
+    Transparent = True
+  end
+  object OvcURL4: TOvcURL
+    Left = 311
+    Top = 193
+    Width = 91
+    Height = 13
+    Hint = 
+      'https://github.com/exercism/windows-installer/blob/master/LICENS' +
+      'E'
+    Caption = 'License Agreement'
+    URL = 
+      'https://github.com/exercism/windows-installer/blob/master/LICENS' +
+      'E'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsUnderline]
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    Transparent = True
+  end
   object Panel1: TPanel
     Left = 0
     Top = 0
