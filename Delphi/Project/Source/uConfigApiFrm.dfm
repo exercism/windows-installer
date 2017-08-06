@@ -53,16 +53,16 @@ object frmConfigAPI: TfrmConfigAPI
   object Label4: TLabel
     Left = 11
     Top = 127
-    Width = 42
+    Width = 53
     Height = 13
-    Caption = 'API Key:'
+    Caption = 'API Token:'
   end
   object Label5: TLabel
     Left = 323
     Top = 127
-    Width = 85
+    Width = 57
     Height = 13
-    Caption = 'Solution Location:'
+    Caption = 'Workspace:'
   end
   object Label6: TLabel
     Left = 323
@@ -120,9 +120,9 @@ object frmConfigAPI: TfrmConfigAPI
     object Label2: TLabel
       Left = 100
       Top = 33
-      Width = 293
+      Width = 270
       Height = 17
-      Caption = 'Provide API Key and Solution Location for CLI'
+      Caption = 'Provide API Token and Workspace for CLI'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWhite
       Font.Height = -15
