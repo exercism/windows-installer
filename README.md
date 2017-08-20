@@ -1,15 +1,14 @@
-# ExercismWinSetup
+# Installer for the Exercism Windows Command-Line Client
 A project to download and install the latest version of Exercism Client for Windows depending on the architecture.
 
-Exercism is licensed under MIT License. Copyright (c) 2013 Mike Gehard, Katrina Owen
+© Copyright 2017 Exercism, Inc.  
+All Rights Reserved  
 
 Exercism Repository -> https://github.com/exercism/exercism.io
 
-[![Build status](https://ci.appveyor.com/api/projects/status/6b5cka3nm3r4vh8d?svg=true)](https://ci.appveyor.com/project/blueelvis/windows-installer)
-
-#System Requirements  
-  *Operating System* = Windows Vista, Windows 7, Windows 8/8.1 , Windows 10  
-  *Architecture* = 32bit / 64bit both are supported  
+# System Requirements  
+  *Supported Operating Systems* = Windows Vista, Windows 7, Windows 8/8.1 , Windows 10  
+  *Architecture* = 32bit / 64bit  
   *Internet Connection* = Required to fetch the latest Exercism Binary  
   *Hard Disk* = 10MB for Client, 1KB for Configuration and some additional space to store the fetched exercises.  
     
@@ -17,19 +16,35 @@ Exercism Repository -> https://github.com/exercism/exercism.io
     
 
 
-#Step-By-Step Install Procedure =  
- 1. This is the License Agreement form. Accept the agreement to proceed ahead. ![License Agreement](https://github.com/blueelvis/ExercismWinSetup/raw/master/Resources/License%20Agreement.png "License Agreement Form")
- 2. Once you accept the agreement, you are presented with the below screen. Browse or type the location of the folder where you would like to install Exercism. ![Install Location](https://github.com/blueelvis/ExercismWinSetup/raw/master/Resources/Install%20Location.png "Install Location Form")
- 3. After this, there might be a pause. Don't worry everything is working fine and you would soon be presented with the below screen where the Setup downloads the latest version of Exercism CLI from it's Github Repository - ![Client Download Form](https://github.com/blueelvis/ExercismWinSetup/raw/master/Resources/Client%20Download.png "Client Download Form")
- 4. The final step is to enter the Exercism API key which allows you to fetch, keep track of exercises, submit solution etc - ![Configure API Form](https://github.com/blueelvis/ExercismWinSetup/raw/master/Resources/Configure%20API.png "Configure API Form")
- 5. That's it. Click `Finish` and you are done :0)
+# Step-By-Step Install Procedure    
+## Install Location  
+ ![Install Location](img/installLocation.png)  
+ `Browse` or type the location of the folder where you would like to install the Exercism CLI.  Click the `Next` button when ready to proceed.  
+ 
+ You may use the `Browse` button to locate the folder in which to install the CLI.  
+ ![browse](img/browse.png)  
+Click the `Ok` button to accept your folder selection.
+
+## Download and Install  
+ ![Client Download Form](img/install.png)  
+ At this point the installer will proceed to download the latest version of the CLI for your OS architecture from the GitHub Repo for the Exercism CLI.  The downloaded ZIP file will automatically be unzipped into the folder you previously selected.  
+ ![download success](img/installFinish.png)  
+ Click the `Next` button once the process completes successfully.  
+ 
+## Configure CLI  
+ ![Configure api token](img/configure.png)  
+ The final step is to enter the Exercism api token which allows you to fetch, keep track of exercises, submit solutions etc.  This token is assigned to you when you initially sign up with Exercism.  Use the `I don't have or don't know my token` link to retrieve your token as needed.  
+ Once you have input your token click the `Configure` button.  This will invoke the Exercism CLI which will be passed the token you just provided.  The output of the CLI will appear in the box at the bottom of the screen (I have blocked out my information).  
+ ![finished](img/configureFinish.png)
+ 
+## Finished  
+That's it. Click `Finish` and you are done!
    
   
   
 Have fun with the exercises and keep learning!
 
 
-#Contributing to Project
-* In case you find any bugs or have feature requests or improvements, please feel free to open an Issue in the Issue Tracker.
-* If you can enhance the code or teach me things, please be my guest :)
-* I would request anyone to help me write Unit Tests for this particular project as I am new to Test Driven Development but would really like to implement the tests in this project :)
+## Contributing
+
+If you want to help improve the installer, check out the [Contributing guide](CONTRIBUTING.md).
