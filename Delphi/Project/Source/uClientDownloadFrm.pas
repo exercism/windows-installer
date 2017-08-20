@@ -1,3 +1,4 @@
+{_define V3Test}
 unit uClientDownloadFrm;
 
 interface
@@ -25,6 +26,14 @@ type
     property DownloadSize: Int64 read GetDownloadsize;
   end;
 
+  IDownloadVer = interface(IInvokable)
+  ['{40673B5E-DBD8-4F14-ABC6-3851E720DC4D}']
+    function GetMajorVersion: integer;
+    function GetTagName: string;
+    property MajorVersion: integer read GetMajorVersion;
+    property Tag_Name: string read GetTagName;
+  end;
+
   TfrmDownload = class(TForm)
     Panel1: TPanel;
     Label1: TLabel;
@@ -36,14 +45,16 @@ type
     RESTClient1: TRESTClient;
     RESTRequest1: TRESTRequest;
     RESTResponse1: TRESTResponse;
-    RESTResponseDataSetAdapter1: TRESTResponseDataSetAdapter;
-    FDMemTable1: TFDMemTable;
+    Assets: TRESTResponseDataSetAdapter;
+    tableAssets: TFDMemTable;
     tmrInstall: TTimer;
-    Image1: TImage;
     btnStopDownload: TButton;
     Label4: TLabel;
     btnFinish: TButton;
     urlDocs: TOvcURL;
+    Root: TRESTResponseDataSetAdapter;
+    tableRoot: TFDMemTable;
+    Image1: TImage;
     procedure btnCancelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure tmrDownloadTimer(Sender: TObject);
@@ -60,8 +71,11 @@ type
     FAsyncResponse: IAsyncResult;
     FDownloadStream: TStream;
     FHTTPResponse: IHTTPResponse;
+    DownloadVer: IDownloadVer;
     procedure DoEndDownload(const AsyncResult: IAsyncResult);
     function DetermineArchitecture(var aStatus: TResultStatus): Boolean;
+    procedure FetchRESTRequest(var aStatus: TResultStatus);
+    function FetchDownloadVersion(var aStatus: TResultStatus): IDownloadVer;
     function FetchDownloadURL(const aIs32BitWindows: Boolean; var aStatus: TResultStatus): IDownloadURL;
     procedure Download_CLI_ZIP(aDownloadURL: IDownloadURL; var aStatus: TResultStatus);
     procedure Unzip_CLI(var aStatus: TResultStatus);
@@ -73,12 +87,27 @@ type
   end;
 
   function ShowClientDownloadForm(const aInstallInfo: TInstallInfo): TResultStatus;
-  function NewDownloadURL(a32Bit: boolean; aRESTRequest: TRESTRequest; aFDMemTable: TFDMemTable): IDownloadURL;
+  function NewDownloadURL(a32Bit: boolean; aFDMemTable: TFDMemTable): IDownloadURL;
+  function NewDownloadVer(aFDMemTable: TFDMemTable): IDownloadVer;
 
 implementation
 uses System.IOUtils, System.Zip, uUpdatePath;
 {$R *.dfm}
 type
+  TDownloadVer = class(TInterfacedObject, IDownloadVer)
+  private
+    FVersion: TArray<integer>;
+    Ftag_name: string;
+    function GetTagName: string;
+    function GetMajorVersion: integer;
+    function cleanVersion(const aInput: string): TArray<integer>;
+  public
+    constructor create(aFDMEMTable: TFDMemTable);
+    property MajorVersion: integer read GetMajorVersion;
+    property Tag_Name: string read GetTagName;
+  end;
+
+
   TDownloadURL = class(TInterfacedObject, IDownloadURL)
   private
     FUrl: string;
@@ -86,14 +115,19 @@ type
     function GetUrl: string;
     function GetDownloadSize: Int64;
   public
-    constructor create(a32Bit: boolean; aRESTRequest: TRESTRequest; aFDMemTable: TFDMemTable);
+    constructor create(a32Bit: boolean; aFDMemTable: TFDMemTable);
     property Url: string read GetUrl;
     property DownloadSize: Int64 read GetDownloadsize;
   end;
 
-function NewDownloadURL(a32Bit: boolean; aRESTRequest: TRESTRequest; aFDMemTable: TFDMemTable): IDownloadURL;
+function NewDownloadURL(a32Bit: boolean; aFDMemTable: TFDMemTable): IDownloadURL;
 begin
-  result := TDownloadURL.create(a32Bit, aRESTRequest, aFDMemTable);
+  result := TDownloadURL.create(a32Bit, aFDMemTable);
+end;
+
+function NewDownloadVer(aFDMemTable: TFDMemTable): IDownloadVer;
+begin
+  result := TDownloadVer.create(aFDMemTable);
 end;
 
 class function Tos.Is32BitWindows: Boolean;
@@ -125,7 +159,8 @@ end;
 
 procedure TfrmDownload.btnFinishClick(Sender: TObject);
 begin
-  FinishClicked := true;
+  FinishClicked := btnFinish.Tag = 1;
+  NextClicked := btnFinish.Tag = 0;
   close;
 end;
 
@@ -161,11 +196,52 @@ begin
   aStatus := rsNext;
 end;
 
+procedure TfrmDownload.FetchRESTRequest(var aStatus: TResultStatus);
+begin
+  aStatus := rsCancel;
+  RESTRequest1.Execute;
+  if RESTResponse1.StatusCode = 200 then
+    aStatus := rsNext
+  else
+  begin
+    mStatus.Lines.Add('Failed to establish connection');
+    if MessageDlg('Failed to establish connection.  Confirm internet connection then Retry or Cancel.',
+                   mtError, [mbRetry, mbCancel], 0) = mrRetry then
+    begin
+      aStatus := rsRepeat;
+      mStatus.Lines.Add('');
+    end;
+  end;
+end;
+
+function TfrmDownload.FetchDownloadVersion(var aStatus: TResultStatus): IDownloadVer;
+begin
+  aStatus := rsCancel;
+  mStatus.Lines.Add('Fetching Version Info.');
+  result := NewDownloadVer(tableRoot);
+  if not result.Tag_Name.IsEmpty then
+  begin
+    mStatus.Lines.Add('Successfully retrieved Version Info');
+    aStatus := rsNext;
+  end
+  else
+  begin
+    result := nil;
+    mStatus.Lines.Add('Failed to retrieve Version Info');
+    if MessageDlg('Unable to retrieve Version Info.  Confirm internet connection then Retry or Cancel.',
+                   mtError, [mbRetry, mbCancel], 0) = mrRetry then
+    begin
+      aStatus := rsRepeat;
+      mStatus.Lines.Add('');
+    end;
+  end;
+end;
+
 function TfrmDownload.FetchDownloadURL(const aIs32BitWindows: Boolean; var aStatus: TResultStatus): IDownloadURL;
 begin
   aStatus := rsCancel;
   mStatus.Lines.Add('Fetching URL for latest CLI version.');
-  result := NewDownloadURL(aIs32BitWindows, RESTRequest1, FDMemTable1);
+  result := NewDownloadURL(aIs32BitWindows, tableAssets);
   if result.Url <> '' then
   begin
     mStatus.Lines.Add('Successfully retrieved URL');
@@ -220,21 +296,16 @@ end;
 
 procedure TfrmDownload.Unzip_CLI(var aStatus: TResultStatus);
 var
-//  UnZipper: TZipFile;
   lFilename: string;
 begin
   aStatus := rsCancel;
   mStatus.Lines.Add(format('Unzipping CLI to %s',[InstallInfo.Path]));
-//  UnZipper := TZipFile.Create;
   try
     lFilename := TPath.Combine(InstallInfo.Path,'exercism.zip');
-//    UnZipper.Open(lFilename, zmRead);
-//    Unzipper.ExtractAll(TPath.Combine(InstallInfo.Path,''));
     TZipFile.ExtractZipFile(lFilename, TPath.Combine(InstallInfo.Path,''));
     aStatus := rsNext;
     mStatus.Lines.Add('CLI Extraction Successful');
   finally
-//    Unzipper.DisposeOf;
     if FileExists(lFilename) then
       DeleteFile(lFilename);
   end;
@@ -246,7 +317,7 @@ begin
   if TUpdatePath.AddToPath(InstallInfo.Path) then
   begin
     mStatus.Lines.Add(format('Folder "%s" added to Path.',[InstallInfo.Path]));
-    aStatus := rsFinished;
+    aStatus := rsNext;
   end
   else
     mStatus.Lines.Add(format('Folder "%s" NOT added to Path.',[InstallInfo.Path]));
@@ -267,8 +338,10 @@ begin
   repeat
     case i of
       0: lIs32BitWindows := DetermineArchitecture(lStatus);
-      1: lDownloadURL := FetchDownloadURL(lIs32BitWindows, lStatus);
-      2: Download_CLI_ZIP(lDownloadURL, lStatus);
+      1: FetchRESTRequest(lStatus);
+      2: DownloadVer := FetchDownloadVersion(lStatus);
+      3: lDownloadURL := FetchDownloadURL(lIs32BitWindows, lStatus);
+      4: Download_CLI_ZIP(lDownloadURL, lStatus);
     end;//case
 
     case lStatus of
@@ -284,8 +357,10 @@ var
   i: integer;
   lLoopStatus,
   lStatus: TResultStatus;
+  lIsV3CLI: boolean;
 begin
   tmrInstall.Enabled := false;
+  lIsV3CLI := false;
   i := 0;
   lLoopStatus := rsContinue;
   lStatus := rsCancel;
@@ -293,6 +368,10 @@ begin
     case i of
       0: Unzip_CLI(lStatus);
       1: Update_PATH(lStatus);
+      2: begin
+           lIsV3CLI := DownloadVer.MajorVersion >= 3;
+           lStatus := rsFinished;
+         end;
     end;//case
 
     case lStatus of
@@ -301,16 +380,28 @@ begin
       rsFinished: lLoopStatus := rsDone;
     end;//cased
   until lLoopStatus = rsDone;
-  btnFinish.Enabled := lStatus = rsFinished;
+  btnFinish.Enabled := (lStatus = rsFinished);
+  btnFinish.Tag := lIsV3CLI.ToInteger;
   if btnFinish.Enabled then
   begin
-    mStatus.Lines.Add('');
-    mStatus.Lines.Add('Installation Complete!');
-    mStatus.Lines.Add('Invoke the CLI from the command-line by calling exercism.exe');
-    mStatus.Lines.Add('Click [Finish] to exit the installer.');
-    ActiveControl := btnFinish;
-    urlDocs.Visible := true;
-  end
+    if lIsV3CLI then
+    begin
+      mStatus.Lines.Add('');
+      mStatus.Lines.Add('Installation Complete!');
+      mStatus.Lines.Add('Invoke the CLI from the command-line by calling exercism.exe');
+      mStatus.Lines.Add('Click [Finish] to exit the installer.');
+      ActiveControl := btnFinish;
+      urlDocs.Visible := true;
+    end
+    else
+    begin
+      btnFinish.Caption := '&Next';
+      mStatus.Lines.Add('');
+      mStatus.Lines.Add('Installation Complete!');
+      mStatus.Lines.Add('Click [Next] to proceed with configuring the CLI.');
+      ActiveControl := btnFinish;
+    end;
+  end;
 end;
 
 procedure TfrmDownload.ReceiveDataEvent(const Sender: TObject; AContentLength, AReadCount: Int64;
@@ -349,8 +440,7 @@ end;
 
 { TDownloadURL }
 
-constructor TDownloadURL.create(a32Bit: boolean; aRESTRequest: TRESTRequest;
-  aFDMemTable: TFDMemTable);
+constructor TDownloadURL.create(a32Bit: boolean; aFDMemTable: TFDMemTable);
 var
   IsFound: boolean;
   nameField: TField;
@@ -363,7 +453,6 @@ begin
     lTarget := 'windows-32bit'
   else
     lTarget := 'windows-64bit';
-  aRESTRequest.Execute;
   if aFDMemTable.FindFirst then
   begin
     IsFound := false;
@@ -396,6 +485,55 @@ end;
 function TDownloadURL.GetUrl: string;
 begin
   result := FUrl;
+end;
+
+{ TDownloadVer }
+
+function TDownloadVer.cleanVersion(const aInput: string): TArray<integer>;
+var cleaned: string;
+    cleanedSplit: TArray<string>;
+    i: integer;
+begin
+  cleaned := ainput.Trim(['v','V',' ']);
+  cleanedSplit := cleaned.Split(['.']);
+  SetLength(Result, length(cleanedSplit));
+  for i := 0 to High(Result) do
+    Result[i] := cleanedSplit[i].ToInteger;
+end;
+
+constructor TDownloadVer.create(aFDMEMTable: TFDMemTable);
+var
+  IsFound: boolean;
+  tag_name_Field: TField;
+  downloadSize,
+  browser_download_urlField: TField;
+begin
+  if aFDMemTable.FindFirst then
+  begin
+    IsFound := false;
+    repeat
+      tag_name_Field := aFDMemTable.FindField('tag_name');
+      if assigned(tag_name_Field) then
+      begin
+        IsFound := true;
+        FTag_Name := tag_name_Field.DisplayText;
+        FVersion := cleanVersion(FTag_Name);
+      end;
+    until IsFound or not aFDMemtable.FindNext;
+  end;
+end;
+
+function TDownloadVer.GetMajorVersion: integer;
+begin
+  result := FVersion[0];
+  {$ifdef V3Test}
+  result := 3;
+  {$endif}
+end;
+
+function TDownloadVer.GetTagName: string;
+begin
+  result := FTag_Name;
 end;
 
 end.

@@ -5,7 +5,8 @@ uses
   uInstallLocationFrm in 'Source\uInstallLocationFrm.pas' {frmInstallLocation},
   uClientDownloadFrm in 'Source\uClientDownloadFrm.pas' {frmDownload},
   uTypes in 'Source\uTypes.pas',
-  uUpdatePath in 'Source\uUpdatePath.pas';
+  uUpdatePath in 'Source\uUpdatePath.pas',
+  uConfigApiFrm in 'Source\uConfigApiFrm.pas' {frmConfigAPI};
 
 {$R *.res}
 
@@ -24,10 +25,9 @@ begin
   ResultStatus := rsCancel;
   repeat
     case i of
-//      0: ResultStatus := ShowMainForm;
       0: ResultStatus := ShowInstallLocationForm(InstallInfo);
       1: ResultStatus := ShowClientDownloadForm(InstallInfo);
-//      2: ResultStatus := ShowConfigAPIForm(InstallInfo);
+      2: ResultStatus := ShowConfigAPIForm(InstallInfo);
     end; //case
 
     case ResultStatus of

@@ -18,10 +18,10 @@ type
     Label3: TLabel;
     btnBrowse: TButton;
     RzSelectFolderDialog1: TRzSelectFolderDialog;
-    Image1: TImage;
     Label4: TLabel;
     Label5: TLabel;
     OvcURL4: TOvcURL;
+    Image1: TImage;
     procedure btnCancelClick(Sender: TObject);
     procedure btnNextClick(Sender: TObject);
     procedure btnBrowseClick(Sender: TObject);

@@ -17,7 +17,6 @@ type
     fldAPI: TEdit;
     OvcURL1: TOvcURL;
     Label4: TLabel;
-    Image1: TImage;
     btnConfigure: TButton;
     DosCommand1: TDosCommand;
     mConfigure: TMemo;
@@ -26,6 +25,7 @@ type
     btnBrowse: TButton;
     Label5: TLabel;
     Label6: TLabel;
+    Image1: TImage;
     procedure btnFinishClick(Sender: TObject);
     procedure fldChanging(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -62,21 +62,8 @@ end;
 
 
 procedure TfrmConfigAPI.btnFinishClick(Sender: TObject);
-//var
-//  lCommand: string;
 begin
-//  if trim(fldAPI.Text) <> '' then
-//  begin
-//    lCommand := TPath.Combine(InstallInfo.Path, 'exercism.exe');
-//    lCommand := lCommand + ' configure --key=' + fldAPI.Text;
-//    if ExecuteAndWait(lCommand) then
-//    begin
-//      lCommand := TPath.Combine(InstallInfo.Path, 'exercism.exe');
-//      lCommand := lCommand + ' configure --dir="' + TPath.Combine(InstallInfo.Path, '') + '"';
-//      ExecuteAndWait(lCommand);
-//    end;
     close;
-//  end;
 end;
 
 procedure TfrmConfigAPI.btnBrowseClick(Sender: TObject);
@@ -112,8 +99,6 @@ begin
   MakeBat;
   btnConfigure.Enabled := false;
   DosCommand1.CurrentDir := InstallInfo.Path;
-//  lCommandLine := format('%s %s --key=%s --dir="%s"',
-//    ['exercism.exe', 'configure', fldAPI.Text, fldSolutionLocation.Text]);
   lCommandLine := TPath.Combine(InstallInfo.Path,'config.bat');
   DosCommand1.CommandLine := lCommandLine;
   DosCommand1.Execute;
