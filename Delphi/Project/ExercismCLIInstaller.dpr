@@ -2,13 +2,11 @@ program ExercismCLIInstaller;
 
 uses
   Vcl.Forms,
-  uMainFrm in 'Source\uMainFrm.pas' {frmMain},
   uInstallLocationFrm in 'Source\uInstallLocationFrm.pas' {frmInstallLocation},
   uClientDownloadFrm in 'Source\uClientDownloadFrm.pas' {frmDownload},
-  uConfigApiFrm in 'Source\uConfigApiFrm.pas' {frmConfigAPI},
   uTypes in 'Source\uTypes.pas',
   uUpdatePath in 'Source\uUpdatePath.pas',
-  uBuiltWithFrm in 'Source\uBuiltWithFrm.pas' {frmBuiltWith};
+  uConfigApiFrm in 'Source\uConfigApiFrm.pas' {frmConfigAPI};
 
 {$R *.res}
 
@@ -27,10 +25,9 @@ begin
   ResultStatus := rsCancel;
   repeat
     case i of
-      0: ResultStatus := ShowMainForm;
-      1: ResultStatus := ShowInstallLocationForm(InstallInfo);
-      2: ResultStatus := ShowClientDownloadForm(InstallInfo);
-      3: ResultStatus := ShowConfigAPIForm(InstallInfo);
+      0: ResultStatus := ShowInstallLocationForm(InstallInfo);
+      1: ResultStatus := ShowClientDownloadForm(InstallInfo);
+      2: ResultStatus := ShowConfigAPIForm(InstallInfo);
     end; //case
 
     case ResultStatus of
