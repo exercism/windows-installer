@@ -33,7 +33,7 @@ Click the `Ok` button to accept your folder selection.
  
 ## Configure CLI  
  ![Configure api token](img/configure.png)  
- Finally, enter the Exercism `API Token` which allows you to fetch, keep track of exercises, submit solutions etc.  This token is assigned to you when you sign up with Exercism.  Use the `I don't have or don't know my API Token` link to retrieve your token as needed.  Also, enter your `Workspace` location, where you will be submitting solutions to exercises.  
+ Finally, enter the Exercism `API Token` which allows you to fetch, keep track of exercises, submit solutions etc.  This token is assigned to you when you sign up with Exercism.  Use the `I don't have or don't know my API Token` link to retrieve your token as needed.  Also, enter your `Workspace` location, from where you will be submitting solutions to exercises.  
  Once you have input your `token` and `workspace` information, click the `Configure` button.  This will invoke the Exercism CLI which will be passed the information you just provided.  The output of the CLI will appear in the box at the bottom of the screen.  
  ![finished](img/configureFinish.png)
  
