@@ -65,7 +65,7 @@ var
   folder: string;
 begin
   folder := fldLocation.Text;
-  if SelectDirectory('Select Install Location', '', Folder, [sdNewUI, sdNewFolder, sdShowEdit], Self) then
+  if SelectDirectory('Select Install Location', '', Folder, [sdNewUI, sdNewFolder], Self) then
   begin
     fldLocation.Text := folder;
   end;

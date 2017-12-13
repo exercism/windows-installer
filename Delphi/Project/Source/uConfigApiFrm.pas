@@ -72,7 +72,7 @@ var
   folder: string;
 begin
   folder := fldSolutionLocation.Text;
-  if SelectDirectory('Select Solution Location', '', folder, [sdNewUI, sdNewFolder, sdShowEdit], Self) then
+  if SelectDirectory('Select Solution Location', '', folder, [sdNewUI, sdNewFolder], Self) then
   begin
     fldSolutionLocation.Text := folder;
     fldSolutionLocation.OnChange(fldSolutionLocation);
