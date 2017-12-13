@@ -211,9 +211,4 @@ object frmInstallLocation: TfrmInstallLocation
     TabOrder = 4
     OnClick = btnBrowseClick
   end
-  object RzSelectFolderDialog1: TRzSelectFolderDialog
-    Options = [sfdoContextMenus, sfdoCreateFolderIcon, sfdoDeleteFolderIcon]
-    Left = 440
-    Top = 208
-  end
 end

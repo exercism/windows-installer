@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTypes, Vcl.StdCtrls, Vcl.ExtCtrls,
-  RzShellDialogs, Vcl.Imaging.pngimage, System.UITypes, ovcurl;
+  Vcl.Imaging.pngimage, System.UITypes, ovcurl;
 
 type
   TfrmInstallLocation = class(TForm)
@@ -17,7 +17,6 @@ type
     fldLocation: TEdit;
     Label3: TLabel;
     btnBrowse: TButton;
-    RzSelectFolderDialog1: TRzSelectFolderDialog;
     Label4: TLabel;
     Label5: TLabel;
     OvcURL4: TOvcURL;
@@ -36,7 +35,9 @@ type
   function ShowInstallLocationForm(var aInstallInfo: TInstallInfo): TResultStatus;
 
 implementation
-uses System.IOUtils;
+uses
+  Vcl.FileCtrl,
+  System.IOUtils;
 {$R *.dfm}
 
 var
@@ -60,10 +61,13 @@ begin
 end;
 
 procedure TfrmInstallLocation.btnBrowseClick(Sender: TObject);
+var
+  folder: string;
 begin
-  if RzSelectFolderDialog1.Execute then
+  folder := fldLocation.Text;
+  if SelectDirectory('Select Install Location', '', Folder, [sdNewUI, sdNewFolder], Self) then
   begin
-    fldLocation.Text := RzSelectFolderDialog1.SelectedPathName
+    fldLocation.Text := folder;
   end;
 end;
 
