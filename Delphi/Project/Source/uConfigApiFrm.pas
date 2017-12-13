@@ -43,7 +43,9 @@ type
 
 
 implementation
-uses System.IOUtils;
+uses
+  System.IOUtils,
+  Vcl.FileCtrl;
 {$R *.dfm}
 
 function ShowConfigAPIForm(const aInstallInfo: TInstallInfo): TResultStatus;
