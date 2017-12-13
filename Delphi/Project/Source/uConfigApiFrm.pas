@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, ovcurl,
-  uTypes, Vcl.Imaging.pngimage, DosCommand, RzShellDialogs;
+  uTypes, Vcl.Imaging.pngimage, DosCommand;
 
 type
   TfrmConfigAPI = class(TForm)
@@ -21,7 +21,6 @@ type
     DosCommand1: TDosCommand;
     mConfigure: TMemo;
     fldSolutionLocation: TEdit;
-    RzSelectFolderDialog1: TRzSelectFolderDialog;
     btnBrowse: TButton;
     Label5: TLabel;
     Label6: TLabel;
@@ -67,10 +66,13 @@ begin
 end;
 
 procedure TfrmConfigAPI.btnBrowseClick(Sender: TObject);
+var
+  folder: string;
 begin
-  if RzSelectFolderDialog1.Execute then
+  folder := fldSolutionLocation.Text;
+  if SelectDirectory('Select Solution Location', '', folder, [sdNewUI, sdNewFolder, sdShowEdit], Self) then
   begin
-    fldSolutionLocation.Text := RzSelectFolderDialog1.SelectedPathName;
+    fldSolutionLocation.Text := folder;
     fldSolutionLocation.OnChange(fldSolutionLocation);
   end;
 end;

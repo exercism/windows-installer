@@ -241,9 +241,4 @@ object frmConfigAPI: TfrmConfigAPI
     Left = 296
     Top = 96
   end
-  object RzSelectFolderDialog1: TRzSelectFolderDialog
-    Options = [sfdoContextMenus, sfdoCreateFolderIcon, sfdoDeleteFolderIcon]
-    Left = 452
-    Top = 112
-  end
 end
