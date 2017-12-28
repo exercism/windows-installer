@@ -56,18 +56,20 @@ end;
 
 class procedure TUpdatePath.BroadcastChange;
 var
-  lParam, wParam: integer;
+  lP: LPARAM;
+  wP: WPARAM;
   Buf : Array[0..10] of Char;
-  aResult: Cardinal;
+  aResult: DWORD;//Cardinal;
 begin
   Buf := 'Environment';
-  wParam := 0;
-  lParam := integer(@Buf[0]);
+  wP := 0;
+//  lParam := 0;
+  lP := integer(@Buf[0]);
 
   SendMessageTimeout(HWND_BROADCAST,
                      WM_SETTINGCHANGE,
-                     wParam,
-                     lParam,
+                     wP,
+                     lP,
                      SMTO_ABORTIFHUNG{SMTO_NORMAL},
                      5000{4000},
                      aResult);
