@@ -87,7 +87,15 @@ begin
                                     'Shall I create it for you?',
        [fldLocation.Text]),mtError, [mbYes, mbNo],0);
     if lDlgResult = mrYes then
+    begin
       if not System.SysUtils.ForceDirectories(fldLocation.Text) then
+      begin
+        lOKNext := false;
+        MessageDlg(format('Error: Unable to create "%s".'+#13#10+
+                          'Please select another folder or Cancel this installation'
+                          ,[fldLocation.Text]), mtError, [mbOK], 0);
+      end;
+    end
     else
     begin
       lOKNext := false;
