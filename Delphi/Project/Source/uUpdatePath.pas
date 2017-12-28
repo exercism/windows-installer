@@ -37,7 +37,9 @@ begin
         openResult := reg.OpenKey('Environment', true);
         if openResult then
         begin
-          lPath := lPath + ';' + aDir;
+          if not lPath.EndsWith(';') then
+            lPath := lPath + ';';
+          lPath := lPath + aDir;
           reg.WriteString('Path',lPath);
           BroadcastChange;
           result := true;
