@@ -65,8 +65,8 @@
         <Icon_MainIcon>img\ExercismCLIInstaller_Icon.ico</Icon_MainIcon>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <OutputExt>EXE</OutputExt>
-        <UWP_DelphiLogo44>C:\projects.git\Exercism\windows-installer\Resources\exercism.png</UWP_DelphiLogo44>
-        <UWP_DelphiLogo150>C:\projects.git\Exercism\windows-installer\Resources\exercism.png</UWP_DelphiLogo150>
+        <UWP_DelphiLogo44>D:\projects.git\Exercism\exercism-windows-installer\Resources\exercism.png</UWP_DelphiLogo44>
+        <UWP_DelphiLogo150>D:\projects.git\Exercism\exercism-windows-installer\Resources\exercism.png</UWP_DelphiLogo150>
         <VerInfo_MajorVer>2</VerInfo_MajorVer>
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
@@ -87,8 +87,8 @@
         <AppEnableHighDPI>true</AppEnableHighDPI>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <Icon_MainIcon>img\ExercismCLIInstaller_Icon.ico</Icon_MainIcon>
-        <UWP_DelphiLogo44>C:\projects.git\Exercism\windows-installer\Resources\exercism.png</UWP_DelphiLogo44>
-        <UWP_DelphiLogo150>C:\projects.git\Exercism\windows-installer\Resources\exercism.png</UWP_DelphiLogo150>
+        <UWP_DelphiLogo44>D:\projects.git\Exercism\exercism-windows-installer\Resources\exercism.png</UWP_DelphiLogo44>
+        <UWP_DelphiLogo150>D:\projects.git\Exercism\exercism-windows-installer\Resources\exercism.png</UWP_DelphiLogo150>
         <VerInfo_MajorVer>2</VerInfo_MajorVer>
         <VerInfo_Debug>true</VerInfo_Debug>
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
