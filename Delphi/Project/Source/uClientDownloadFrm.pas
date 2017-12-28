@@ -289,9 +289,15 @@ begin
     // Start the download process
     FAsyncResponse := FClient.BeginGet(DoEndDownload, URL, FDownloadStream);
     aStatus := rsFinished;
-  finally
-    FAsyncResponse := nil;
+  except
+    on E: EFCreateError do
+    begin
+      mStatus.Lines.Add(E.Message);
+      btnCancel.Enabled := true;
+      btnStopDownload.Enabled := false;
+    end;
   end;
+  FAsyncResponse := nil;
 end;
 
 procedure TfrmDownload.Unzip_CLI(var aStatus: TResultStatus);
@@ -505,8 +511,6 @@ constructor TDownloadVer.create(aFDMEMTable: TFDMemTable);
 var
   IsFound: boolean;
   tag_name_Field: TField;
-  downloadSize,
-  browser_download_urlField: TField;
 begin
   if aFDMemTable.FindFirst then
   begin
