@@ -63,7 +63,6 @@ var
 begin
   Buf := 'Environment';
   wP := 0;
-//  lParam := 0;
   lP := integer(@Buf[0]);
 
   SendMessageTimeout(HWND_BROADCAST,
