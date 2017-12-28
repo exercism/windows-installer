@@ -505,8 +505,6 @@ constructor TDownloadVer.create(aFDMEMTable: TFDMemTable);
 var
   IsFound: boolean;
   tag_name_Field: TField;
-  downloadSize,
-  browser_download_urlField: TField;
 begin
   if aFDMemTable.FindFirst then
   begin

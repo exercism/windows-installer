@@ -23,7 +23,7 @@ begin
   result := false;
   reg := TRegistry.Create;
   try
-    reg.RootKey := {HKEY_LOCAL_MACHINE{} HKEY_CURRENT_USER{};
+    reg.RootKey := HKEY_CURRENT_USER;
     openResult := reg.OpenKeyReadOnly('Environment');
     if openResult then
     begin
@@ -60,7 +60,6 @@ var
 begin
   Buf := 'Environment';
   wParam := 0;
-  lParam := 0;
   lParam := integer(@Buf[0]);
 
   SendMessageTimeout(HWND_BROADCAST,
