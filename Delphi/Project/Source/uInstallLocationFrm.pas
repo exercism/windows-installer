@@ -65,7 +65,7 @@ var
   folder: string;
 begin
   folder := fldLocation.Text;
-  if SelectDirectory('Select Install Location', '', Folder, [sdNewUI, sdNewFolder], Self) then
+  if vcl.FileCtrl.SelectDirectory('Select Install Location', '', Folder, [sdNewUI, sdNewFolder], Self) then
   begin
     fldLocation.Text := folder;
   end;
@@ -81,13 +81,13 @@ var lOKNext: boolean;
     lDlgResult: word;
 begin
   lOKNext := true;
-  if not DirectoryExists(fldLocation.Text) then
+  if not System.SysUtils.DirectoryExists(fldLocation.Text) then
   begin
     lDlgResult := MessageDlg(format('Directory "%s" does not exist.'+#13#10+
                                     'Shall I create it for you?',
        [fldLocation.Text]),mtError, [mbYes, mbNo],0);
     if lDlgResult = mrYes then
-      ForceDirectories(fldLocation.Text)
+      if not System.SysUtils.ForceDirectories(fldLocation.Text) then
     else
     begin
       lOKNext := false;
