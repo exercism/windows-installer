@@ -58,6 +58,7 @@ type
     rcCheckTLSVersion: TRESTClient;
     rrCheckTLSVersion: TRESTRequest;
     rResponseCheckTLSVersion: TRESTResponse;
+    lblUpdateTLS: TOvcURL;
     procedure btnCancelClick(Sender: TObject);
     procedure btnNextClick(Sender: TObject);
     procedure btnBrowseClick(Sender: TObject);

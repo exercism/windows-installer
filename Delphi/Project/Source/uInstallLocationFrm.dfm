@@ -71,6 +71,29 @@ object frmInstallLocation: TfrmInstallLocation
     ShowHint = True
     Transparent = True
   end
+  object lblUpdateTLS: TOvcURL
+    Left = 189
+    Top = 248
+    Width = 262
+    Height = 13
+    Hint = 
+      'https://support.microsoft.com/en-us/help/3140245/update-to-enabl' +
+      'e-tls-1-1-and-tls-1-2-as-a-default-secure-protocols-in'
+    Caption = 'Microsoft instructions for updating default TLS settings'
+    URL = 
+      'https://support.microsoft.com/en-us/help/3140245/update-to-enabl' +
+      'e-tls-1-1-and-tls-1-2-as-a-default-secure-protocols-in'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsUnderline]
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    Transparent = True
+    Visible = False
+  end
   object Panel1: TPanel
     Left = 0
     Top = 0
