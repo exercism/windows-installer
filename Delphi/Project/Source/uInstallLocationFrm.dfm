@@ -1,7 +1,6 @@
 object frmInstallLocation: TfrmInstallLocation
   Left = 0
   Top = 0
-  ActiveControl = btnNext
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = 'Exercism CLI Install'
@@ -209,6 +208,7 @@ object frmInstallLocation: TfrmInstallLocation
     Width = 75
     Height = 25
     Caption = '&Next >'
+    Enabled = False
     TabOrder = 2
     OnClick = btnNextClick
   end
