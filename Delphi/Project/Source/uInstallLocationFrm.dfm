@@ -211,4 +211,28 @@ object frmInstallLocation: TfrmInstallLocation
     TabOrder = 4
     OnClick = btnBrowseClick
   end
+  object rcCheckTLSVersion: TRESTClient
+    Accept = 'application/json, text/plain; q=0.9, text/html;q=0.8,'
+    AcceptCharset = 'UTF-8, *;q=0.8'
+    BaseURL = 'https://www.howsmyssl.com/a/check'
+    Params = <>
+    HandleRedirects = True
+    RaiseExceptionOn500 = False
+    Left = 248
+    Top = 48
+  end
+  object rrCheckTLSVersion: TRESTRequest
+    Client = rcCheckTLSVersion
+    Params = <>
+    Response = rResponseCheckTLSVersion
+    SynchronizedEvents = False
+    Left = 328
+    Top = 52
+  end
+  object rResponseCheckTLSVersion: TRESTResponse
+    ContentType = 'application/json'
+    RootElement = 'tls_version'
+    Left = 416
+    Top = 48
+  end
 end

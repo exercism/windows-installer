@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTypes, Vcl.StdCtrls, Vcl.ExtCtrls,
-  Vcl.Imaging.pngimage, System.UITypes, ovcurl;
+  Vcl.Imaging.pngimage, System.UITypes, ovcurl, IPPeerClient, REST.Client,
+  Data.Bind.Components, Data.Bind.ObjectScope;
 
 type
   TfrmInstallLocation = class(TForm)
@@ -21,6 +22,9 @@ type
     Label5: TLabel;
     OvcURL4: TOvcURL;
     Image1: TImage;
+    rcCheckTLSVersion: TRESTClient;
+    rrCheckTLSVersion: TRESTRequest;
+    rResponseCheckTLSVersion: TRESTResponse;
     procedure btnCancelClick(Sender: TObject);
     procedure btnNextClick(Sender: TObject);
     procedure btnBrowseClick(Sender: TObject);
