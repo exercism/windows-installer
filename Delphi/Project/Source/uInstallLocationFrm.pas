@@ -9,6 +9,39 @@ uses
   Data.Bind.Components, Data.Bind.ObjectScope;
 
 type
+  ICheckTLS = interface(IInvokable)
+    ['{2AED8C0C-BF88-4A06-A3B2-418799CD28EF}']
+    function GetTLSOK: boolean;
+    function GetStatusCode: integer;
+    function GetTLSVersion: string;
+    function GetMessageStr: string;
+    property TLSok: boolean read GetTLSOK;
+    property StatusCode: integer read GetStatusCode;
+    property TLSVersion: string read GetTLSVersion;
+    property ErrMessage: string read GetMessageStr;
+  end;
+
+  TCheckTLS = class(TInterfacedObject, ICheckTLS)
+  strict private
+    const
+      cDesiredVersion: double = 1.2;
+    var
+      fTLSVersion: string;
+      fTLSOK: boolean;
+      fStatusCode: integer;
+      fMessageStr: string;
+    function GetTLSOK: boolean;
+    function GetStatusCode: integer;
+    function GetTLSVersion: string;
+    function GetMessageStr: string;
+  public
+    constructor Create(aRESTRequest: TRestRequest; aRESTResponse: TRESTResponse);
+    property TLSok: boolean read GetTLSOK;
+    property StatusCode: integer read GetStatusCode;
+    property TLSVersion: string read GetTLSVersion;
+    property ErrMessage: string read GetMessageStr;
+  end;
+
   TfrmInstallLocation = class(TForm)
     Panel1: TPanel;
     Label1: TLabel;
@@ -29,6 +62,7 @@ type
     procedure btnNextClick(Sender: TObject);
     procedure btnBrowseClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -114,10 +148,73 @@ begin
   end;
 end;
 
+procedure TfrmInstallLocation.FormActivate(Sender: TObject);
+var
+  CheckTLS: ICheckTLS;
+begin
+  CheckTLS := TCheckTLS.Create(rrCheckTLSVersion, rResponseCheckTLSVersion);
+  btnNext.Enabled := CheckTLS.TLSok;
+  if not btnNext.Enabled then
+  begin
+    lblUpdateTLS.Visible := true;
+    MessageDlg(CheckTLS.ErrMessage,mtError,[mbok],0);
+  end;
+end;
+
 procedure TfrmInstallLocation.FormCreate(Sender: TObject);
 begin
   NextClicked := false;
   SetWindowLong(Handle, GWL_EXSTYLE, WS_EX_APPWINDOW);
+end;
+
+{ TCheckTLS }
+
+constructor TCheckTLS.Create(aRESTRequest: TRestRequest; aRESTResponse: TRESTResponse);
+var
+  splitVersion: TArray<string>;
+  actualVersion: double;
+begin
+  aRESTRequest.Execute;
+  fStatusCode := aRESTResponse.StatusCode;
+  fMessageStr := '';
+  fTLSOK := false;
+  fTLSVersion := '';
+  if fStatusCode = 200 then
+  begin
+    fTLSVersion := aRESTResponse.JSONText.Replace('"','');
+    splitVersion := fTLSVersion.Split([' ']);
+    actualVersion := splitVersion[1].ToDouble;
+    fTLSOK := actualVersion >= cDesiredVersion;
+    if not fTLSOK then
+      fMessageStr := format('TLS Version = %s, must be %0.1f or greater.'+#13#10+
+                            'GitHub requires at least version 1.2'+#13#10+
+                            'Please follow the link to Microsoft for instructions on updating Windows.',[splitVersion[1],cDesiredVersion]);
+  end
+  else
+  begin
+    fMessageStr := format('Err: REST Status Code %d', [fStatusCode]);
+    fTLSOk := false;
+  end;
+end;
+
+function TCheckTLS.GetMessageStr: string;
+begin
+  result := fMessageStr;
+end;
+
+function TCheckTLS.GetStatusCode: integer;
+begin
+  result := fStatusCode;
+end;
+
+function TCheckTLS.GetTLSOK: boolean;
+begin
+  result := fTLSOk;
+end;
+
+function TCheckTLS.GetTLSVersion: string;
+begin
+  result := fTLSVersion;
 end;
 
 end.
