@@ -172,8 +172,8 @@ end;
 
 constructor TCheckTLS.Create(aRESTRequest: TRestRequest; aRESTResponse: TRESTResponse);
 var
-  splitVersion: TArray<string>;
   actualVersion: double;
+  lFormatSettings: TFormatSettings;
 begin
   aRESTRequest.Execute;
   fStatusCode := aRESTResponse.StatusCode;
@@ -182,14 +182,19 @@ begin
   fTLSVersion := '';
   if fStatusCode = 200 then
   begin
-    fTLSVersion := aRESTResponse.JSONText.Replace('"','');
-    splitVersion := fTLSVersion.Split([' ']);
-    actualVersion := splitVersion[1].ToDouble;
+    lFormatSettings := TFormatSettings.Create;
+    lformatSettings.ThousandSeparator := ',';
+    lFormatSettings.DecimalSeparator := '.';
+    fTLSVersion := aRESTResponse.JSONText.Replace('"TLS ','');
+    fTLSVersion := fTLSVersion
+                     .Replace('"','')
+                     .Replace(' ','');
+    actualVersion := StrToFloat(fTLSVersion, lFormatSettings);
     fTLSOK := actualVersion >= cDesiredVersion;
     if not fTLSOK then
       fMessageStr := format('TLS Version = %s, must be %0.1f or greater.'+#13#10+
                             'GitHub requires at least version 1.2'+#13#10+
-                            'Please follow the link to Microsoft for instructions on updating Windows.',[splitVersion[1],cDesiredVersion]);
+                            'Please follow the link to Microsoft for instructions on updating Windows.',[fTLSVersion,cDesiredVersion]);
   end
   else
   begin
