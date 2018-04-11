@@ -59,11 +59,13 @@ type
     rrCheckTLSVersion: TRESTRequest;
     rResponseCheckTLSVersion: TRESTResponse;
     lblUpdateTLS: TOvcURL;
+    tmrCheckTLS: TTimer;
     procedure btnCancelClick(Sender: TObject);
     procedure btnNextClick(Sender: TObject);
     procedure btnBrowseClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
+    procedure tmrCheckTLSTimer(Sender: TObject);
   private
     { Private declarations }
   public
@@ -150,9 +152,21 @@ begin
 end;
 
 procedure TfrmInstallLocation.FormActivate(Sender: TObject);
+begin
+  tmrCheckTLS.Enabled := true;
+end;
+
+procedure TfrmInstallLocation.FormCreate(Sender: TObject);
+begin
+  NextClicked := false;
+  SetWindowLong(Handle, GWL_EXSTYLE, WS_EX_APPWINDOW);
+end;
+
+procedure TfrmInstallLocation.tmrCheckTLSTimer(Sender: TObject);
 var
   CheckTLS: ICheckTLS;
 begin
+  tmrCheckTLS.Enabled := false;
   CheckTLS := TCheckTLS.Create(rrCheckTLSVersion, rResponseCheckTLSVersion);
   btnNext.Enabled := CheckTLS.TLSok;
   if not btnNext.Enabled then
@@ -160,12 +174,6 @@ begin
     lblUpdateTLS.Visible := true;
     MessageDlg(CheckTLS.ErrMessage,mtError,[mbok],0);
   end;
-end;
-
-procedure TfrmInstallLocation.FormCreate(Sender: TObject);
-begin
-  NextClicked := false;
-  SetWindowLong(Handle, GWL_EXSTYLE, WS_EX_APPWINDOW);
 end;
 
 { TCheckTLS }
