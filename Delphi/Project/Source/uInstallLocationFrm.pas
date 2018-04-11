@@ -59,11 +59,13 @@ type
     rrCheckTLSVersion: TRESTRequest;
     rResponseCheckTLSVersion: TRESTResponse;
     lblUpdateTLS: TOvcURL;
+    tmrCheckTLS: TTimer;
     procedure btnCancelClick(Sender: TObject);
     procedure btnNextClick(Sender: TObject);
     procedure btnBrowseClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
+    procedure tmrCheckTLSTimer(Sender: TObject);
   private
     { Private declarations }
   public
@@ -150,9 +152,21 @@ begin
 end;
 
 procedure TfrmInstallLocation.FormActivate(Sender: TObject);
+begin
+  tmrCheckTLS.Enabled := true;
+end;
+
+procedure TfrmInstallLocation.FormCreate(Sender: TObject);
+begin
+  NextClicked := false;
+  SetWindowLong(Handle, GWL_EXSTYLE, WS_EX_APPWINDOW);
+end;
+
+procedure TfrmInstallLocation.tmrCheckTLSTimer(Sender: TObject);
 var
   CheckTLS: ICheckTLS;
 begin
+  tmrCheckTLS.Enabled := false;
   CheckTLS := TCheckTLS.Create(rrCheckTLSVersion, rResponseCheckTLSVersion);
   btnNext.Enabled := CheckTLS.TLSok;
   if not btnNext.Enabled then
@@ -162,18 +176,12 @@ begin
   end;
 end;
 
-procedure TfrmInstallLocation.FormCreate(Sender: TObject);
-begin
-  NextClicked := false;
-  SetWindowLong(Handle, GWL_EXSTYLE, WS_EX_APPWINDOW);
-end;
-
 { TCheckTLS }
 
 constructor TCheckTLS.Create(aRESTRequest: TRestRequest; aRESTResponse: TRESTResponse);
 var
-  splitVersion: TArray<string>;
   actualVersion: double;
+  lFormatSettings: TFormatSettings;
 begin
   aRESTRequest.Execute;
   fStatusCode := aRESTResponse.StatusCode;
@@ -182,14 +190,19 @@ begin
   fTLSVersion := '';
   if fStatusCode = 200 then
   begin
-    fTLSVersion := aRESTResponse.JSONText.Replace('"','');
-    splitVersion := fTLSVersion.Split([' ']);
-    actualVersion := splitVersion[1].ToDouble;
+    lFormatSettings := TFormatSettings.Create;
+    lFormatSettings.ThousandSeparator := ',';
+    lFormatSettings.DecimalSeparator := '.';
+    fTLSVersion := aRESTResponse.JSONText.Replace('"TLS ','');
+    fTLSVersion := fTLSVersion
+                     .Replace('"','')
+                     .Replace(' ','');
+    actualVersion := StrToFloat(fTLSVersion, lFormatSettings);
     fTLSOK := actualVersion >= cDesiredVersion;
     if not fTLSOK then
       fMessageStr := format('TLS Version = %s, must be %0.1f or greater.'+#13#10+
                             'GitHub requires at least version 1.2'+#13#10+
-                            'Please follow the link to Microsoft for instructions on updating Windows.',[splitVersion[1],cDesiredVersion]);
+                            'Please follow the link to Microsoft for instructions on updating Windows.',[fTLSVersion,cDesiredVersion]);
   end
   else
   begin

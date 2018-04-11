@@ -259,4 +259,11 @@ object frmInstallLocation: TfrmInstallLocation
     Left = 416
     Top = 48
   end
+  object tmrCheckTLS: TTimer
+    Enabled = False
+    Interval = 200
+    OnTimer = tmrCheckTLSTimer
+    Left = 76
+    Top = 200
+  end
 end
