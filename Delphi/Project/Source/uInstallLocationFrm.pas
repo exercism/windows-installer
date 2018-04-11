@@ -183,7 +183,7 @@ begin
   if fStatusCode = 200 then
   begin
     lFormatSettings := TFormatSettings.Create;
-    lformatSettings.ThousandSeparator := ',';
+    lFormatSettings.ThousandSeparator := ',';
     lFormatSettings.DecimalSeparator := '.';
     fTLSVersion := aRESTResponse.JSONText.Replace('"TLS ','');
     fTLSVersion := fTLSVersion
