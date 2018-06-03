@@ -210,7 +210,6 @@ object frmDownload: TfrmDownload
     Dataset = tableAssets
     FieldDefs = <>
     Response = RESTResponse1
-    RootElement = 'assets'
     NestedElements = True
     Left = 260
     Top = 88
