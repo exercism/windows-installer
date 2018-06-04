@@ -51,8 +51,6 @@ type
     RESTClient1: TRESTClient;
     RESTRequest1: TRESTRequest;
     RESTResponse1: TRESTResponse;
-    Assets: TRESTResponseDataSetAdapter;
-    tableAssets: TFDMemTable;
     tmrInstall: TTimer;
     btnStopDownload: TButton;
     Label4: TLabel;
@@ -287,7 +285,7 @@ function TfrmDownload.FetchDownloadURL(const aIs32BitWindows: Boolean; var aStat
 begin
   aStatus := rsCancel;
   mStatus.Lines.Add('Fetching URL for latest CLI version.');
-  result := NewDownloadURL(aIs32BitWindows, tableAssets);
+  result := NewDownloadURL(aIs32BitWindows, tableRoot);
   if result.Url <> '' then
   begin
     mStatus.Lines.Add('Successfully retrieved URL');
