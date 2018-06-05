@@ -206,25 +206,6 @@ object frmDownload: TfrmDownload
     Left = 184
     Top = 128
   end
-  object Assets: TRESTResponseDataSetAdapter
-    Dataset = tableAssets
-    FieldDefs = <>
-    Response = RESTResponse1
-    RootElement = 'assets'
-    NestedElements = True
-    Left = 260
-    Top = 88
-  end
-  object tableAssets: TFDMemTable
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired]
-    UpdateOptions.CheckRequired = False
-    Left = 320
-    Top = 96
-  end
   object tmrInstall: TTimer
     Enabled = False
     Interval = 500

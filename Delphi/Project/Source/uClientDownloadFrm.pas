@@ -18,6 +18,12 @@ type
     class function Is32BitWindows: Boolean;
   end;
 
+  IAssetsURL = interface(IInvokable)
+  ['{49E2CFFF-32DB-4CF7-9C63-674206B52BBA}']
+    function GetAssetsURL: string;
+    property assets_url: string read GetAssetsURL;
+  end;
+
   IDownloadURL = interface(IInvokable)
   ['{049FAAD1-D024-4E96-B7B5-96674D6F56AF}']
     function GetUrl: string;
@@ -45,8 +51,6 @@ type
     RESTClient1: TRESTClient;
     RESTRequest1: TRESTRequest;
     RESTResponse1: TRESTResponse;
-    Assets: TRESTResponseDataSetAdapter;
-    tableAssets: TFDMemTable;
     tmrInstall: TTimer;
     btnStopDownload: TButton;
     Label4: TLabel;
@@ -72,10 +76,12 @@ type
     FDownloadStream: TStream;
     FHTTPResponse: IHTTPResponse;
     DownloadVer: IDownloadVer;
+    AssetsURL: IAssetsURL;
     procedure DoEndDownload(const AsyncResult: IAsyncResult);
     function DetermineArchitecture(var aStatus: TResultStatus): Boolean;
     procedure FetchRESTRequest(var aStatus: TResultStatus);
     function FetchDownloadVersion(var aStatus: TResultStatus): IDownloadVer;
+    function FetchAssetsURL(var aStatus: TResultStatus): IAssetsURL;
     function FetchDownloadURL(const aIs32BitWindows: Boolean; var aStatus: TResultStatus): IDownloadURL;
     procedure Download_CLI_ZIP(aDownloadURL: IDownloadURL; var aStatus: TResultStatus);
     procedure Unzip_CLI(var aStatus: TResultStatus);
@@ -89,11 +95,21 @@ type
   function ShowClientDownloadForm(const aInstallInfo: TInstallInfo): TResultStatus;
   function NewDownloadURL(a32Bit: boolean; aFDMemTable: TFDMemTable): IDownloadURL;
   function NewDownloadVer(aFDMemTable: TFDMemTable): IDownloadVer;
+  function NewAssets(aFDMemTable: TFDMemTable): IAssetsURL;
 
 implementation
 uses System.IOUtils, System.Zip, uUpdatePath;
 {$R *.dfm}
 type
+  TAssetsURL = class(TInterfacedObject, IAssetsURL)
+  private
+    fAssetsUrl: string;
+    function GetAssetsURL: string;
+  public
+    constructor create(aFDMEMTable: TFDMemTable);
+    property assets_url: string read GetAssetsURL;
+  end;
+
   TDownloadVer = class(TInterfacedObject, IDownloadVer)
   private
     FVersion: TArray<integer>;
@@ -128,6 +144,11 @@ end;
 function NewDownloadVer(aFDMemTable: TFDMemTable): IDownloadVer;
 begin
   result := TDownloadVer.create(aFDMemTable);
+end;
+
+function NewAssets(aFDMemTable: TFDMemTable): IAssetsURL;
+begin
+  result := TAssetsURL.Create(aFDMemTable);
 end;
 
 class function Tos.Is32BitWindows: Boolean;
@@ -237,11 +258,34 @@ begin
   end;
 end;
 
+function TfrmDownload.FetchAssetsURL(var aStatus: TResultStatus): IAssetsURL;
+begin
+  aStatus := rsCancel;
+  mStatus.Lines.Add('Fetching Assets Info.');
+  result := NewAssets(tableRoot);
+  if not result.Assets_Url.IsEmpty then
+  begin
+    mStatus.Lines.Add('Successfully retrieved Assets Info');
+    aStatus := rsNext;
+  end
+  else
+  begin
+    result := nil;
+    mStatus.Lines.Add('Failed to retrieve Assets Info');
+    if MessageDlg('Unable to retrieve Assets Info.  Confirm internet connection then Retry or Cancel.',
+                   mtError, [mbRetry, mbCancel], 0) = mrRetry then
+    begin
+      aStatus := rsRepeat;
+      mStatus.Lines.Add('');
+    end;
+  end;
+end;
+
 function TfrmDownload.FetchDownloadURL(const aIs32BitWindows: Boolean; var aStatus: TResultStatus): IDownloadURL;
 begin
   aStatus := rsCancel;
   mStatus.Lines.Add('Fetching URL for latest CLI version.');
-  result := NewDownloadURL(aIs32BitWindows, tableAssets);
+  result := NewDownloadURL(aIs32BitWindows, tableRoot);
   if result.Url <> '' then
   begin
     mStatus.Lines.Add('Successfully retrieved URL');
@@ -346,8 +390,17 @@ begin
       0: lIs32BitWindows := DetermineArchitecture(lStatus);
       1: FetchRESTRequest(lStatus);
       2: DownloadVer := FetchDownloadVersion(lStatus);
-      3: lDownloadURL := FetchDownloadURL(lIs32BitWindows, lStatus);
-      4: Download_CLI_ZIP(lDownloadURL, lStatus);
+      3:
+        begin
+          AssetsURL := FetchAssetsURL(lStatus);
+          if lStatus = rsNext then
+          begin
+            RESTClient1.BaseURL := AssetsURL.assets_url;
+            FetchRESTRequest(lStatus);
+          end;
+        end;
+      4: lDownloadURL := FetchDownloadURL(lIs32BitWindows, lStatus);
+      5: Download_CLI_ZIP(lDownloadURL, lStatus);
     end;//case
 
     case lStatus of
@@ -512,6 +565,7 @@ var
   IsFound: boolean;
   tag_name_Field: TField;
 begin
+  FTag_Name := '';
   if aFDMemTable.FindFirst then
   begin
     IsFound := false;
@@ -538,6 +592,33 @@ end;
 function TDownloadVer.GetTagName: string;
 begin
   result := FTag_Name;
+end;
+
+{ TAssetsURL }
+
+constructor TAssetsURL.create(aFDMEMTable: TFDMemTable);
+var
+  IsFound: boolean;
+  assets_url_Field: TField;
+begin
+  fAssetsUrl := '';
+  if aFDMemTable.FindFirst then
+  begin
+    IsFound := false;
+    repeat
+      assets_url_Field := aFDMemTable.FindField('assets_url');
+      if assigned(assets_url_Field) then
+      begin
+        IsFound := true;
+        fAssetsUrl := assets_url_Field.DisplayText;
+      end;
+    until IsFound or not aFDMemtable.FindNext;
+  end;
+end;
+
+function TAssetsURL.GetAssetsURL: string;
+begin
+  result := fAssetsUrl;
 end;
 
 end.
