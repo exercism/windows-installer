@@ -266,3 +266,5 @@ paket-files/
 *.dsk
 
 *.~dsk
+
+Delphi/Project/Source/__recovery/
