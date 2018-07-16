@@ -59,6 +59,7 @@ type
     Root: TRESTResponseDataSetAdapter;
     tableRoot: TFDMemTable;
     Image1: TImage;
+    imgV2Logo: TImage;
     procedure btnCancelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure tmrDownloadTimer(Sender: TObject);
@@ -389,7 +390,11 @@ begin
     case i of
       0: lIs32BitWindows := DetermineArchitecture(lStatus);
       1: FetchRESTRequest(lStatus);
-      2: DownloadVer := FetchDownloadVersion(lStatus);
+      2:
+        begin
+          DownloadVer := FetchDownloadVersion(lStatus);
+          imgV2Logo.Visible := DownloadVer.MajorVersion >= 3;
+        end;
       3:
         begin
           AssetsURL := FetchAssetsURL(lStatus);
