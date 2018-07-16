@@ -60,6 +60,7 @@ type
     rResponseCheckTLSVersion: TRESTResponse;
     lblUpdateTLS: TOvcURL;
     tmrCheckTLS: TTimer;
+    imgV2Logo: TImage;
     procedure btnCancelClick(Sender: TObject);
     procedure btnNextClick(Sender: TObject);
     procedure btnBrowseClick(Sender: TObject);
