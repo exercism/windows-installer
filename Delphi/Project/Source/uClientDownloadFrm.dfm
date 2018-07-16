@@ -6283,7 +6283,6 @@ object frmDownload: TfrmDownload
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFF}
       Stretch = True
-      Visible = False
     end
   end
   object btnCancel: TButton
@@ -6294,6 +6293,7 @@ object frmDownload: TfrmDownload
     Caption = '&Cancel'
     Enabled = False
     TabOrder = 1
+    Visible = False
     OnClick = btnCancelClick
   end
   object mStatus: TMemo
