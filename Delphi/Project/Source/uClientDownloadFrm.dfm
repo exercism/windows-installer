@@ -116,9 +116,9 @@ object frmDownload: TfrmDownload
       Top = 32
       Width = 125
       Height = 18
-      Hint = 'https://github.com/exercism/docs'
+      Hint = 'http://cli.exercism.io'
       Caption = 'CLI Documentation'
-      URL = 'https://github.com/exercism/docs'
+      URL = 'http://cli.exercism.io'
       UseVisitedColor = True
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWhite
@@ -6283,7 +6283,6 @@ object frmDownload: TfrmDownload
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFF}
       Stretch = True
-      Visible = False
     end
   end
   object btnCancel: TButton
@@ -6294,6 +6293,7 @@ object frmDownload: TfrmDownload
     Caption = '&Cancel'
     Enabled = False
     TabOrder = 1
+    Visible = False
     OnClick = btnCancelClick
   end
   object mStatus: TMemo
