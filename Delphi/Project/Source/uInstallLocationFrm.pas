@@ -61,12 +61,14 @@ type
     lblUpdateTLS: TOvcURL;
     tmrCheckTLS: TTimer;
     imgV2Logo: TImage;
+    tmrToggler: TTimer;
     procedure btnCancelClick(Sender: TObject);
     procedure btnNextClick(Sender: TObject);
     procedure btnBrowseClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure tmrCheckTLSTimer(Sender: TObject);
+    procedure tmrTogglerTimer(Sender: TObject);
   private
     { Private declarations }
   public
@@ -172,9 +174,15 @@ begin
   btnNext.Enabled := CheckTLS.TLSok;
   if not btnNext.Enabled then
   begin
+    tmrToggler.Enabled := true;
     lblUpdateTLS.Visible := true;
     MessageDlg(CheckTLS.ErrMessage,mtError,[mbok],0);
   end;
+end;
+
+procedure TfrmInstallLocation.tmrTogglerTimer(Sender: TObject);
+begin
+  lblUpdateTLS.Transparent := not lblUpdateTLS.Transparent;
 end;
 
 { TCheckTLS }
