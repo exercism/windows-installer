@@ -1,5 +1,5 @@
 unit uInstallLocationFrm;
-
+{_define SimTLSCheckFailure}
 interface
 
 uses
@@ -192,10 +192,11 @@ var
   actualVersion: double;
   lFormatSettings: TFormatSettings;
 begin
+  fTLSOK := false;
+  {$ifndef SimTLSCheckFailure}
   aRESTRequest.Execute;
   fStatusCode := aRESTResponse.StatusCode;
   fMessageStr := '';
-  fTLSOK := false;
   fTLSVersion := '';
   if fStatusCode = 200 then
   begin
@@ -211,13 +212,18 @@ begin
     if not fTLSOK then
       fMessageStr := format('TLS Version = %s, must be %0.1f or greater.'+#13#10+
                             'GitHub requires at least version 1.2'+#13#10+
-                            'Please follow the link to Microsoft for instructions on updating Windows.',[fTLSVersion,cDesiredVersion]);
+                            'Please click the blinking link for instructions from Microsoft on updating TLS.',[fTLSVersion,cDesiredVersion]);
   end
   else
   begin
     fMessageStr := format('Err: REST Status Code %d', [fStatusCode]);
     fTLSOk := false;
   end;
+  {$else}
+  fMessageStr := format('TLS Version = %s, must be %0.1f or greater.'+#13#10+
+                        'GitHub requires at least version 1.2'+#13#10+
+                        'Please click the blinking link for instructions from Microsoft on updating TLS',['1.0',cDesiredVersion]);
+  {$endif}
 end;
 
 function TCheckTLS.GetMessageStr: string;
