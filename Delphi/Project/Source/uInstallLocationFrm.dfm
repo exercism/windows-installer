@@ -1,6 +1,7 @@
 object frmInstallLocation: TfrmInstallLocation
   Left = 0
   Top = 0
+  ActiveControl = btnBrowse
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = 'Exercism CLI Install'
@@ -14,7 +15,6 @@ object frmInstallLocation: TfrmInstallLocation
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
-  OnActivate = FormActivate
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -69,31 +69,6 @@ object frmInstallLocation: TfrmInstallLocation
     ParentShowHint = False
     ShowHint = True
     Transparent = True
-  end
-  object lblUpdateTLS: TOvcURL
-    Left = 127
-    Top = 248
-    Width = 386
-    Height = 19
-    Hint = 
-      'https://support.microsoft.com/en-us/help/3140245/update-to-enabl' +
-      'e-tls-1-1-and-tls-1-2-as-a-default-secure-protocols-in'
-    Caption = 'Microsoft instructions for updating default TLS settings'
-    URL = 
-      'https://support.microsoft.com/en-us/help/3140245/update-to-enabl' +
-      'e-tls-1-1-and-tls-1-2-as-a-default-secure-protocols-in'
-    Color = clRed
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Tahoma'
-    Font.Style = [fsUnderline]
-    ParentColor = False
-    ParentFont = False
-    ParentShowHint = False
-    ShowHint = True
-    Transparent = True
-    Visible = False
   end
   object Panel1: TPanel
     Left = 0
@@ -6365,7 +6340,6 @@ object frmInstallLocation: TfrmInstallLocation
     Width = 75
     Height = 25
     Caption = '&Next >'
-    Enabled = False
     TabOrder = 2
     OnClick = btnNextClick
   end
@@ -6391,42 +6365,5 @@ object frmInstallLocation: TfrmInstallLocation
     Caption = '&Browse'
     TabOrder = 4
     OnClick = btnBrowseClick
-  end
-  object rcCheckTLSVersion: TRESTClient
-    Accept = 'application/json, text/plain; q=0.9, text/html;q=0.8,'
-    AcceptCharset = 'UTF-8, *;q=0.8'
-    BaseURL = 'https://www.howsmyssl.com/a/check'
-    Params = <>
-    HandleRedirects = True
-    RaiseExceptionOn500 = False
-    Left = 248
-    Top = 48
-  end
-  object rrCheckTLSVersion: TRESTRequest
-    Client = rcCheckTLSVersion
-    Params = <>
-    Response = rResponseCheckTLSVersion
-    SynchronizedEvents = False
-    Left = 328
-    Top = 52
-  end
-  object rResponseCheckTLSVersion: TRESTResponse
-    ContentType = 'application/json'
-    RootElement = 'tls_version'
-    Left = 416
-    Top = 48
-  end
-  object tmrCheckTLS: TTimer
-    Enabled = False
-    Interval = 200
-    OnTimer = tmrCheckTLSTimer
-    Left = 76
-    Top = 200
-  end
-  object tmrToggler: TTimer
-    Enabled = False
-    OnTimer = tmrTogglerTimer
-    Left = 508
-    Top = 192
   end
 end
