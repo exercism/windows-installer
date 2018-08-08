@@ -1,47 +1,14 @@
 unit uInstallLocationFrm;
 {_define SimTLSCheckFailure}
+{$define SkipTLSCheck}
 interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTypes, Vcl.StdCtrls, Vcl.ExtCtrls,
-  Vcl.Imaging.pngimage, System.UITypes, ovcurl, IPPeerClient, REST.Client,
-  Data.Bind.Components, Data.Bind.ObjectScope;
+  Vcl.Imaging.pngimage, System.UITypes, ovcurl;
 
 type
-  ICheckTLS = interface(IInvokable)
-    ['{2AED8C0C-BF88-4A06-A3B2-418799CD28EF}']
-    function GetTLSOK: boolean;
-    function GetStatusCode: integer;
-    function GetTLSVersion: string;
-    function GetMessageStr: string;
-    property TLSok: boolean read GetTLSOK;
-    property StatusCode: integer read GetStatusCode;
-    property TLSVersion: string read GetTLSVersion;
-    property ErrMessage: string read GetMessageStr;
-  end;
-
-  TCheckTLS = class(TInterfacedObject, ICheckTLS)
-  strict private
-    const
-      cDesiredVersion: double = 1.2;
-    var
-      fTLSVersion: string;
-      fTLSOK: boolean;
-      fStatusCode: integer;
-      fMessageStr: string;
-    function GetTLSOK: boolean;
-    function GetStatusCode: integer;
-    function GetTLSVersion: string;
-    function GetMessageStr: string;
-  public
-    constructor Create(aRESTRequest: TRestRequest; aRESTResponse: TRESTResponse);
-    property TLSok: boolean read GetTLSOK;
-    property StatusCode: integer read GetStatusCode;
-    property TLSVersion: string read GetTLSVersion;
-    property ErrMessage: string read GetMessageStr;
-  end;
-
   TfrmInstallLocation = class(TForm)
     Panel1: TPanel;
     Label1: TLabel;
@@ -55,20 +22,11 @@ type
     Label5: TLabel;
     OvcURL4: TOvcURL;
     Image1: TImage;
-    rcCheckTLSVersion: TRESTClient;
-    rrCheckTLSVersion: TRESTRequest;
-    rResponseCheckTLSVersion: TRESTResponse;
-    lblUpdateTLS: TOvcURL;
-    tmrCheckTLS: TTimer;
     imgV2Logo: TImage;
-    tmrToggler: TTimer;
     procedure btnCancelClick(Sender: TObject);
     procedure btnNextClick(Sender: TObject);
     procedure btnBrowseClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
-    procedure tmrCheckTLSTimer(Sender: TObject);
-    procedure tmrTogglerTimer(Sender: TObject);
   private
     { Private declarations }
   public
@@ -80,13 +38,11 @@ type
 
 implementation
 uses
-  Vcl.FileCtrl,
-  System.IOUtils;
+  Vcl.FileCtrl;
 {$R *.dfm}
 
 var
   thisForm: TfrmInstallLocation;
-
 
 function ShowInstallLocationForm(var aInstallInfo: TInstallInfo): TResultStatus;
 begin
@@ -154,96 +110,10 @@ begin
   end;
 end;
 
-procedure TfrmInstallLocation.FormActivate(Sender: TObject);
-begin
-  tmrCheckTLS.Enabled := true;
-end;
-
 procedure TfrmInstallLocation.FormCreate(Sender: TObject);
 begin
   NextClicked := false;
   SetWindowLong(Handle, GWL_EXSTYLE, WS_EX_APPWINDOW);
-end;
-
-procedure TfrmInstallLocation.tmrCheckTLSTimer(Sender: TObject);
-var
-  CheckTLS: ICheckTLS;
-begin
-  tmrCheckTLS.Enabled := false;
-  CheckTLS := TCheckTLS.Create(rrCheckTLSVersion, rResponseCheckTLSVersion);
-  btnNext.Enabled := CheckTLS.TLSok;
-  if not btnNext.Enabled then
-  begin
-    tmrToggler.Enabled := true;
-    lblUpdateTLS.Visible := true;
-    MessageDlg(CheckTLS.ErrMessage,mtError,[mbok],0);
-  end;
-end;
-
-procedure TfrmInstallLocation.tmrTogglerTimer(Sender: TObject);
-begin
-  lblUpdateTLS.Transparent := not lblUpdateTLS.Transparent;
-end;
-
-{ TCheckTLS }
-
-constructor TCheckTLS.Create(aRESTRequest: TRestRequest; aRESTResponse: TRESTResponse);
-var
-  actualVersion: double;
-  lFormatSettings: TFormatSettings;
-begin
-  fTLSOK := false;
-  {$ifndef SimTLSCheckFailure}
-  aRESTRequest.Execute;
-  fStatusCode := aRESTResponse.StatusCode;
-  fMessageStr := '';
-  fTLSVersion := '';
-  if fStatusCode = 200 then
-  begin
-    lFormatSettings := TFormatSettings.Create;
-    lFormatSettings.ThousandSeparator := ',';
-    lFormatSettings.DecimalSeparator := '.';
-    fTLSVersion := aRESTResponse.JSONText.Replace('"TLS ','');
-    fTLSVersion := fTLSVersion
-                     .Replace('"','')
-                     .Replace(' ','');
-    actualVersion := StrToFloat(fTLSVersion, lFormatSettings);
-    fTLSOK := actualVersion >= cDesiredVersion;
-    if not fTLSOK then
-      fMessageStr := format('TLS Version = %s, must be %0.1f or greater.'+#13#10+
-                            'GitHub requires at least version 1.2'+#13#10+
-                            'Please click the blinking link for instructions from Microsoft on updating TLS.',[fTLSVersion,cDesiredVersion]);
-  end
-  else
-  begin
-    fMessageStr := format('Err: REST Status Code %d', [fStatusCode]);
-    fTLSOk := false;
-  end;
-  {$else}
-  fMessageStr := format('TLS Version = %s, must be %0.1f or greater.'+#13#10+
-                        'GitHub requires at least version 1.2'+#13#10+
-                        'Please click the blinking link for instructions from Microsoft on updating TLS',['1.0',cDesiredVersion]);
-  {$endif}
-end;
-
-function TCheckTLS.GetMessageStr: string;
-begin
-  result := fMessageStr;
-end;
-
-function TCheckTLS.GetStatusCode: integer;
-begin
-  result := fStatusCode;
-end;
-
-function TCheckTLS.GetTLSOK: boolean;
-begin
-  result := fTLSOk;
-end;
-
-function TCheckTLS.GetTLSVersion: string;
-begin
-  result := fTLSVersion;
 end;
 
 end.

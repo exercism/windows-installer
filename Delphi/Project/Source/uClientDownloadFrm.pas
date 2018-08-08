@@ -192,8 +192,13 @@ begin
 end;
 
 procedure TfrmDownload.FormCreate(Sender: TObject);
+var
+  TLSProts: THTTPSecureProtocols;
 begin
+  TLSProts := [THTTPSecureProtocol.TLS12];
+  RESTClient1.SecureProtocols := TLSProts;
   FClient := THTTPClient.Create;
+  FClient.SecureProtocols := TLSProts;
   FClient.OnReceiveData := ReceiveDataEvent;
   NextClicked := false;
   FinishClicked := false;
@@ -221,17 +226,25 @@ end;
 procedure TfrmDownload.FetchRESTRequest(var aStatus: TResultStatus);
 begin
   aStatus := rsCancel;
-  RESTRequest1.Execute;
-  if RESTResponse1.StatusCode = 200 then
-    aStatus := rsNext
-  else
-  begin
-    mStatus.Lines.Add('Failed to establish connection');
-    if MessageDlg('Failed to establish connection.  Confirm internet connection then Retry or Cancel.',
-                   mtError, [mbRetry, mbCancel], 0) = mrRetry then
+  try
+    RESTRequest1.Execute;
+    if RESTResponse1.StatusCode = 200 then
+      aStatus := rsNext
+    else
     begin
-      aStatus := rsRepeat;
-      mStatus.Lines.Add('');
+      mStatus.Lines.Add('Failed to establish connection');
+      if MessageDlg('Failed to establish connection.  Confirm internet connection then Retry or Cancel.',
+                     mtError, [mbRetry, mbCancel], 0) = mrRetry then
+      begin
+        aStatus := rsRepeat;
+        mStatus.Lines.Add('');
+      end;
+    end;
+  except
+    on E: Exception do
+    begin
+      messagedlg(format('%s',[E.Message]),mtError,[mbOk],0);
+      close;
     end;
   end;
 end;
