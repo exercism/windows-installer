@@ -1,4 +1,4 @@
-{$define V3Test}
+{_define V3Test}
 unit uClientDownloadFrm;
 
 interface
