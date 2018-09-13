@@ -268,3 +268,7 @@ paket-files/
 *.~dsk
 
 Delphi/Project/Source/__recovery/
+
+*.dcu
+
+*.rsm
