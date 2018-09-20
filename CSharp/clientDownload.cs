@@ -108,8 +108,9 @@ namespace ExercismWinSetup
                     }
                 }
 
-                string pathContent = Environment.GetEnvironmentVariable("PATH") + ";" +_installationPath;
-                Environment.SetEnvironmentVariable("PATH", pathContent, EnvironmentVariableTarget.User);
+                AddToPathVariable(_installationPath);
+                // string pathContent = Environment.GetEnvironmentVariable("PATH") + ";" +_installationPath;
+                // Environment.SetEnvironmentVariable("PATH", pathContent, EnvironmentVariableTarget.User);
 
                 File.Delete(Path.GetTempPath() + @"\exercism.zip");
                 return true;
@@ -120,6 +121,20 @@ namespace ExercismWinSetup
             }
         }
 
+        private void AddToPathVariable(string pathToAdd)
+        {
+            const string name = "PATH";
+            var target = EnvironmentVariableTarget.User;            
+            var pathvar = System.Environment.GetEnvironmentVariable(name, target);
+            var isInPath = pathvar.Contains(pathToAdd);
+
+            if (!isInPath)
+            {                                
+                var value = pathvar + ";" + pathToAdd;
+                System.Environment.SetEnvironmentVariable(name, value, target);
+                Debug.Print(pathToAdd + " added to current user %PATH% environment variable");
+            }
+        }
         private bool queryGithub()
         {
             try
