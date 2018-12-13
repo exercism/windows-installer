@@ -6,7 +6,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTypes, Vcl.StdCtrls, Vcl.ExtCtrls,
-  Vcl.Imaging.pngimage, System.UITypes, ovcurl;
+  Vcl.Imaging.pngimage, System.UITypes;
 
 type
   TfrmInstallLocation = class(TForm)
@@ -20,13 +20,15 @@ type
     btnBrowse: TButton;
     Label4: TLabel;
     Label5: TLabel;
-    OvcURL4: TOvcURL;
     Image1: TImage;
     imgV2Logo: TImage;
+    LinkLabel1: TLinkLabel;
     procedure btnCancelClick(Sender: TObject);
     procedure btnNextClick(Sender: TObject);
     procedure btnBrowseClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure LinkLabel1LinkClick(Sender: TObject; const Link: string;
+      LinkType: TSysLinkType);
   private
     { Private declarations }
   public
@@ -38,7 +40,7 @@ type
 
 implementation
 uses
-  Vcl.FileCtrl;
+  Vcl.FileCtrl, Vcl.ExtActns;
 {$R *.dfm}
 
 var
@@ -114,6 +116,17 @@ procedure TfrmInstallLocation.FormCreate(Sender: TObject);
 begin
   NextClicked := false;
   SetWindowLong(Handle, GWL_EXSTYLE, WS_EX_APPWINDOW);
+end;
+
+procedure TfrmInstallLocation.LinkLabel1LinkClick(Sender: TObject;
+  const Link: string; LinkType: TSysLinkType);
+var
+  Browser: TBrowseUrl;
+begin
+  Browser := TBrowseUrl.Create(self);
+  Browser.URL := Link;
+  Browser.Execute;
+  Browser.DisposeOf;
 end;
 
 end.

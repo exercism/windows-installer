@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, ovcurl,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
   uTypes, Vcl.Imaging.pngimage, DosCommand;
 
 type
@@ -15,7 +15,6 @@ type
     btnFinish: TButton;
     Label3: TLabel;
     fldAPI: TEdit;
-    OvcURL1: TOvcURL;
     Label4: TLabel;
     btnConfigure: TButton;
     DosCommand1: TDosCommand;
@@ -25,12 +24,15 @@ type
     Label5: TLabel;
     Label6: TLabel;
     Image1: TImage;
+    LinkLabel1: TLinkLabel;
     procedure btnFinishClick(Sender: TObject);
     procedure fldChanging(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnConfigureClick(Sender: TObject);
     procedure DosCommand1Terminated(Sender: TObject);
     procedure btnBrowseClick(Sender: TObject);
+    procedure LinkLabel1LinkClick(Sender: TObject; const Link: string;
+      LinkType: TSysLinkType);
   private
     { Private declarations }
     InstallInfo: TInstallInfo;
@@ -44,7 +46,8 @@ type
 implementation
 uses
   System.IOUtils,
-  Vcl.FileCtrl;
+  Vcl.FileCtrl,
+  Vcl.ExtActns;
 {$R *.dfm}
 
 function ShowConfigAPIForm(const aInstallInfo: TInstallInfo): TResultStatus;
@@ -126,6 +129,17 @@ end;
 procedure TfrmConfigAPI.FormCreate(Sender: TObject);
 begin
   SetWindowLong(Handle, GWL_EXSTYLE, WS_EX_APPWINDOW);
+end;
+
+procedure TfrmConfigAPI.LinkLabel1LinkClick(Sender: TObject; const Link: string;
+  LinkType: TSysLinkType);
+var
+  Browser: TBrowseUrl;
+begin
+  Browser := TBrowseUrl.Create(self);
+  Browser.URL := Link;
+  Browser.Execute;
+  Browser.DisposeOf;
 end;
 
 end.

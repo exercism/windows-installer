@@ -11,7 +11,7 @@ uses
   FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   REST.Response.Adapter, REST.Client, Data.Bind.Components,
   Data.Bind.ObjectScope, System.Types, System.Net.HttpClient, System.UITypes,
-  Vcl.Imaging.pngimage, ovcurl;
+  Vcl.Imaging.pngimage, REST.Types;
 
 type
   Tos = class
@@ -55,11 +55,11 @@ type
     btnStopDownload: TButton;
     Label4: TLabel;
     btnFinish: TButton;
-    urlDocs: TOvcURL;
     Root: TRESTResponseDataSetAdapter;
     tableRoot: TFDMemTable;
     Image1: TImage;
     imgV2Logo: TImage;
+    urlDocs: TLinkLabel;
     procedure btnCancelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure tmrDownloadTimer(Sender: TObject);
@@ -68,6 +68,8 @@ type
     procedure tmrInstallTimer(Sender: TObject);
     procedure btnStopDownloadClick(Sender: TObject);
     procedure btnFinishClick(Sender: TObject);
+    procedure urlDocsLinkClick(Sender: TObject; const Link: string;
+      LinkType: TSysLinkType);
   private
     { Private declarations }
     InstallInfo : TInstallInfo;
@@ -99,7 +101,7 @@ type
   function NewAssets(aFDMemTable: TFDMemTable): IAssetsURL;
 
 implementation
-uses System.IOUtils, System.Zip, uUpdatePath;
+uses System.IOUtils, System.Zip, uUpdatePath, Vcl.ExtActns;
 {$R *.dfm}
 type
   TAssetsURL = class(TInterfacedObject, IAssetsURL)
@@ -385,6 +387,17 @@ begin
   end
   else
     mStatus.Lines.Add(format('Folder "%s" NOT added to Path.',[InstallInfo.Path]));
+end;
+
+procedure TfrmDownload.urlDocsLinkClick(Sender: TObject; const Link: string;
+  LinkType: TSysLinkType);
+var
+  Browser: TBrowseUrl;
+begin
+  Browser := TBrowseUrl.Create(self);
+  Browser.URL := Link;
+  Browser.Execute;
+  Browser.DisposeOf;
 end;
 
 procedure TfrmDownload.tmrDownloadTimer(Sender: TObject);
