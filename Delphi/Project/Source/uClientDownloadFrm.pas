@@ -194,10 +194,8 @@ begin
 end;
 
 procedure TfrmDownload.FormCreate(Sender: TObject);
-var
-  TLSProts: THTTPSecureProtocols;
 begin
-  TLSProts := [THTTPSecureProtocol.TLS12];
+  var TLSProts: THTTPSecureProtocols := [THTTPSecureProtocol.TLS12];
   RESTClient1.SecureProtocols := TLSProts;
   FClient := THTTPClient.Create;
   FClient.SecureProtocols := TLSProts;
@@ -321,18 +319,14 @@ begin
 end;
 
 procedure TfrmDownload.Download_CLI_ZIP(aDownloadURL: IDownloadURL; var aStatus: TResultStatus);
-var
-  lFilename: string;
-  URL: string;
-  LSize: Int64;
 begin
   aStatus := rsCancel;
-  LFileName := TPath.Combine(InstallInfo.Path, 'exercism.zip');
+  var lFileName := TPath.Combine(InstallInfo.Path, 'exercism.zip');
   try
     FAsyncResponse := nil;
-    URL := aDownloadURL.Url;
+    var URL := aDownloadURL.Url;
 
-    LSize := aDownloadURL.DownloadSize;
+    var LSize := aDownloadURL.DownloadSize;
 
     ProgressBarDownload.Max := LSize;
     ProgressBarDownload.Min := 0;
@@ -361,13 +355,11 @@ begin
 end;
 
 procedure TfrmDownload.Unzip_CLI(var aStatus: TResultStatus);
-var
-  lFilename: string;
 begin
   aStatus := rsCancel;
   mStatus.Lines.Add(format('Unzipping CLI to %s',[InstallInfo.Path]));
+  var lFilename := TPath.Combine(InstallInfo.Path,'exercism.zip');
   try
-    lFilename := TPath.Combine(InstallInfo.Path,'exercism.zip');
     TZipFile.ExtractZipFile(lFilename, TPath.Combine(InstallInfo.Path,''));
     aStatus := rsNext;
     mStatus.Lines.Add('CLI Extraction Successful');

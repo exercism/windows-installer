@@ -15,19 +15,15 @@ uses System.SysUtils, windows, Winapi.Messages, Registry;
 {$endif}
 
 class function TUpdatePath.AddToPath(aDir: string): Boolean;
-var
-    reg: TRegistry;
-    openResult: Boolean;
-    lPath: string;
 begin
   result := false;
-  reg := TRegistry.Create;
+  var reg := TRegistry.Create;
   try
     reg.RootKey := HKEY_CURRENT_USER;
-    openResult := reg.OpenKeyReadOnly('Environment');
+    var openResult := reg.OpenKeyReadOnly('Environment');
     if openResult then
     begin
-      lPath:= reg.ReadString('Path');
+      var lPath:= reg.ReadString('Path');
       if lPath.ToLower.Contains(aDir.ToLower) then
         result := true
       else
@@ -77,27 +73,20 @@ begin
 end;
 
 class function TUpdatePath.RemoveFromPath(aDir: string): Boolean;
-var
-    reg: TRegistry;
-    openResult: Boolean;
-    lPath: string;
-    lSplitPath: TArray<string>;
-    lNewPath: string;
-    lDir: string;
 begin
   result := false;
-  reg := TRegistry.Create;
+  var reg := TRegistry.Create;
   try
     reg.RootKey := {HKEY_LOCAL_MACHINE{} HKEY_CURRENT_USER{};
-    openResult := reg.OpenKeyReadOnly('Environment');
+    var openResult := reg.OpenKeyReadOnly('Environment');
     if openResult then
     begin
-      lPath:= reg.ReadString('Path');
+      var lPath:= reg.ReadString('Path');
       if lPath.ToLower.Contains(aDir.ToLower) then
       begin
-        lSplitPath := lPath.Split([';']);
-        lNewPath := '';
-        for lDir in lSplitPath do
+        var lSplitPath: TArray<string> := lPath.Split([';']);
+        var lNewPath := '';
+        for var lDir in lSplitPath do
         begin
           if lDir.ToLower <> aDir.ToLower then
             if lNewPath.IsEmpty then

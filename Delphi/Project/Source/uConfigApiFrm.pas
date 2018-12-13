@@ -66,14 +66,12 @@ end;
 
 procedure TfrmConfigAPI.btnFinishClick(Sender: TObject);
 begin
-    close;
+  close;
 end;
 
 procedure TfrmConfigAPI.btnBrowseClick(Sender: TObject);
-var
-  folder: string;
 begin
-  folder := fldSolutionLocation.Text;
+  var folder: string := fldSolutionLocation.Text;
   if Vcl.FileCtrl.SelectDirectory('Select Solution Location', '', folder, [sdNewUI, sdNewFolder], Self) then
   begin
     fldSolutionLocation.Text := folder;
@@ -84,14 +82,11 @@ end;
 procedure TfrmConfigAPI.btnConfigureClick(Sender: TObject);
 
   procedure MakeBat;
-  var
-    lBatFile: TStringlist;
-    lCommandLine: string;
   begin
-    lBatFile := TStringlist.Create;
+    var lBatFile := TStringlist.Create;
     lBatFile.Add('@echo off');
     lBatFile.Add(format('cd "%s"',[InstallInfo.Path]));
-    lCommandLine := format('%s %s --key=%s --dir="%s"',
+    var lCommandLine := format('%s %s --key=%s --dir="%s"',
       ['exercism.exe', 'configure', fldAPI.Text, fldSolutionLocation.Text]);
     lBatFile.Add(lCommandLine);
     lBatFile.Add('exit');
@@ -99,13 +94,11 @@ procedure TfrmConfigAPI.btnConfigureClick(Sender: TObject);
     lBatFile.DisposeOf;
   end;
 
-var
-  lCommandLine: string;
 begin
   MakeBat;
   btnConfigure.Enabled := false;
   DosCommand1.CurrentDir := InstallInfo.Path;
-  lCommandLine := TPath.Combine(InstallInfo.Path,'config.bat');
+  var lCommandLine := TPath.Combine(InstallInfo.Path,'config.bat');
   DosCommand1.CommandLine := lCommandLine;
   DosCommand1.Execute;
 end;
@@ -118,11 +111,9 @@ begin
 end;
 
 procedure TfrmConfigAPI.fldChanging(Sender: TObject);
-var
-  lAPI, lLocation: string;
 begin
-  lAPI := fldAPI.Text;
-  lLocation := fldSolutionLocation.Text;
+  var lAPI: string := fldAPI.Text;
+  var lLocation: string := fldSolutionLocation.Text;
   btnConfigure.Enabled := not (lAPI.IsEmpty or lLocation.IsEmpty);;
 end;
 

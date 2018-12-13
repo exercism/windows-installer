@@ -43,13 +43,10 @@ uses
   Vcl.FileCtrl, Vcl.ExtActns;
 {$R *.dfm}
 
-var
-  thisForm: TfrmInstallLocation;
-
 function ShowInstallLocationForm(var aInstallInfo: TInstallInfo): TResultStatus;
 begin
   result := rsCancel;
-  thisForm := TfrmInstallLocation.Create(nil);
+  var thisForm := TfrmInstallLocation.Create(nil);
   try
     thisForm.ShowModal;
     if thisForm.NextClicked then
@@ -63,10 +60,8 @@ begin
 end;
 
 procedure TfrmInstallLocation.btnBrowseClick(Sender: TObject);
-var
-  folder: string;
 begin
-  folder := fldLocation.Text;
+  var folder: string := fldLocation.Text;
   if vcl.FileCtrl.SelectDirectory('Select Install Location', '', Folder, [sdNewUI, sdNewFolder], Self) then
   begin
     fldLocation.Text := folder;
@@ -79,13 +74,11 @@ begin
 end;
 
 procedure TfrmInstallLocation.btnNextClick(Sender: TObject);
-var lOKNext: boolean;
-    lDlgResult: word;
 begin
-  lOKNext := true;
+  var lOKNext := true;
   if not System.SysUtils.DirectoryExists(fldLocation.Text) then
   begin
-    lDlgResult := MessageDlg(format('Directory "%s" does not exist.'+#13#10+
+    var lDlgResult := MessageDlg(format('Directory "%s" does not exist.'+#13#10+
                                     'Shall I create it for you?',
        [fldLocation.Text]),mtError, [mbYes, mbNo],0);
     if lDlgResult = mrYes then
