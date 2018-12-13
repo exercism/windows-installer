@@ -391,10 +391,8 @@ end;
 
 procedure TfrmDownload.urlDocsLinkClick(Sender: TObject; const Link: string;
   LinkType: TSysLinkType);
-var
-  Browser: TBrowseUrl;
 begin
-  Browser := TBrowseUrl.Create(self);
+  var Browser := TBrowseUrl.Create(self);
   Browser.URL := Link;
   Browser.Execute;
   Browser.DisposeOf;
