@@ -111,24 +111,6 @@ object frmDownload: TfrmDownload
       ParentFont = False
       Transparent = True
     end
-    object urlDocs: TOvcURL
-      Left = 404
-      Top = 32
-      Width = 125
-      Height = 18
-      Hint = 'http://cli.exercism.io'
-      Caption = 'CLI Documentation'
-      URL = 'http://cli.exercism.io'
-      UseVisitedColor = True
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWhite
-      Font.Height = -15
-      Font.Name = 'Tahoma'
-      Font.Style = [fsUnderline]
-      ParentFont = False
-      Transparent = True
-      Visible = False
-    end
     object imgV2Logo: TImage
       Left = 5
       Top = 7
@@ -6284,6 +6266,22 @@ object frmDownload: TfrmDownload
         FFFF}
       Stretch = True
     end
+    object urlDocs: TLinkLabel
+      Left = 404
+      Top = 32
+      Width = 150
+      Height = 22
+      Caption = '<a href="https://exercism.io/cli/">https://exercism.io/cli/</a>'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+      Visible = False
+      OnLinkClick = urlDocsLinkClick
+    end
   end
   object btnCancel: TButton
     Left = 421
@@ -6344,7 +6342,6 @@ object frmDownload: TfrmDownload
     AcceptCharset = 'UTF-8, *;q=0.8'
     BaseURL = 'https://api.github.com/repos/exercism/cli/releases/latest'
     Params = <>
-    HandleRedirects = True
     RaiseExceptionOn500 = False
     Left = 52
     Top = 124

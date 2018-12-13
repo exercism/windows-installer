@@ -48,28 +48,6 @@ object frmInstallLocation: TfrmInstallLocation
     Caption = 'By clicking &Next you accept the'
     Transparent = True
   end
-  object OvcURL4: TOvcURL
-    Left = 311
-    Top = 193
-    Width = 91
-    Height = 13
-    Hint = 
-      'https://github.com/exercism/windows-installer/blob/master/LICENS' +
-      'E'
-    Caption = 'License Agreement'
-    URL = 
-      'https://github.com/exercism/windows-installer/blob/master/LICENS' +
-      'E'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = [fsUnderline]
-    ParentFont = False
-    ParentShowHint = False
-    ShowHint = True
-    Transparent = True
-  end
   object Panel1: TPanel
     Left = 0
     Top = 0
@@ -6365,5 +6343,19 @@ object frmInstallLocation: TfrmInstallLocation
     Caption = '&Browse'
     TabOrder = 4
     OnClick = btnBrowseClick
+  end
+  object LinkLabel1: TLinkLabel
+    Left = 311
+    Top = 193
+    Width = 95
+    Height = 13
+    Hint = 
+      'https://github.com/exercism/windows-installer/blob/master/LICENS' +
+      'E'
+    Caption = 
+      '<a href="https://github.com/exercism/windows-installer/blob/mast' +
+      'er/LICENSE">License Agreement</a>'
+    TabOrder = 5
+    OnLinkClick = LinkLabel1LinkClick
   end
 end
