@@ -4,7 +4,7 @@ A project to download and install the latest version of Exercism Client for Wind
 © Copyright 2017 Exercism, Inc.  
 All Rights Reserved  
 
-Exercism Repository -> https://github.com/exercism/exercism.io
+Exercism Repository -> https://github.com/exercism/exercism
 
 # System Requirements  
   *Supported Operating Systems* = Windows Vista, Windows 7, Windows 8/8.1 , Windows 10  
