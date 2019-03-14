@@ -6,6 +6,8 @@ All Rights Reserved
 
 Exercism Repository -> https://github.com/exercism/exercism
 
+![GitHub release](https://img.shields.io/github/release/exercism/windows-installer.svg?style=plastic) ![GitHub Releases](https://img.shields.io/github/downloads/exercism/windows-installer/latest/total.svg?style=plastic)
+
 # System Requirements  
   *Supported Operating Systems* = Windows Vista, Windows 7, Windows 8/8.1 , Windows 10  
   *Architecture* = 32bit / 64bit  
