@@ -1,14 +1,14 @@
 unit uInstallLocationFrm;
-{_define SimTLSCheckFailure}
-{$define SkipTLSCheck}
 interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTypes, Vcl.StdCtrls, Vcl.ExtCtrls,
-  Vcl.Imaging.pngimage, System.UITypes;
+  Vcl.Imaging.pngimage, System.Generics.Collections, System.UITypes, Vcl.Buttons;
 
 type
+  TCLIPresent = class;
+
   TfrmInstallLocation = class(TForm)
     Panel1: TPanel;
     Label1: TLabel;
@@ -23,24 +23,53 @@ type
     Image1: TImage;
     imgV2Logo: TImage;
     LinkLabel1: TLinkLabel;
+    pnlPreexistingCLI: TPanel;
+    Label6: TLabel;
+    Label7: TLabel;
+    btnYes: TButton;
+    btnNo: TButton;
     procedure btnCancelClick(Sender: TObject);
     procedure btnNextClick(Sender: TObject);
     procedure btnBrowseClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure LinkLabel1LinkClick(Sender: TObject; const Link: string;
       LinkType: TSysLinkType);
+    procedure FormDestroy(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure btnYesClick(Sender: TObject);
+    procedure btnNoClick(Sender: TObject);
   private
     { Private declarations }
+    OldCLIPresent: TCLIPresent;
   public
     { Public declarations }
     NextClicked: boolean;
+  end;
+
+  TCLIPresent = class
+  strict private
+    const
+      CliFilename = 'exercism.exe';
+    var
+      FInstallTo: string;
+      FListOfFinds: TList<string>;
+      FIsPresent: Boolean;
+      FNumberFound: Integer;
+    function GetPath: string;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure FindPreexistingCLI;
+    property InstallTo: string read FInstallTo;
+    property IsPresent: Boolean read FIsPresent;
+    property NumberFound: Integer read FNumberFound;
   end;
 
   function ShowInstallLocationForm(var aInstallInfo: TInstallInfo): TResultStatus;
 
 implementation
 uses
-  Vcl.FileCtrl, Vcl.ExtActns;
+  StrUtils, Vcl.FileCtrl, Vcl.ExtActns, Registry;
 {$R *.dfm}
 
 function ShowInstallLocationForm(var aInstallInfo: TInstallInfo): TResultStatus;
@@ -105,10 +134,34 @@ begin
   end;
 end;
 
+procedure TfrmInstallLocation.btnNoClick(Sender: TObject);
+begin
+  pnlPreexistingCLI.Visible := false;
+  MessageDlg('Please remove all copies of the CLI before attempting to install the latest version.', mtInformation, [mbOk], 0);
+  btnCancel.Click;
+end;
+
+procedure TfrmInstallLocation.FormActivate(Sender: TObject);
+begin
+  OldCLIPresent.FindPreexistingCLI;
+  if OldCLIPresent.IsPresent then
+  begin
+    pnlPreexistingCLI.BringToFront;
+    pnlPreexistingCLI.Visible := true;
+    btnNext.Enabled := false;
+  end;
+end;
+
 procedure TfrmInstallLocation.FormCreate(Sender: TObject);
 begin
   NextClicked := false;
+  OldCLIPresent := TCLIPresent.Create;
   SetWindowLong(Handle, GWL_EXSTYLE, WS_EX_APPWINDOW);
+end;
+
+procedure TfrmInstallLocation.FormDestroy(Sender: TObject);
+begin
+  OldCLIPresent.DisposeOf;
 end;
 
 procedure TfrmInstallLocation.LinkLabel1LinkClick(Sender: TObject;
@@ -118,6 +171,60 @@ begin
   Browser.URL := Link;
   Browser.Execute;
   Browser.DisposeOf;
+end;
+
+procedure TfrmInstallLocation.btnYesClick(Sender: TObject);
+begin
+  pnlPreexistingCLI.Visible := false;
+  fldLocation.Text := OldCLIPresent.InstallTo;
+  btnNext.Enabled := True;
+end;
+
+{ TCLIPresent }
+
+constructor TCLIPresent.Create;
+begin
+  inherited;
+  FListOfFinds := TList<string>.Create;
+end;
+
+destructor TCLIPresent.Destroy;
+begin
+  FListOfFinds.DisposeOf;
+  inherited;
+end;
+
+procedure TCLIPresent.FindPreexistingCLI;
+begin
+  var PathArray := GetPath.Split([';']);
+  for var aPath in PathArray do
+  begin
+    var fixedPath := aPath;
+    if not fixedPath.EndsWith('\') then
+      fixedPath := fixedPath + '\';
+    var LFileToFind := fixedPath + CliFilename;
+    if FileExists(LFileToFind) then
+        FListOfFinds.Add(aPath);
+  end;
+  FNumberFound := FListOfFinds.Count;
+  FIsPresent := FNumberFound > 0;
+  FInstallTo := ifthen(FIsPresent, FListOfFinds[0]);
+end;
+
+function TCLIPresent.GetPath: string;
+begin
+  var reg := TRegistry.Create;
+  try
+    reg.RootKey := HKEY_CURRENT_USER;
+    var openResult := reg.OpenKeyReadOnly('Environment');
+    if openResult then
+      Result := reg.ReadString('Path')
+    else
+      Result := '';
+  finally
+    reg.CloseKey;
+    reg.Free;
+  end;
 end;
 
 end.
