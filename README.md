@@ -1,7 +1,7 @@
 # Installer for the Exercism Windows Command-Line Client
 A project to download and install the latest version of Exercism Client for Windows depending on the architecture.
 
-© Copyright 2021 Exercism  
+© Copyright Exercism  
 All Rights Reserved  
 
 Exercism Repository -> https://github.com/exercism/exercism
