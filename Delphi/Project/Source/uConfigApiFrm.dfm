@@ -33,23 +33,6 @@ object frmConfigAPI: TfrmConfigAPI
     ParentFont = False
     WordWrap = True
   end
-  object OvcURL1: TOvcURL
-    Left = 200
-    Top = 182
-    Width = 216
-    Height = 16
-    Hint = 'http://exercism.io/account/key'
-    Caption = 'I don'#39't have or don'#39't know my API key'
-    URL = 'http://exercism.io/account/key'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = [fsUnderline]
-    ParentFont = False
-    ParentShowHint = False
-    ShowHint = True
-  end
   object Label4: TLabel
     Left = 11
     Top = 127
@@ -232,6 +215,23 @@ object frmConfigAPI: TfrmConfigAPI
     Caption = '&Browse'
     TabOrder = 6
     OnClick = btnBrowseClick
+  end
+  object LinkLabel1: TLinkLabel
+    Left = 200
+    Top = 182
+    Width = 183
+    Height = 20
+    Caption = 
+      '<a href="https://exercism.io/my/settings">https://exercism.io/my' +
+      '/settings</a>'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 7
+    OnLinkClick = LinkLabel1LinkClick
   end
   object DosCommand1: TDosCommand
     InputToOutput = True

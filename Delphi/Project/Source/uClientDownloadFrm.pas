@@ -11,7 +11,7 @@ uses
   FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   REST.Response.Adapter, REST.Client, Data.Bind.Components,
   Data.Bind.ObjectScope, System.Types, System.Net.HttpClient, System.UITypes,
-  Vcl.Imaging.pngimage, ovcurl;
+  Vcl.Imaging.pngimage, REST.Types;
 
 type
   Tos = class
@@ -55,11 +55,11 @@ type
     btnStopDownload: TButton;
     Label4: TLabel;
     btnFinish: TButton;
-    urlDocs: TOvcURL;
     Root: TRESTResponseDataSetAdapter;
     tableRoot: TFDMemTable;
     Image1: TImage;
     imgV2Logo: TImage;
+    urlDocs: TLinkLabel;
     procedure btnCancelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure tmrDownloadTimer(Sender: TObject);
@@ -68,6 +68,8 @@ type
     procedure tmrInstallTimer(Sender: TObject);
     procedure btnStopDownloadClick(Sender: TObject);
     procedure btnFinishClick(Sender: TObject);
+    procedure urlDocsLinkClick(Sender: TObject; const Link: string;
+      LinkType: TSysLinkType);
   private
     { Private declarations }
     InstallInfo : TInstallInfo;
@@ -99,7 +101,7 @@ type
   function NewAssets(aFDMemTable: TFDMemTable): IAssetsURL;
 
 implementation
-uses System.IOUtils, System.Zip, uUpdatePath;
+uses System.IOUtils, System.Zip, uUpdatePath, Vcl.ExtActns;
 {$R *.dfm}
 type
   TAssetsURL = class(TInterfacedObject, IAssetsURL)
@@ -192,10 +194,8 @@ begin
 end;
 
 procedure TfrmDownload.FormCreate(Sender: TObject);
-var
-  TLSProts: THTTPSecureProtocols;
 begin
-  TLSProts := [THTTPSecureProtocol.TLS12];
+  var TLSProts: THTTPSecureProtocols := [THTTPSecureProtocol.TLS12];
   RESTClient1.SecureProtocols := TLSProts;
   FClient := THTTPClient.Create;
   FClient.SecureProtocols := TLSProts;
@@ -319,18 +319,14 @@ begin
 end;
 
 procedure TfrmDownload.Download_CLI_ZIP(aDownloadURL: IDownloadURL; var aStatus: TResultStatus);
-var
-  lFilename: string;
-  URL: string;
-  LSize: Int64;
 begin
   aStatus := rsCancel;
-  LFileName := TPath.Combine(InstallInfo.Path, 'exercism.zip');
+  var lFileName := TPath.Combine(InstallInfo.Path, 'exercism.zip');
   try
     FAsyncResponse := nil;
-    URL := aDownloadURL.Url;
+    var URL := aDownloadURL.Url;
 
-    LSize := aDownloadURL.DownloadSize;
+    var LSize := aDownloadURL.DownloadSize;
 
     ProgressBarDownload.Max := LSize;
     ProgressBarDownload.Min := 0;
@@ -359,13 +355,11 @@ begin
 end;
 
 procedure TfrmDownload.Unzip_CLI(var aStatus: TResultStatus);
-var
-  lFilename: string;
 begin
   aStatus := rsCancel;
   mStatus.Lines.Add(format('Unzipping CLI to %s',[InstallInfo.Path]));
+  var lFilename := TPath.Combine(InstallInfo.Path,'exercism.zip');
   try
-    lFilename := TPath.Combine(InstallInfo.Path,'exercism.zip');
     TZipFile.ExtractZipFile(lFilename, TPath.Combine(InstallInfo.Path,''));
     aStatus := rsNext;
     mStatus.Lines.Add('CLI Extraction Successful');
@@ -385,6 +379,15 @@ begin
   end
   else
     mStatus.Lines.Add(format('Folder "%s" NOT added to Path.',[InstallInfo.Path]));
+end;
+
+procedure TfrmDownload.urlDocsLinkClick(Sender: TObject; const Link: string;
+  LinkType: TSysLinkType);
+begin
+  var Browser := TBrowseUrl.Create(self);
+  Browser.URL := Link;
+  Browser.Execute;
+  Browser.DisposeOf;
 end;
 
 procedure TfrmDownload.tmrDownloadTimer(Sender: TObject);

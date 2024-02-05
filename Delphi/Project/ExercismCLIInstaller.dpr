@@ -11,19 +11,15 @@ uses
 {$R *.res}
 
 
-var LoopStatus,
-    ResultStatus: TResultStatus;
-    i: integer;
-    InstallInfo: TInstallInfo;
-
 begin
+  var InstallInfo: TInstallInfo;
   fillchar(InstallInfo, sizeof(TInstallInfo), #0);
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  i := 0;
-  LoopStatus := rsContinue;
-  ResultStatus := rsCancel;
+  var i := 0;
+  var LoopStatus := rsContinue;
   repeat
+    var ResultStatus := rsCancel;
     case i of
       0: ResultStatus := ShowInstallLocationForm(InstallInfo);
       1: ResultStatus := ShowClientDownloadForm(InstallInfo);

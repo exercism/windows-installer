@@ -15,7 +15,9 @@ object frmInstallLocation: TfrmInstallLocation
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnActivate = FormActivate
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object Label3: TLabel
@@ -48,27 +50,78 @@ object frmInstallLocation: TfrmInstallLocation
     Caption = 'By clicking &Next you accept the'
     Transparent = True
   end
-  object OvcURL4: TOvcURL
-    Left = 311
-    Top = 193
-    Width = 91
-    Height = 13
-    Hint = 
-      'https://github.com/exercism/windows-installer/blob/master/LICENS' +
-      'E'
-    Caption = 'License Agreement'
-    URL = 
-      'https://github.com/exercism/windows-installer/blob/master/LICENS' +
-      'E'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = [fsUnderline]
-    ParentFont = False
-    ParentShowHint = False
-    ShowHint = True
-    Transparent = True
+  object pnlPreexistingCLI: TPanel
+    Left = 8
+    Top = 88
+    Width = 624
+    Height = 169
+    ParentBackground = False
+    ShowCaption = False
+    TabOrder = 6
+    Visible = False
+    object Label6: TLabel
+      Left = 23
+      Top = 12
+      Width = 578
+      Height = 36
+      AutoSize = False
+      Caption = 
+        'A copy of the Exercism CLI has been found already installed on t' +
+        'his system.  Only one copy of the CLI should be installed and al' +
+        'l other copies removed.'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      WordWrap = True
+    end
+    object Label7: TLabel
+      Left = 81
+      Top = 64
+      Width = 462
+      Height = 18
+      Caption = 
+        'Would you like to install the CLI where the previous version was' +
+        ' found?'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object btnYes: TButton
+      Left = 220
+      Top = 92
+      Width = 75
+      Height = 25
+      Caption = 'Yes'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+      OnClick = btnYesClick
+    end
+    object btnNo: TButton
+      Left = 328
+      Top = 92
+      Width = 75
+      Height = 25
+      Caption = 'No'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+      OnClick = btnNoClick
+    end
   end
   object Panel1: TPanel
     Left = 0
@@ -6365,5 +6418,19 @@ object frmInstallLocation: TfrmInstallLocation
     Caption = '&Browse'
     TabOrder = 4
     OnClick = btnBrowseClick
+  end
+  object LinkLabel1: TLinkLabel
+    Left = 311
+    Top = 193
+    Width = 95
+    Height = 17
+    Hint = 
+      'https://github.com/exercism/windows-installer/blob/master/LICENS' +
+      'E'
+    Caption = 
+      '<a href="https://github.com/exercism/windows-installer/blob/mast' +
+      'er/LICENSE">License Agreement</a>'
+    TabOrder = 5
+    OnLinkClick = LinkLabel1LinkClick
   end
 end
